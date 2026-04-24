@@ -3,12 +3,14 @@ title: "JavaScript 数据存储"
 
 description: "JavaScript 数据存储相关知识，包括变量、常量、数据类型、数组、字符串和对象。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 数据存储]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

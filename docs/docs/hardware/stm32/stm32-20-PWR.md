@@ -3,12 +3,14 @@ title: "STM32 PWR电源管理"
 
 description: "STM32 PWR（电源管理）的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, PWR, 电源管理, 低功耗模式]
 
 sidebar: auto
+
 ---
+
 
 ### PWR简介
 

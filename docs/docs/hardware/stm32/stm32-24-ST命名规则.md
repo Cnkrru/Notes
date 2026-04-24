@@ -3,12 +3,14 @@ title: "STM32 命名规则"
 
 description: "STM32 微控制器的命名规则详解。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, 命名规则, 微控制器]
 
 sidebar: auto
+
 ---
+
 
 # STM32命名规则
 

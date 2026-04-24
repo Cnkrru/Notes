@@ -3,12 +3,14 @@ title: "Config 配置文件"
 
 description: "Config 配置文件的笔记，包括基本概念和支持的配置格式。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Config, 配置文件]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

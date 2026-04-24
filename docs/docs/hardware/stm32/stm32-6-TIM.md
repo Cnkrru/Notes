@@ -3,12 +3,14 @@ title: "STM32 TIM定时器"
 
 description: "STM32 TIM定时器的使用方法，包括基本信息、PSC与ARR配置、配置步骤和代码示例。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, TIM, 定时器]
 
 sidebar: auto
+
 ---
+
 
 # STM32
 

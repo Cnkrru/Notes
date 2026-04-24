@@ -3,12 +3,14 @@ title: "STM32 DMA"
 
 description: "STM32 DMA（直接内存访问）的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, DMA, 直接内存访问]
 
 sidebar: auto
+
 ---
+
 
 ### DMA简介
 

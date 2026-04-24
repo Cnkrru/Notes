@@ -3,12 +3,14 @@ title: "INI 配置文件"
 
 description: "INI 配置文件的基础知识，包括基本结构、键值对、节的作用等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [INI, 配置文件]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

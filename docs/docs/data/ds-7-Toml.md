@@ -3,12 +3,14 @@ title: "TOML 数据格式"
 
 description: "TOML 数据格式的基础知识点，包括基本语法、数据类型、表格、数组等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [TOML, 数据序列化]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

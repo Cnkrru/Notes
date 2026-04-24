@@ -3,12 +3,14 @@ title: "CSS Favicon实现"
 
 description: "CSS Favicon的实现方法，包括实现步骤、核心代码和最佳实践。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, Favicon]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

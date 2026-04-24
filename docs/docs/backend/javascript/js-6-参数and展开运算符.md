@@ -3,12 +3,14 @@ title: "JavaScript 参数与展开运算符"
 
 description: "JavaScript 函数参数与展开运算符相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 函数参数, 展开运算符]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

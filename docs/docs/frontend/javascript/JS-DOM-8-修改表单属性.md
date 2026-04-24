@@ -3,12 +3,14 @@ title: "JavaScript 修改表单属性"
 
 description: "JavaScript 修改表单属性的方法，包括表单元素属性的获取与设置、常用表单元素属性和表单元素属性操作示例。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 表单属性]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

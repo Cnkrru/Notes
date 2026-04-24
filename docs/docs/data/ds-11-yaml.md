@@ -3,12 +3,14 @@ title: "YAML 数据格式"
 
 description: "YAML 数据格式的基础知识点，包括语法规则、数据类型、序列、注释等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [YAML, 数据序列化]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

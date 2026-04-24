@@ -3,12 +3,14 @@ title: "JavaScript 闭包"
 
 description: "JavaScript 闭包相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 闭包]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

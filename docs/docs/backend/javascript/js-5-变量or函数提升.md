@@ -3,12 +3,14 @@ title: "JavaScript 变量与函数提升"
 
 description: "JavaScript 变量与函数提升相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 变量提升, 函数提升]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

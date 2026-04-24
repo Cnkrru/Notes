@@ -3,12 +3,14 @@ title: "STM32 外部中断与EXTI"
 
 description: "STM32 外部中断与EXTI的使用方法，包括中断基础、EXTI配置和中断函数。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, 外部中断, EXTI, NVIC]
 
 sidebar: auto
+
 ---
+
 
 # STM32
 

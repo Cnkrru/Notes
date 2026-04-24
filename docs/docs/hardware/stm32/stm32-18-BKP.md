@@ -3,12 +3,14 @@ title: "STM32 BKP备份寄存器"
 
 description: "STM32 BKP（备份寄存器）的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, BKP, 备份寄存器, 断电保护]
 
 sidebar: auto
+
 ---
+
 
 ### BKP（备份寄存器）
 

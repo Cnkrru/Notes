@@ -3,12 +3,14 @@ title: "CSS 背景图设置"
 
 description: "CSS 背景图设置相关知识，包括背景图属性、复合属性等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 背景图]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

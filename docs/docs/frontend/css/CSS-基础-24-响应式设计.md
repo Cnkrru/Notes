@@ -3,12 +3,14 @@ title: "CSS 响应式设计"
 
 description: "CSS 响应式设计相关知识，包括二倍图、屏幕分辨率、视口和适配原理。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 响应式设计]
 
 sidebar: auto
+
 ---
+
 
 #CSS理论
 

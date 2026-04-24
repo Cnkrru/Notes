@@ -3,12 +3,14 @@ title: "CSS 动画"
 
 description: "CSS 动画相关知识，包括核心实现步骤、关键帧定义、动画属性、复合属性和示例代码。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 动画]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

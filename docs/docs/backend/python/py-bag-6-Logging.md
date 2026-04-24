@@ -3,12 +3,14 @@ title: "Python logging包"
 
 description: "Python logging包相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, logging]
 
 sidebar: auto
+
 ---
+
 
 ## Py-Logging
 

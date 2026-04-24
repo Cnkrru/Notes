@@ -3,12 +3,14 @@ title: "JavaScript 获取CSS选择器"
 
 description: "JavaScript 获取CSS选择器的方法，包括querySelector、querySelectorAll等推荐方法和其他了解即可的方法。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, CSS选择器]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

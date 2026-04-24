@@ -3,12 +3,14 @@ title: "Python beautifulsoup4包"
 
 description: "Python beautifulsoup4包常用函数参考，包括HTML解析、标签查找、内容提取等功能。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, beautifulsoup4, 爬虫, HTML解析]
 
 sidebar: auto
+
 ---
+
 
 # Python beautifulsoup4包常用函数参考
 

@@ -3,12 +3,14 @@ title: "JavaScript 定时器"
 
 description: "JavaScript 定时器的使用方法，包括setInterval和setTimeout两种定时器的特性和使用建议。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 定时器, setInterval, setTimeout]
 
 sidebar: auto
+
 ---
+
 
 ## 两种定时器
 

@@ -3,12 +3,14 @@ title: "JavaScript this对象"
 
 description: "JavaScript this对象的使用方法，包括不同场景下this的指向。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, this对象]
 
 sidebar: auto
+
 ---
+
 
 ### this 对象
 

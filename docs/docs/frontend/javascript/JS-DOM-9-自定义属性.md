@@ -3,12 +3,14 @@ title: "JavaScript 自定义属性"
 
 description: "JavaScript 自定义属性的使用方法，包括HTML5标准的data-自定义属性的命名规范和获取方式。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 自定义属性]
 
 sidebar: auto
+
 ---
+
 
 ### 自定义属性
 

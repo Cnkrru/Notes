@@ -3,12 +3,14 @@ title: "CSS SEO优化"
 
 description: "CSS SEO优化相关知识，包括SEO三大标签、favicon实现和SEO优化方法。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, SEO, 优化]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

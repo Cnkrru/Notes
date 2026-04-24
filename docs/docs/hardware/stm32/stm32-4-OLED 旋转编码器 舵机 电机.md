@@ -3,12 +3,14 @@ title: "STM32 外设应用"
 
 description: "STM32 外设应用，包括OLED、旋转编码器、舵机和电机的配置与使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, OLED, 旋转编码器, 舵机, 电机]
 
 sidebar: auto
+
 ---
+
 
 # STM32
 

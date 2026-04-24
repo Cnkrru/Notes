@@ -3,12 +3,14 @@ title: "SQL 数据库"
 
 description: "SQL 数据库的基础知识，包括SQL语法、数据库分类和SQLite存储等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [SQL, 数据库, SQLite]
 
 sidebar: auto
+
 ---
+
 
 # SQL
 

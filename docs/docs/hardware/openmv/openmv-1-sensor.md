@@ -3,12 +3,14 @@ title: "OpenMV Sensor 模块"
 
 description: "OpenMV Sensor 模块的使用方法和参考文档。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [OpenMV, Sensor, 摄像头]
 
 sidebar: auto
+
 ---
+
 
 # OpenMV
 

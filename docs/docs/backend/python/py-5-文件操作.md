@@ -3,12 +3,14 @@ title: "Python 文件操作"
 
 description: "Python 文件操作相关知识，包括文件的打开、关闭、读取、写入等操作。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, 文件操作]
 
 sidebar: auto
+
 ---
+
 
 #Python
 # 文件操作

@@ -3,12 +3,14 @@ title: "Python requests包"
 
 description: "Python requests包常用函数参考，包括HTTP请求发送、响应处理等功能。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, requests, 爬虫, HTTP]
 
 sidebar: auto
+
 ---
+
 
 # Python requests包常用函数参考
 

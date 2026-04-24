@@ -3,12 +3,14 @@ title: "JavaScript GC机制"
 
 description: "JavaScript 垃圾回收机制相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, GC机制, 内存管理]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

@@ -3,12 +3,14 @@ title: "STM32 IC PWM"
 
 description: "STM32 输入捕获（IC）和 PWM 测量的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, IC, PWM, 输入捕获]
 
 sidebar: auto
+
 ---
+
 
 # STM32
 

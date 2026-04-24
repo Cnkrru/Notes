@@ -3,12 +3,14 @@ title: "Python pyautogui包"
 
 description: "Python pyautogui包常用函数参考，包括鼠标操作、键盘操作、屏幕截图等自动化操作。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, pyautogui, 自动化]
 
 sidebar: auto
+
 ---
+
 
 # Python pyautogui包常用函数参考
 

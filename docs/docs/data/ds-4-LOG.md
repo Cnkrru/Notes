@@ -3,12 +3,14 @@ title: "LOG 日志文件"
 
 description: "LOG 日志文件的基础知识，包括日志级别、格式、分析工具等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [LOG, 日志文件]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

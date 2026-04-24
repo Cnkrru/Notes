@@ -3,12 +3,14 @@ title: "JavaScript 异步编程"
 
 description: "JavaScript 异步编程相关知识，包括单线程特性、同步与异步、执行机制等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 异步编程, 事件循环]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

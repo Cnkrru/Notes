@@ -3,12 +3,14 @@ title: "Python math包"
 
 description: "Python math包相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, math]
 
 sidebar: auto
+
 ---
+
 
 ## Py-Math
 

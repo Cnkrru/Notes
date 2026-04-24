@@ -3,12 +3,14 @@ title: "STM32 GPIO"
 
 description: "STM32 GPIO的使用方法，包括输入模式、输出模式、GPIO读取和配置步骤。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, GPIO]
 
 sidebar: auto
+
 ---
+
 
 # STM32
 

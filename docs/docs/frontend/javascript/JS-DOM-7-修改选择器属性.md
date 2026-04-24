@@ -3,12 +3,14 @@ title: "JavaScript 修改选择器属性"
 
 description: "JavaScript 修改选择器属性的方法，包括通过classList操作类控制CSS、通过style属性操作CSS和操作类名(className)操作CSS。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 选择器属性]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

@@ -3,12 +3,14 @@ title: "XML 数据格式"
 
 description: "XML 数据格式的基础知识点，包括基本结构、语法规则、根元素、属性等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [XML, 数据序列化]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

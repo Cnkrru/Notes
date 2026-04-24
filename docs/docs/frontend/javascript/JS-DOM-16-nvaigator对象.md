@@ -3,12 +3,14 @@ title: "JavaScript navigator对象"
 
 description: "JavaScript navigator对象的使用方法，包括通过userAgent检测浏览器的版本及平台。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, navigator对象]
 
 sidebar: auto
+
 ---
+
 
 ### navigator 对象
 

@@ -3,12 +3,14 @@ title: "JavaScript 本地存储"
 
 description: "JavaScript 本地存储的使用方法，包括localStorage和sessionStorage的使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 本地存储, localStorage, sessionStorage]
 
 sidebar: auto
+
 ---
+
 
 ### 1. 本地存储介绍
 

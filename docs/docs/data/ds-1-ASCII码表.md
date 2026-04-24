@@ -3,12 +3,14 @@ title: "ASCII码表"
 
 description: "ASCII码表的详细信息，包括二进制、八进制、十六进制表示和对应的字符。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [ASCII, 编码]
 
 sidebar: auto
+
 ---
+
 
 # 数据序列化
 

@@ -3,12 +3,14 @@ title: "STM32 串口与USART"
 
 description: "STM32 串口与USART的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, 串口, USART, 通讯]
 
 sidebar: auto
+
 ---
+
 
 # STM32 串口与USART
 

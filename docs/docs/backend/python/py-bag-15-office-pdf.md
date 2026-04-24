@@ -3,12 +3,14 @@ title: "Python pdfplumber包"
 
 description: "Python pdfplumber包相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, pdfplumber]
 
 sidebar: auto
+
 ---
+
 
 
 | 分类   | 函数名                                                   | 必选参数                  | 作用          |

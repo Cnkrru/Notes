@@ -3,12 +3,14 @@ title: "CSS 三大特性"
 
 description: "CSS 三大特性相关知识，包括层叠性、继承性和优先级。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 三大特性]
 
 sidebar: auto
+
 ---
+
 
 #CSS理论
 

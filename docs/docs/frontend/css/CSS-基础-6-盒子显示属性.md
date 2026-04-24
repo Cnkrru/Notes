@@ -3,12 +3,14 @@ title: "CSS 盒子显示属性"
 
 description: "CSS 盒子显示属性相关知识，包括显示模式和显示模式的转换。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 显示模式]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

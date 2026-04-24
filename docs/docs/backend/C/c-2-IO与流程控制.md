@@ -3,12 +3,14 @@ title: "C 语言 IO 与流程控制"
 
 description: "C 语言输入输出函数与流程控制语句相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [C语言, IO, 流程控制]
 
 sidebar: auto
+
 ---
+
 
 # 后端
 

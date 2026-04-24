@@ -3,12 +3,14 @@ title: "JavaScript DOM基础"
 
 description: "JavaScript DOM基础相关知识，包括DOM的作用和分类、DOM树、DOM对象等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 基础]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

@@ -3,12 +3,14 @@ title: "STM32 RTC实时时钟"
 
 description: "STM32 RTC（实时时钟）的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, RTC, 实时时钟, 时钟源]
 
 sidebar: auto
+
 ---
+
 
 ### RTC（实时时钟）
 

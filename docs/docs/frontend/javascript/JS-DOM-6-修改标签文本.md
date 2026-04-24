@@ -3,12 +3,14 @@ title: "JavaScript 修改标签文本"
 
 description: "JavaScript 修改标签文本的方法，包括innerHTML和innerText属性的使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 标签文本]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

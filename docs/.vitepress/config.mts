@@ -66,10 +66,12 @@ export default defineConfig({
             items: [
               { text: '数据存储', link: '/docs/backend/C/c-1-数据存储.md' },
               { text: 'IO与流程控制', link: '/docs/backend/C/c-2-IO与流程控制.md' },
-              { text: '函数与指针', link: '/docs/backend/C/c-3-函数与指针.md' },
-              { text: '位运算', link: '/docs/backend/C/c-4-位运算.md' },
-              { text: '文件操作', link: '/docs/backend/C/c-5-文件操作.md' },
-              { text: '字符串操作', link: '/docs/backend/C/c-6-字符串操作.md' }
+              { text: '函数', link: '/docs/backend/C/c-3-函数.md' },
+              { text: '指针', link: '/docs/backend/C/c-4-指针.md' },
+              { text: '位运算', link: '/docs/backend/C/c-5-位运算.md' },
+              { text: '文件操作', link: '/docs/backend/C/c-6-文件操作.md' },
+              { text: '字符串操作', link: '/docs/backend/C/c-7-字符串操作.md' },
+              { text: '内存模型', link: '/docs/backend/C/c-8-内存模型.md' }
             ]
           },
           { text: 'JavaScript',
@@ -82,6 +84,46 @@ export default defineConfig({
               { text: '变量or函数提升', link: '/docs/backend/javascript/js-5-变量or函数提升.md' },
               { text: '参数and展开运算符', link: '/docs/backend/javascript/js-6-参数and展开运算符.md' }
             ]
+          },
+          { text: 'Shell',
+            collapsed: true,
+            items: [
+              { text: '基础操作与变量', link: '/docs/backend/shell/shell-1-基础操作与变量.md' },
+              { text: '运算符与流程控制', link: '/docs/backend/shell/shell-2-运算符与流程控制.md' },
+              { text: '命令与函数', link: '/docs/backend/shell/shell-3-命令与函数.md' },
+              { text: '文本处理工具', link: '/docs/backend/shell/shell-4-文本处理工具.md' }
+            ]
+          },
+          { text: '正则表达式',
+            collapsed: true,
+            items: [
+              { text: '基础', link: '/docs/backend/regex/regex-1-基础.md' },
+              { text: '元字符', link: '/docs/backend/regex/regex-2-元字符.md' },
+              { text: '方法', link: '/docs/backend/regex/regex-3-方法.md' },
+              { text: '分组', link: '/docs/backend/regex/regex-4-分组.md' }
+            ]
+          },
+          { text: '算法',
+            collapsed: true,
+            items: [
+              { text: '时间复杂度分析', link: '/docs/backend/algorithm/algorithm-1-时间复杂度分析.md' },
+              { text: '数据结构', link: '/docs/backend/algorithm/algorithm-2-数据结构.md' }
+            ]
+          },
+          { text: '力扣',
+            collapsed: true,
+            items: [
+              { text: '两数之和', link: '/docs/backend/leetcode/leetcode-1-两数之和.md' },
+              { text: '两数相加', link: '/docs/backend/leetcode/leetcode-2-两数相加.md' }
+            ]
+          },
+          { text: 'AJAX',
+            collapsed: true,
+            items: [
+              { text: 'HTTP基础', link: '/docs/backend/ajax/ajax-1-HTTP基础.md' },
+              { text: 'axios使用', link: '/docs/backend/ajax/ajax-2-axios使用.md' },
+              { text: 'XMLHttpRequest', link: '/docs/backend/ajax/ajax-3-XMLHttpRequest.md' }
+            ]
           }
         ]
       },
@@ -91,67 +133,67 @@ export default defineConfig({
           { text: 'HTML',
             collapsed: true,
             items: [
-              { text: '文本-多媒体', link: '/docs/frontend/html/HTML-1-文本-多媒体.md' },
-              { text: '列表-表格-表单', link: '/docs/frontend/html/HTML-2-列表-表格-表单.md' },
-              { text: '路径', link: '/docs/frontend/html/HTML-3-路径.md' }
+              { text: '文本-多媒体', link: '/docs/frontend/html/html-1-文本-多媒体.md' },
+              { text: '列表-表格-表单', link: '/docs/frontend/html/html-2-列表-表格-表单.md' },
+              { text: '路径', link: '/docs/frontend/html/html-3-路径.md' }
             ]
           },
           { text: 'CSS',
             collapsed: true,
             items: [
-              { text: '选择器', link: '/docs/frontend/css/CSS-基础-1-选择器.md' },
-              { text: '字体样式', link: '/docs/frontend/css/CSS-基础-2-字体样式.md' },
-              { text: '盒子模型', link: '/docs/frontend/css/CSS-基础-3-盒子模型.md' },
-              { text: '背景图设置', link: '/docs/frontend/css/CSS-基础-4-背景图设置.md' },
-              { text: 'Flex', link: '/docs/frontend/css/CSS-基础-5-Flex.md' },
-              { text: '盒子显示属性', link: '/docs/frontend/css/CSS-基础-6-盒子显示属性.md' },
-              { text: '定位', link: '/docs/frontend/css/CSS-基础-7-定位.md' },
-              { text: '水平-竖直居中方式', link: '/docs/frontend/css/CSS-基础-8-水平-竖直居中方式.md' },
-              { text: 'CSS精灵', link: '/docs/frontend/css/CSS-基础-9-CSS精灵.md' },
-              { text: '字体图标-fontAwesome', link: '/docs/frontend/css/CSS-基础-10-字体图标-fontAwesome.md' },
-              { text: '过渡效果', link: '/docs/frontend/css/CSS-基础-11-过渡效果.md' },
-              { text: '透明效果', link: '/docs/frontend/css/CSS-基础-12-透明效果.md' },
-              { text: '鼠标光标属性', link: '/docs/frontend/css/CSS-基础-13-鼠标光标属性.md' },
-              { text: 'Favicon实现', link: '/docs/frontend/css/CSS-基础-14-Favicon实现.md' },
-              { text: 'SEO', link: '/docs/frontend/css/CSS-基础-15-SEO.md' },
-              { text: 'transform-2D', link: '/docs/frontend/css/CSS-基础-16-transform-2D.md' },
-              { text: 'transform-3D', link: '/docs/frontend/css/CSS-基础-17-transform-3D.md' },
-              { text: '渐变', link: '/docs/frontend/css/CSS-基础-18-渐变.md' },
-              { text: '动画', link: '/docs/frontend/css/CSS-基础-19-动画.md' },
-              { text: '相对单位-rem与vm、vh', link: '/docs/frontend/css/CSS-基础-20-相对单位-rem与vm、vh.md' },
-              { text: 'less', link: '/docs/frontend/css/CSS-基础-21-less.md' },
-              { text: '多列', link: '/docs/frontend/css/CSS-基础-22-多列.md' },
-              { text: 'CSS三大特性', link: '/docs/frontend/css/CSS-基础-23-CSS三大特性.md' },
-              { text: '响应式设计', link: '/docs/frontend/css/CSS-基础-24-响应式设计.md' },
-              { text: 'FontAwesome', link: '/docs/frontend/css/CSS-基础-25-FontAwesome.md' },
-              { text: '双开门', link: '/docs/frontend/css/CSS-特效-1-双开门.md' },
-              { text: '视频播放特效', link: '/docs/frontend/css/CSS-特效-2-视频播放特效.md' },
-              { text: '线性渐变', link: '/docs/frontend/css/CSS-特效-3-线性渐变.md' },
-              { text: '3D导航', link: '/docs/frontend/css/CSS-特效-4-3D导航.md' }
+              { text: '选择器', link: '/docs/frontend/css/css-基础-1-选择器.md' },
+              { text: '字体样式', link: '/docs/frontend/css/css-基础-2-字体样式.md' },
+              { text: '盒子模型', link: '/docs/frontend/css/css-基础-3-盒子模型.md' },
+              { text: '背景图设置', link: '/docs/frontend/css/css-基础-4-背景图设置.md' },
+              { text: 'Flex', link: '/docs/frontend/css/css-基础-5-Flex.md' },
+              { text: '盒子显示属性', link: '/docs/frontend/css/css-基础-6-盒子显示属性.md' },
+              { text: '定位', link: '/docs/frontend/css/css-基础-7-定位.md' },
+              { text: '水平-竖直居中方式', link: '/docs/frontend/css/css-基础-8-水平-竖直居中方式.md' },
+              { text: 'CSS精灵', link: '/docs/frontend/css/css-基础-9-CSS精灵.md' },
+              { text: '字体图标-fontAwesome', link: '/docs/frontend/css/css-基础-10-字体图标-fontAwesome.md' },
+              { text: '过渡效果', link: '/docs/frontend/css/css-基础-11-过渡效果.md' },
+              { text: '透明效果', link: '/docs/frontend/css/css-基础-12-透明效果.md' },
+              { text: '鼠标光标属性', link: '/docs/frontend/css/css-基础-13-鼠标光标属性.md' },
+              { text: 'Favicon实现', link: '/docs/frontend/css/css-基础-14-Favicon实现.md' },
+              { text: 'SEO', link: '/docs/frontend/css/css-基础-15-SEO.md' },
+              { text: 'transform-2D', link: '/docs/frontend/css/css-基础-16-transform-2D.md' },
+              { text: 'transform-3D', link: '/docs/frontend/css/css-基础-17-transform-3D.md' },
+              { text: '渐变', link: '/docs/frontend/css/css-基础-18-渐变.md' },
+              { text: '动画', link: '/docs/frontend/css/css-基础-19-动画.md' },
+              { text: '相对单位-rem与vm、vh', link: '/docs/frontend/css/css-基础-20-相对单位-rem与vm、vh.md' },
+              { text: 'less', link: '/docs/frontend/css/css-基础-21-less.md' },
+              { text: '多列', link: '/docs/frontend/css/css-基础-22-多列.md' },
+              { text: 'CSS三大特性', link: '/docs/frontend/css/css-基础-23-CSS三大特性.md' },
+              { text: '响应式设计', link: '/docs/frontend/css/css-基础-24-响应式设计.md' },
+              { text: 'FontAwesome', link: '/docs/frontend/css/css-基础-25-FontAwesome.md' },
+              { text: '双开门', link: '/docs/frontend/css/css-特效-1-双开门.md' },
+              { text: '视频播放特效', link: '/docs/frontend/css/css-特效-2-视频播放特效.md' },
+              { text: '线性渐变', link: '/docs/frontend/css/css-特效-3-线性渐变.md' },
+              { text: '3D导航', link: '/docs/frontend/css/css-特效-4-3D导航.md' }
             ]
           },
           { text: 'JavaScript (DOM)',
             collapsed: true,
             items: [
-              { text: 'BOM', link: '/docs/frontend/javascript/JS-DOM-1-BOM.md' },
-              { text: 'GC机制', link: '/docs/frontend/javascript/JS-DOM-2-GC机制.md' },
-              { text: 'js异步', link: '/docs/frontend/javascript/JS-DOM-3-js异步.md' },
-              { text: 'DOM基础', link: '/docs/frontend/javascript/JS-DOM-4-DOM基础.md' },
-              { text: '获取CSS选择器', link: '/docs/frontend/javascript/JS-DOM-5-获取CSS选择器.md' },
-              { text: '修改标签文本', link: '/docs/frontend/javascript/JS-DOM-6-修改标签文本.md' },
-              { text: '修改选择器属性', link: '/docs/frontend/javascript/JS-DOM-7-修改选择器属性.md' },
-              { text: '修改表单属性', link: '/docs/frontend/javascript/JS-DOM-8-修改表单属性.md' },
-              { text: '自定义属性', link: '/docs/frontend/javascript/JS-DOM-9-自定义属性.md' },
-              { text: '定时器-loop or once', link: '/docs/frontend/javascript/JS-DOM-10-定时器-loop or once.md' },
-              { text: '事件（键鼠监听）', link: '/docs/frontend/javascript/JS-DOM-11-事件（键鼠监听）.md' },
-              { text: '事件（事件绑定）', link: '/docs/frontend/javascript/JS-DOM-12-事件（事件绑定）.md' },
-              { text: '事件（加载-滚动-尺寸）', link: '/docs/frontend/javascript/JS-DOM-13-事件（加载-滚动-尺寸）.md' },
-              { text: 'DOM增删查', link: '/docs/frontend/javascript/JS-DOM-14-DOM增删查.md' },
-              { text: 'location对象', link: '/docs/frontend/javascript/JS-DOM-15-location对象.md' },
-              { text: 'nvaigator对象', link: '/docs/frontend/javascript/JS-DOM-16-nvaigator对象.md' },
-              { text: 'history对象', link: '/docs/frontend/javascript/JS-DOM-17-history对象.md' },
-              { text: '本地存储', link: '/docs/frontend/javascript/JS-DOM-18-本地存储.md' },
-              { text: 'this对象', link: '/docs/frontend/javascript/JS-DOM-19-this对象.md' }
+              { text: 'BOM', link: '/docs/frontend/javascript/js-dom-1-BOM.md' },
+              { text: 'GC机制', link: '/docs/frontend/javascript/js-dom-2-GC机制.md' },
+              { text: 'js异步', link: '/docs/frontend/javascript/js-dom-3-js异步.md' },
+              { text: 'DOM基础', link: '/docs/frontend/javascript/js-dom-4-DOM基础.md' },
+              { text: '获取CSS选择器', link: '/docs/frontend/javascript/js-dom-5-获取CSS选择器.md' },
+              { text: '修改标签文本', link: '/docs/frontend/javascript/js-dom-6-修改标签文本.md' },
+              { text: '修改选择器属性', link: '/docs/frontend/javascript/js-dom-7-修改选择器属性.md' },
+              { text: '修改表单属性', link: '/docs/frontend/javascript/js-dom-8-修改表单属性.md' },
+              { text: '自定义属性', link: '/docs/frontend/javascript/js-dom-9-自定义属性.md' },
+              { text: '定时器-loop or once', link: '/docs/frontend/javascript/js-dom-10-定时器-loop or once.md' },
+              { text: '事件（键鼠监听）', link: '/docs/frontend/javascript/js-dom-11-事件（键鼠监听）.md' },
+              { text: '事件（事件绑定）', link: '/docs/frontend/javascript/js-dom-12-事件（事件绑定）.md' },
+              { text: '事件（加载-滚动-尺寸）', link: '/docs/frontend/javascript/js-dom-13-事件（加载-滚动-尺寸）.md' },
+              { text: 'DOM增删查', link: '/docs/frontend/javascript/js-dom-14-DOM增删查.md' },
+              { text: 'location对象', link: '/docs/frontend/javascript/js-dom-15-location对象.md' },
+              { text: 'nvaigator对象', link: '/docs/frontend/javascript/js-dom-16-nvaigator对象.md' },
+              { text: 'history对象', link: '/docs/frontend/javascript/js-dom-17-history对象.md' },
+              { text: '本地存储', link: '/docs/frontend/javascript/js-dom-18-本地存储.md' },
+              { text: 'this对象', link: '/docs/frontend/javascript/js-dom-19-this对象.md' }
             ]
           }
         ]
@@ -211,7 +253,37 @@ export default defineConfig({
           { text: 'config', link: '/docs/data/ds-9-config.md' },
           { text: 'ini', link: '/docs/data/ds-10-ini.md' },
           { text: 'yaml', link: '/docs/data/ds-11-yaml.md' },
-          { text: '常见文件类型', link: '/docs/data/ds-12-常见文件类型.md' }
+          { text: '常见文件类型', link: '/docs/data/ds-12-常见文件类型.md' },
+          { text: '数据库类型', link: '/docs/data/ds-13-数据库类型.md' }
+        ]
+      },
+      { text: '电气',
+        collapsed: true,
+        items: [
+          { text: '数电',
+            collapsed: true,
+            items: [
+              { text: '数电-1', link: '/docs/电气/数电/数电-1.md' },
+              { text: '基本逻辑关系', link: '/docs/电气/数电/数电-2-1-基本逻辑关系.md' },
+              { text: '逻辑运算公式', link: '/docs/电气/数电/数电-2-2-逻辑运算公式.md' },
+              { text: '最小项', link: '/docs/电气/数电/数电-2-3-最小项.md' }
+            ]
+          }
+        ]
+      },
+      { text: '其他',
+        collapsed: true,
+        items: [
+          { text: '博客开发笔记', link: '/docs/other/other-1-博客开发笔记.md' },
+          { text: '电脑硬件知识', link: '/docs/other/other-2-电脑硬件知识.md' },
+          { text: 'PS完全教程', link: '/docs/other/other-3-PS完全教程.md' }
+        ]
+      },
+      { text: '代码',
+        collapsed: true,
+        items: [
+          { text: '樱花特效', link: '/docs/code/code-1-樱花特效.md' },
+          { text: '雪花特效', link: '/docs/code/code-2-雪花特效.md' }
         ]
       }
     ],
@@ -309,8 +381,8 @@ export default defineConfig({
 
     // 文档页脚信息
     docFooter: {
-      prev: 'Pagina prior',
-      next: 'Proxima pagina'
+      prev: '上一页',
+      next: '下一页'
     },
 
     darkModeSwitchLabel: '切换到深色模式',

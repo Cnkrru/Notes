@@ -3,12 +3,14 @@ title: "CSS 双开门特效"
 
 description: "CSS 双开门特效的实现方法，包括核心实现步骤、HTML结构、CSS样式和实现原理。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 特效, 双开门]
 
 sidebar: auto
+
 ---
+
 
 #CSS特效
 

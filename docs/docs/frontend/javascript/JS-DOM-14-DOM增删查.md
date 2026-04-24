@@ -3,12 +3,14 @@ title: "JavaScript DOM增删查"
 
 description: "JavaScript DOM增删查的使用方法，包括DOM节点类型和增删改查操作。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 增删查]
 
 sidebar: auto
+
 ---
+
 
 ## 1. DOM 节点类型
 

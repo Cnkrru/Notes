@@ -3,12 +3,14 @@ title: "JavaScript BOM"
 
 description: "JavaScript BOM（浏览器对象模型）相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, BOM]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

@@ -3,12 +3,14 @@ title: "OpenMV Image 模块"
 
 description: "OpenMV Image 模块的使用方法和参考文档。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [OpenMV, Image, 图像处理]
 
 sidebar: auto
+
 ---
+
 
 # OpenMV
 

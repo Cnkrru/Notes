@@ -3,12 +3,14 @@ title: "JavaScript 作用域链"
 
 description: "JavaScript 作用域链相关知识。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, 作用域链]
 
 sidebar: auto
+
 ---
+
 
 #JavaScript
 

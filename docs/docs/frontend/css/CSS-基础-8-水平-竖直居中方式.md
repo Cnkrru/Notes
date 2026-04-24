@@ -3,12 +3,14 @@ title: "CSS 水平与竖直居中方式"
 
 description: "CSS 水平与竖直居中的实现方法，包括flex布局、transform定位、margin负值等。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 居中]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

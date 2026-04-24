@@ -3,12 +3,14 @@ title: "STM32 BKP与RTC与PWR"
 
 description: "STM32 BKP、RTC和PWR的综合配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, BKP, RTC, PWR, 电源管理]
 
 sidebar: auto
+
 ---
+
 
 ```
 RTC初始化流程

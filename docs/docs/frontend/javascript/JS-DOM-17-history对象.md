@@ -3,12 +3,14 @@ title: "JavaScript history对象"
 
 description: "JavaScript history对象的使用方法，包括back()、forward()和go()方法。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, history对象]
 
 sidebar: auto
+
 ---
+
 
 ### history 对象
 

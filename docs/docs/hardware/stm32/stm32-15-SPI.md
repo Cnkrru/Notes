@@ -3,12 +3,14 @@ title: "STM32 SPI通信"
 
 description: "STM32 SPI通信的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, SPI, 通信协议]
 
 sidebar: auto
+
 ---
+
 
 ## 1. SPI基本概念
 

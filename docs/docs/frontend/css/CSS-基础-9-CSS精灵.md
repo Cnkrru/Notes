@@ -3,12 +3,14 @@ title: "CSS 精灵"
 
 description: "CSS 精灵（CSS Sprite）的实现方法和核心代码。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, CSS精灵, Sprite]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

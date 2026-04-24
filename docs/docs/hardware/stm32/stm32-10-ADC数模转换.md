@@ -3,12 +3,14 @@ title: "STM32 ADC数模转换"
 
 description: "STM32 ADC数模转换的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, ADC, 数模转换]
 
 sidebar: auto
+
 ---
+
 
 # STM32 ADC数模转换
 

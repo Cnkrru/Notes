@@ -3,12 +3,14 @@ title: "CSS 过渡效果"
 
 description: "CSS 过渡效果（Transition）的实现方法和示例。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 过渡效果, Transition]
 
 sidebar: auto
+
 ---
+
 
 #CSS
 

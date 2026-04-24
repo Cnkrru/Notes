@@ -3,12 +3,14 @@ title: "CSS 基础选择器"
 
 description: "CSS 基础选择器、复合选择器和伪选择器的使用方法。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [CSS, 选择器]
 
 sidebar: auto
+
 ---
+
 
 # 前端
 

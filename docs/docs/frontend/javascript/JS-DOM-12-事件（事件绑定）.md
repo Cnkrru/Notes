@@ -3,12 +3,14 @@ title: "JavaScript 事件（事件绑定）"
 
 description: "JavaScript 事件（事件绑定）的使用方法，包括事件操作语法、事件流的实际应用和事件委托。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, 事件, 事件绑定]
 
 sidebar: auto
+
 ---
+
 
 ### 事件操作语法
 

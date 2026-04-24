@@ -3,12 +3,14 @@ title: "Python selenium包"
 
 description: "Python selenium包常用函数参考，包括浏览器操作、元素定位、页面交互等功能。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, selenium, 爬虫, 浏览器自动化]
 
 sidebar: auto
+
 ---
+
 
 # Python selenium包常用函数参考
 

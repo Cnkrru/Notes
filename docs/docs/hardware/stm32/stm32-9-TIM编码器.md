@@ -3,12 +3,14 @@ title: "STM32 TIM 编码器"
 
 description: "STM32 定时器编码器接口的配置和使用。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [STM32, TIM, 编码器, 定时器]
 
 sidebar: auto
+
 ---
+
 
 ---
 ## 编码器

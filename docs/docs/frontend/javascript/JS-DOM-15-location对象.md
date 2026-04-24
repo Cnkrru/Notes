@@ -3,12 +3,14 @@ title: "JavaScript location对象"
 
 description: "JavaScript location对象的使用方法，包括href属性、search属性和reload方法。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [JavaScript, DOM, location对象]
 
 sidebar: auto
+
 ---
+
 
 ### location 对象
 

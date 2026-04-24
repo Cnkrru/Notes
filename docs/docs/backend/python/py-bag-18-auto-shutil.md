@@ -3,12 +3,14 @@ title: "Python shutil包"
 
 description: "Python shutil包常用函数参考，包括文件复制、移动、删除、归档等操作。"
 
-date: 2026-04-21
+date: "2026-04-21"
 
 tags: [Python, shutil, 文件操作]
 
 sidebar: auto
+
 ---
+
 
 # Python shutil包常用函数参考
 
