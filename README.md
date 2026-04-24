@@ -17,10 +17,14 @@ obsidian/
 │   │   ├── backend/   # 后端开发
 │   │   ├── frontend/  # 前端开发
 │   │   ├── hardware/  # 硬件开发
-│   │   └── data/      # 数据处理
+│   │   ├── data/      # 数据处理
+│   │   ├── 电气/       # 电气相关知识
+│   │   ├── other/     # 其他知识
+│   │   └── code/      # 特效代码
 │   └── .vitepress/    # VitePress 配置
 ├── package.json       # 项目配置
-└── README.md         # 项目说明
+├── README.md         # 项目说明
+└── SKILL.md          # 技能标准
 ```
 
 ## 知识分类
@@ -29,6 +33,11 @@ obsidian/
 - Python
 - C 语言
 - JavaScript
+- Shell
+- 正则表达式
+- 算法
+- 力扣
+- AJAX
 
 ### 前端开发
 - HTML
@@ -41,6 +50,18 @@ obsidian/
 
 ### 数据处理
 - 各种数据格式和序列化方法
+
+### 电气
+- 数字电路
+
+### 其他
+- 博客开发笔记
+- 电脑硬件知识
+- PS完全教程
+
+### 代码
+- 樱花特效
+- 雪花特效
 
 ## 快速开始
 
@@ -56,7 +77,7 @@ npm install
 npm run docs:dev
 ```
 
-访问 http://localhost:5173/
+访问 http://localhost:5174/ (端口可能会自动调整)
 
 ### 构建生产版本
 
