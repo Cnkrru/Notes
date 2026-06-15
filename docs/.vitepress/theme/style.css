@@ -5,44 +5,7 @@
 
 /**
  * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- *
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
- *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create a accent, such as when having inline code block inside
- *   custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attached to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
  * -------------------------------------------------------------------------- */
-
 :root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
@@ -97,10 +60,12 @@
   --vp-radius-sm: 8px;
   --vp-radius-md: 12px;
   --vp-radius-lg: 16px;
+  --vp-radius-xl: 20px;
   
   --vp-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.02);
   --vp-shadow-md: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 24px rgba(0, 0, 0, 0.04);
   --vp-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+  --vp-shadow-glow: 0 0 40px rgba(0, 122, 255, 0.15);
 }
 
 .dark {
@@ -119,12 +84,13 @@
   --vp-c-default-2: #636366;
   --vp-c-default-3: #48484a;
   --vp-c-default-soft: rgba(255, 255, 255, 0.03);
+  
+  --vp-shadow-glow: 0 0 40px rgba(0, 122, 255, 0.1);
 }
 
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
-
 :root {
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
@@ -140,23 +106,23 @@
 /**
  * Component: Home
  * -------------------------------------------------------------------------- */
-
 :root {
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(
     120deg,
     #007aff 30%,
-    #5856d6
+    #5856d6 60%,
+    #af52de
   );
 
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #007aff 50%,
-    #5856d6 50%
+    #007aff 30%,
+    #5856d6 50%,
+    #af52de 70%
   );
   --vp-home-hero-image-filter: blur(44px);
 }
-
 
 @media (min-width: 640px) {
   :root {
@@ -173,7 +139,6 @@
 /**
  * Component: Custom Block
  * -------------------------------------------------------------------------- */
-
 :root {
   --vp-custom-block-tip-border: transparent;
   --vp-custom-block-tip-text: var(--vp-c-text-1);
@@ -184,46 +149,90 @@
 /**
  * Component: Algolia
  * -------------------------------------------------------------------------- */
-
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/**
+ * MAC 风格 - 全局背景渐变
+ * -------------------------------------------------------------------------- */
+:root {
+  --vp-bg-gradient: linear-gradient(135deg, #fafafa 0%, #f0f4ff 50%, #fafafa 100%);
+}
+
+.dark {
+  --vp-bg-gradient: linear-gradient(135deg, #1c1c1e 0%, #2a2a30 50%, #1c1c1e 100%);
+}
+
+body {
+  background: var(--vp-bg-gradient);
+  background-attachment: fixed;
 }
 
 /**
  * MAC 风格 - 导航栏毛玻璃效果
  * -------------------------------------------------------------------------- */
 .VPNavBar {
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  background: rgba(255, 255, 255, 0.85) !important;
   border-bottom: 1px solid var(--vp-c-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPNavBar:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
 }
 
 .dark .VPNavBar {
-  background: rgba(28, 28, 30, 0.85) !important;
+  background: rgba(28, 28, 30, 0.9) !important;
+}
+
+.dark .VPNavBar:hover {
+  background: rgba(28, 28, 30, 0.95) !important;
+}
+
+/**
+ * MAC 风格 - 导航栏菜单按钮
+ * -------------------------------------------------------------------------- */
+.VPNavBarMenuLink {
+  border-radius: var(--vp-radius-sm);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPNavBarMenuLink:hover {
+  background: var(--vp-c-default-soft);
+  transform: scale(1.02);
+}
+
+.VPNavBarMenuLink.active {
+  background: var(--vp-c-brand-soft);
 }
 
 /**
  * MAC 风格 - 侧边栏样式
  * -------------------------------------------------------------------------- */
 .VPSidebar {
-  border-radius: var(--vp-radius-lg);
+  border-radius: var(--vp-radius-xl);
   box-shadow: var(--vp-shadow-md);
   overflow: hidden;
+  background: var(--vp-c-bg-accent);
+  border: 1px solid var(--vp-c-border);
 }
 
 .VPSidebar .sidebar-content {
-  background: var(--vp-c-bg-accent);
+  background: transparent;
 }
 
 /**
  * MAC 风格 - 页面内容卡片
  * -------------------------------------------------------------------------- */
 .VPContent {
-  border-radius: var(--vp-radius-lg);
+  border-radius: var(--vp-radius-xl);
   box-shadow: var(--vp-shadow-md);
   overflow: hidden;
   background: var(--vp-c-bg-accent);
+  border: 1px solid var(--vp-c-border);
 }
 
 /**
@@ -236,6 +245,11 @@
 
 .VPButton:hover {
   transform: scale(1.02);
+  box-shadow: var(--vp-shadow-sm);
+}
+
+.VPButton:active {
+  transform: scale(0.98);
 }
 
 /**
@@ -244,6 +258,7 @@
 div[class*="language-"] {
   border-radius: var(--vp-radius-md);
   box-shadow: var(--vp-shadow-sm);
+  border: 1px solid var(--vp-c-border);
 }
 
 /**
@@ -252,20 +267,21 @@ div[class*="language-"] {
 .VPCard {
   border-radius: var(--vp-radius-md);
   box-shadow: var(--vp-shadow-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--vp-c-border);
 }
 
 .VPCard:hover {
-  box-shadow: var(--vp-shadow-md);
-  transform: translateY(-2px);
+  box-shadow: var(--vp-shadow-lg);
+  transform: translateY(-4px);
 }
 
 /**
  * MAC 风格 - 滚动条样式
  * -------------------------------------------------------------------------- */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -273,27 +289,30 @@ div[class*="language-"] {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .dark ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /**
- * MAC 风格 - 图片圆角
+ * MAC 风格 - 图片样式
  * -------------------------------------------------------------------------- */
 img.VPImage.image-src {
   border-radius: 50%;
+  box-shadow: var(--vp-shadow-md);
 }
 
 .VPNavBarLogo img {
@@ -306,14 +325,17 @@ img.VPImage.image-src {
 .VPSidebarItem {
   border-radius: var(--vp-radius-sm);
   margin: 2px 6px;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .VPSidebarItem:hover {
   background: var(--vp-c-default-soft);
+  transform: translateX(4px);
 }
 
 .VPSidebarItem.active {
   background: var(--vp-c-brand-soft);
+  transform: translateX(4px);
 }
 
 /**
@@ -322,14 +344,17 @@ img.VPImage.image-src {
 .VPDocOutlineItem {
   border-radius: var(--vp-radius-sm);
   margin: 2px 4px;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .VPDocOutlineItem:hover {
   background: var(--vp-c-default-soft);
+  transform: translateX(4px);
 }
 
 .VPDocOutlineItem.active {
   background: var(--vp-c-brand-soft);
+  transform: translateX(4px);
 }
 
 /**
@@ -339,10 +364,20 @@ table {
   border-radius: var(--vp-radius-md);
   overflow: hidden;
   border: 1px solid var(--vp-c-border);
+  box-shadow: var(--vp-shadow-sm);
 }
 
 table th {
   background: var(--vp-c-bg-alt);
+  font-weight: 600;
+}
+
+table tr {
+  transition: background 0.15s ease;
+}
+
+table tr:hover {
+  background: var(--vp-c-default-soft);
 }
 
 /**
@@ -350,8 +385,15 @@ table th {
  * -------------------------------------------------------------------------- */
 blockquote {
   border-radius: var(--vp-radius-md);
-  border-left: 3px solid var(--vp-c-brand-1);
+  border-left: 4px solid var(--vp-c-brand-1);
   background: var(--vp-c-default-soft);
+  padding: 16px 20px;
+  margin: 16px 0;
+  transition: all 0.2s ease;
+}
+
+blockquote:hover {
+  box-shadow: var(--vp-shadow-sm);
 }
 
 /**
@@ -360,8 +402,8 @@ blockquote {
 hr {
   border: none;
   height: 1px;
-  background: var(--vp-c-border);
-  margin: 24px 0;
+  background: linear-gradient(90deg, transparent, var(--vp-c-border), transparent);
+  margin: 32px 0;
 }
 
 /**
@@ -369,6 +411,13 @@ hr {
  * -------------------------------------------------------------------------- */
 .VPFooter {
   border-top: 1px solid var(--vp-c-border);
+  background: rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.dark .VPFooter {
+  background: rgba(28, 28, 30, 0.5) !important;
 }
 
 /**
@@ -377,8 +426,121 @@ hr {
 .vp-return-to-top {
   border-radius: var(--vp-radius-sm);
   box-shadow: var(--vp-shadow-md);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.9) !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vp-return-to-top:hover {
+  transform: scale(1.1);
+  box-shadow: var(--vp-shadow-lg);
+}
+
+.dark .vp-return-to-top {
+  background: rgba(28, 28, 30, 0.9) !important;
+}
+
+/**
+ * MAC 风格 - 搜索框样式
+ * -------------------------------------------------------------------------- */
+.VPNavBarSearch {
+  background: var(--vp-c-bg-a);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.VPNavBarSearch:focus-within {
+  box-shadow: var(--vp-shadow-md);
+  border-color: var(--vp-c-brand-1);
+}
+
+/**
+ * MAC 风格 - 代码高亮行
+ * -------------------------------------------------------------------------- */
+div[class*="language-"] .highlight-lines {
+  background: linear-gradient(90deg, var(--vp-c-brand-3) 0%, transparent 100%);
+}
+
+/**
+ * MAC 风格 - 内联代码
+ * -------------------------------------------------------------------------- */
+:not(pre) > code {
+  border-radius: var(--vp-radius-sm);
+  background: var(--vp-c-default-soft);
+  padding: 2px 6px;
+  font-size: 0.85em;
+  transition: all 0.15s ease;
+}
+
+:not(pre) > code:hover {
+  background: var(--vp-c-brand-soft);
+}
+
+/**
+ * MAC 风格 - 链接样式
+ * -------------------------------------------------------------------------- */
+a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+a:hover {
+  color: var(--vp-c-brand-1);
+}
+
+/**
+ * MAC 风格 - 列表项样式
+ * -------------------------------------------------------------------------- */
+li {
+  transition: all 0.15s ease;
+}
+
+li:hover {
+  padding-left: 4px;
+}
+
+/**
+ * MAC 风格 - 标题样式
+ * -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  position: relative;
+}
+
+h2::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0.8em;
+  background: var(--vp-c-brand-1);
+  border-radius: 2px;
+}
+
+/**
+ * MAC 风格 - 发光效果
+ * -------------------------------------------------------------------------- */
+.glow-effect {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px rgba(0, 122, 255, 0.3);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(0, 122, 255, 0.5);
+  }
+}
+
+/**
+ * MAC 风格 - 渐变文字
+ * -------------------------------------------------------------------------- */
+.gradient-text {
+  background: linear-gradient(135deg, #007aff, #5856d6, #af52de);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /**
@@ -388,10 +550,23 @@ hr {
   .VPContent {
     border-radius: 0;
     box-shadow: none;
+    border: none;
   }
   
   .VPSidebar {
     border-radius: 0;
     box-shadow: none;
+    border: none;
+  }
+  
+  h2::before {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .VPNavBar {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 }
