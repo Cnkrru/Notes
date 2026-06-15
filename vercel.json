@@ -3,30 +3,8 @@
   "outputDirectory": "dist",
   "framework": null,
   "installCommand": "npm ci",
+  "cleanUrls": true,
   "rewrites": [
-    {
-      "source": "/assets/(.*)",
-      "destination": "/assets/$1"
-    },
-    {
-      "source": "/img/(.*)",
-      "destination": "/img/$1"
-    },
-    {
-      "source": "/config/(.*)",
-      "destination": "/config/$1"
-    },
-    {
-      "source": "/logo.png",
-      "destination": "/logo.png"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/favicon.ico"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
