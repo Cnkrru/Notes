@@ -1,32 +1,26 @@
 ---
 title: "文档"
-
 description: "技术知识库文档索引，包含后端、前端、硬件、数据和其他领域的知识"
-
 date: "2026-04-25"
-
 tags: []
-
 sidebar: auto
-
 ---
-
 
 # 知识库文档索引
 
-## 📋 目录概览
+## 目录概览
 
 欢迎来到 cnkrru 的知识库文档中心！这里整理了各个技术领域的知识内容，按照以下分类组织：
 
 - **后端开发**：Python、C语言、JavaScript、Shell、正则表达式、算法、力扣等后端技术
 - **前端开发**：HTML、CSS、JavaScript 等前端技术
+- **框架**：Vue、FastAPI 等框架知识
 - **硬件开发**：OpenMV、STM32 等硬件相关知识
 - **数据处理**：各种数据格式和序列化方法
-- **电气**：数字电路等电气相关知识
 - **其他**：博客开发、电脑硬件、PS教程等其他知识
 - **代码**：特效代码等实用代码
 
-## 🖥️ 后端开发
+## 后端开发
 
 ### Python
 
@@ -104,6 +98,13 @@ sidebar: auto
 - [方法](backend/regex/regex-3-方法.md)
 - [分组](backend/regex/regex-4-分组.md)
 
+### Rust
+
+- [数据存储](backend/rust/rust-1-数据存储.md)
+- [数据操作](backend/rust/rust-2-数据操作.md)
+- [迭代器](backend/rust/rust-3-迭代器.md)
+- [闭包](backend/rust/rust-4-闭包.md)
+
 ### 算法
 
 - [时间复杂度分析](backend/algorithm/algorithm-1-时间复杂度分析.md)
@@ -120,7 +121,30 @@ sidebar: auto
 - [axios使用](backend/ajax/ajax-2-axios使用.md)
 - [XMLHttpRequest](backend/ajax/ajax-3-XMLHttpRequest.md)
 
-## 🎨 前端开发
+## 框架
+
+### Vue
+
+- [创建工程](框架/vue/vue-1-创建工程.md)
+- [组件导入导出](框架/vue/vue-2-组件导入导出.md)
+- [组合式与选项式 API](框架/vue/vue-3-组合式与选项式API.md)
+- [响应式数据](框架/vue/vue-4-响应式数据.md)
+- [解构响应式数据](框架/vue/vue-5-解构响应式数据.md)
+- [computed计算属性](框架/vue/vue-6-computer计算属性.md)
+- [watch监听属性](框架/vue/vue-7-watch监听属性.md)
+- [watchEffect](框架/vue/vue-8-watchEffect.md)
+- [标签的ref属性](框架/vue/vue-9-标签的ref属性.md)
+- [TS](框架/vue/vue-10-TS.md)
+- [props](框架/vue/vue-11-props.md)
+- [生命周期](框架/vue/vue-12-生命周期.md)
+- [hooks钩子](框架/vue/vue-13-hooks钩子.md)
+- [路由](框架/vue/vue-14-路由.md)
+
+### FastAPI
+
+- [FastAPI](框架/fastAPI/fastapi-1.md)
+
+## 前端开发
 
 ### HTML
 
@@ -179,7 +203,7 @@ sidebar: auto
 - [修改选择器属性](frontend/javascript/js-dom-7-修改选择器属性.md)
 - [修改表单属性](frontend/javascript/js-dom-8-修改表单属性.md)
 - [自定义属性](frontend/javascript/js-dom-9-自定义属性.md)
-- [定时器-loop-once](frontend/javascript/js-dom-10-定时器-loop or once.md)
+- [定时器-loop or once](frontend/javascript/js-dom-10-定时器-loop or once.md)
 - [事件（键鼠监听）](frontend/javascript/js-dom-11-事件（键鼠监听）.md)
 - [事件（事件绑定）](frontend/javascript/js-dom-12-事件（事件绑定）.md)
 - [事件（加载-滚动-尺寸）](frontend/javascript/js-dom-13-事件（加载-滚动-尺寸）.md)
@@ -190,7 +214,7 @@ sidebar: auto
 - [本地存储](frontend/javascript/js-dom-18-本地存储.md)
 - [this对象](frontend/javascript/js-dom-19-this对象.md)
 
-## 🔧 硬件开发
+## 硬件开发
 
 ### OpenMV
 
@@ -202,11 +226,11 @@ sidebar: auto
 - [工程复用](hardware/stm32/stm32-1-工程复用.md)
 - [STM32F103C8T6外设资源](hardware/stm32/stm32-2-STM32F103C8T6外设资源.md)
 - [GPIO](hardware/stm32/stm32-3-GPIO.md)
-- [OLED-旋转编码器-舵机-电机](hardware/stm32/stm32-4-OLED 旋转编码器 舵机 电机.md)
+- [OLED-旋转编码器-舵机-电机](hardware/stm32/stm32-4-OLED%20旋转编码器%20舵机%20电机.md)
 - [外部中断与EXTI](hardware/stm32/stm32-5-外部中断与EXTI.md)
 - [TIM](hardware/stm32/stm32-6-TIM.md)
-- [OC-PWM](hardware/stm32/stm32-7-OC PWM.md)
-- [IC-PWM](hardware/stm32/stm32-8-IC PWM.md)
+- [OC-PWM](hardware/stm32/stm32-7-OC%20PWM.md)
+- [IC-PWM](hardware/stm32/stm32-8-IC%20PWM.md)
 - [TIM编码器](hardware/stm32/stm32-9-TIM编码器.md)
 - [ADC数模转换](hardware/stm32/stm32-10-ADC数模转换.md)
 - [DMA](hardware/stm32/stm32-11-DMA.md)
@@ -224,7 +248,7 @@ sidebar: auto
 - [Flash](hardware/stm32/stm32-23-Flash.md)
 - [ST命名规则](hardware/stm32/stm32-24-ST命名规则.md)
 
-## 💾 数据处理
+## 数据处理
 
 - [ASCII码表](data/ds-1-ASCII码表.md)
 - [CSV](data/ds-2-CSV.md)
@@ -240,34 +264,24 @@ sidebar: auto
 - [常见文件类型](data/ds-12-常见文件类型.md)
 - [数据库类型](data/ds-13-数据库类型.md)
 
-## ⚡ 电气
-
-### 数电
-
-- [数电-1](电气/数电/数电-1.md)
-- [基本逻辑关系](电气/数电/数电-2-1-基本逻辑关系.md)
-- [逻辑运算公式](电气/数电/数电-2-2-逻辑运算公式.md)
-- [最小项](电气/数电/数电-2-3-最小项.md)
-
-## 📁 其他
+## 其他
 
 - [博客开发笔记](other/other-1-博客开发笔记.md)
 - [电脑硬件知识](other/other-2-电脑硬件知识.md)
 - [PS完全教程](other/other-3-PS完全教程.md)
 
-## 💻 代码
+## 代码
 
 - [樱花特效](code/code-1-樱花特效.md)
 - [雪花特效](code/code-2-雪花特效.md)
 
-## 🚀 快速导航
+## 快速导航
 
 - [返回首页](../index.md)
 - [后端开发](backend/)
+- [框架](框架/)
 - [前端开发](frontend/)
 - [硬件开发](hardware/)
 - [数据处理](data/)
-- [电气](电气/)
 - [其他](other/)
 - [代码](code/)
-

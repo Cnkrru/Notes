@@ -16,8 +16,7 @@ sidebar: auto
 
 ## 1. 模块介绍
 
-- **math包**提供了数学运算相关的函数和常量
-- **适用场景**：科学计算、数据分析、工程计算等
+- **math**提供了数学运算相关的函数和常量
 
 ---
 
@@ -79,80 +78,3 @@ sidebar: auto
 | 非数字         | `math.nan`            | 表示非数字             |
 
 ---
-
-## 3. 使用示例
-
-### 3.1 基本运算
-```python
-import math
-
-# 平方根
-print(math.sqrt(16))  # 输出: 4.0
-
-# 幂运算
-print(math.pow(2, 3))  # 输出: 8.0
-
-# 绝对值
-print(math.fabs(-3.14))  # 输出: 3.14
-
-# 阶乘
-print(math.factorial(5))  # 输出: 120
-
-# 最大公约数
-print(math.gcd(12, 18))  # 输出: 6
-
-# 最小公倍数
-print(math.lcm(4, 6))  # 输出: 12
-```
-
-### 3.2 对数运算
-```python
-import math
-
-# 指数函数
-print(math.exp(1))  # 输出: 2.718281828459045
-
-# 对数
-print(math.log(10))  # 输出: 2.302585092994046
-print(math.log(100, 10))  # 输出: 2.0
-
-# 常用对数
-print(math.log10(100))  # 输出: 2.0
-
-# 以2为底的对数
-print(math.log2(8))  # 输出: 3.0
-```
-
-### 3.3 三角函数
-```python
-import math
-
-# 弧度值
-angle = math.radians(45)  # 45度转弧度
-
-# 正弦
-print(math.sin(angle))  # 输出: 0.7071067811865475
-
-# 余弦
-print(math.cos(angle))  # 输出: 0.7071067811865476
-
-# 正切
-print(math.tan(angle))  # 输出: 0.9999999999999999
-
-# 角度转弧度
-print(math.degrees(math.pi))  # 输出: 180.0
-```
-
-### 3.4 取整函数
-```python
-import math
-
-# 向上取整
-print(math.ceil(3.14))  # 输出: 4
-
-# 向下取整
-print(math.floor(3.99))  # 输出: 3
-
-# 向零取整
-print(math.trunc(-3.99))  # 输出: -3
-```
