@@ -33,6 +33,7 @@ const state = reactive({
 
 let audio: HTMLAudioElement | null = null
 let saveStateInterval: ReturnType<typeof setInterval> | null = null
+let isNaturallyEnded = false
 
 export function useMusicStore() {
   const currentSong = computed(() => state.playlist[state.currentIndex] || null)
@@ -82,12 +83,22 @@ export function useMusicStore() {
         state.duration = audio.duration || 0
       }
     })
-    audio.addEventListener('ended', () => nextSong())
+    audio.addEventListener('ended', () => {
+      isNaturallyEnded = true
+      nextSong()
+    })
     audio.addEventListener('loadedmetadata', () => {
       if (audio) state.duration = audio.duration || 0
     })
-    audio.addEventListener('play', () => { state.isPlaying = true })
-    audio.addEventListener('pause', () => { state.isPlaying = false })
+    audio.addEventListener('play', () => { 
+      state.isPlaying = true 
+      isNaturallyEnded = false
+    })
+    audio.addEventListener('pause', () => {
+      if (!isNaturallyEnded) {
+        state.isPlaying = false
+      }
+    })
     audio.addEventListener('canplay', () => { state.isLoading = false })
     
     const savedState = loadPlayerState()
@@ -132,6 +143,7 @@ export function useMusicStore() {
       audio.play().catch(() => {})
     } else {
       audio.pause()
+      isNaturallyEnded = false
     }
     savePlayerState()
   }
@@ -149,10 +161,11 @@ export function useMusicStore() {
 
   const nextSong = () => {
     if (state.playlist.length === 0) return
-    const wasPlaying = state.isPlaying || audio?.paused === false
+    const shouldAutoPlay = isNaturallyEnded || state.isPlaying || (audio && !audio.paused)
+    isNaturallyEnded = false
     state.currentIndex = (state.currentIndex + 1) % state.playlist.length
     loadSong(state.currentIndex)
-    if (wasPlaying && audio) {
+    if (shouldAutoPlay && audio) {
       const playOnLoaded = () => {
         audio?.play().catch(() => {})
         audio?.removeEventListener('canplay', playOnLoaded)

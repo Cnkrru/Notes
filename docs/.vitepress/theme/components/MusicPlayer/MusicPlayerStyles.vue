@@ -174,7 +174,7 @@
 
 #volume-handle {
     position: absolute;
-    right: -5px;
+    left: calc(80% - 5px);
     top: 50%;
     transform: translateY(-50%);
     width: 10px;

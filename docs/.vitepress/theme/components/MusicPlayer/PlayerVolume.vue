@@ -43,7 +43,9 @@ watch(() => props.volume, (val) => {
   const fill = document.getElementById('volume-fill')
   const handle = document.getElementById('volume-handle')
   if (fill) fill.style.width = `${val * 100}%`
-  if (handle) handle.style.right = `-${5 - val * 5}px`
+  if (handle) {
+    handle.style.left = `calc(${val * 100}% - 5px)`
+  }
 })
 
 watch(() => props.isMuted, (val) => {
