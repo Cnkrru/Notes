@@ -233,6 +233,21 @@
       ]
     },
     {
+      "text": "电气",
+      "collapsed": true,
+      "items": [
+        {
+          "text": "C51",
+          "collapsed": true,
+          "items": [
+            { "text": "第一章", "link": "/docs/electron/C51/第一章.md" },
+            { "text": "第二章", "link": "/docs/electron/C51/第二章.md" },
+            { "text": "256LED", "link": "/docs/electron/C51/256LED.md" }
+          ]
+        }
+      ]
+    },
+    {
       "text": "硬件",
       "collapsed": true,
       "items": [

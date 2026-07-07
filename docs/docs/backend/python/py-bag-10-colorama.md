@@ -14,9 +14,14 @@ sidebar: auto
 
 ## Py-colorama
 
-## 2. 常用函数
+## 1. 模块介绍
 
-# Python colorama包常用函数参考
+- **colorama**:用于在Python中添加ANSI颜色支持的库。
+- OK
+
+---
+
+## 2. 常用函数
 
 | 函数名 | 必选参数 | 作用 |
 |-------|---------|------|
@@ -39,7 +44,7 @@ sidebar: auto
 
 ## 常用常量
 
-### 前景色常量
+### 前景色Fore常量
 | 常量 | 作用 |
 |------|------|
 | `Fore.BLACK` | 黑色前景 |
@@ -52,7 +57,7 @@ sidebar: auto
 | `Fore.WHITE` | 白色前景 |
 | `Fore.RESET` | 重置前景色 |
 
-### 背景色常量
+### 背景色Back常量
 | 常量 | 作用 |
 |------|------|
 | `Back.BLACK` | 黑色背景 |
@@ -65,7 +70,7 @@ sidebar: auto
 | `Back.WHITE` | 白色背景 |
 | `Back.RESET` | 重置背景色 |
 
-### 样式常量
+### 样式Style常量
 | 常量 | 作用 |
 |------|------|
 | `Style.DIM` | 暗淡模式 |
@@ -73,53 +78,26 @@ sidebar: auto
 | `Style.BRIGHT` | 明亮模式 |
 | `Style.RESET_ALL` | 重置所有样式 |
 
-## 示例用法
+## 3. 示例用法
 
-### 基本用法
 ```python
 import colorama
+import logging
 
-# 初始化colorama
+# 1.初始化
 colorama.init()
 
-# 打印彩色文本
-print(colorama.Fore.RED + "红色文本" + colorama.Style.RESET_ALL)
-print(colorama.Back.GREEN + "绿色背景" + colorama.Style.RESET_ALL)
-print(colorama.Style.BRIGHT + "明亮文本" + colorama.Style.RESET_ALL)
+# 2.初始化终端日志
+logger = logging.getLogger() 
+logger.setLevel(logging.DEBUG)
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+cmd_worker = logging.StreamHandler()
+logger.addHandler(cmd_worker)
 
-# 组合使用
-print(colorama.Fore.BLUE + colorama.Back.YELLOW + "蓝底黄字" + colorama.Style.RESET_ALL)
-
-# 自动重置
-colorama.init(autoreset=True)
-print(colorama.Fore.GREEN + "绿色文本，自动重置")
-print("这行文本恢复默认颜色")
-
-# 清理
-colorama.deinit()
-```
-
-### 实际应用
-```python
-import colorama
-
-colorama.init()
-
-# 成功消息
-print(colorama.Fore.GREEN + "✓ 操作成功" + colorama.Style.RESET_ALL)
-
-# 错误消息
-print(colorama.Fore.RED + "✗ 操作失败" + colorama.Style.RESET_ALL)
-
-# 警告消息
-print(colorama.Fore.YELLOW + "⚠ 警告信息" + colorama.Style.RESET_ALL)
-
-# 信息消息
-print(colorama.Fore.CYAN + "ℹ 提示信息" + colorama.Style.RESET_ALL)
-
-# 标题样式
-print(colorama.Style.BRIGHT + colorama.Fore.BLUE + "=== 标题 ===" + colorama.Style.RESET_ALL)
-
-# 强调文本
-print(f"普通文本 {colorama.Style.BRIGHT + colorama.Fore.GREEN}强调文本{colorama.Style.RESET_ALL} 普通文本")
+# 3.测试日志+ANSI库
+logging.debug(colorama.Fore.GREEN+'这是一条调试信息')  
+logging.info(colorama.Fore.BLUE+'应用启动成功')
+logging.warning(colorama.Fore.YELLOW+'配置文件缺失，使用默认配置')
+logging.error(colorama.Fore.RED+'API调用失败: 404 Not Found')
+logging.critical(colorama.Fore.RED+'数据库连接失败') 
 ```

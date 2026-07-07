@@ -16,7 +16,8 @@ sidebar: auto
 
 ## 1. 模块介绍
 
-- **logging**日志记录
+- **logging**日志记录。
+- OK
 
 ---
 ## 2. 常用函数
