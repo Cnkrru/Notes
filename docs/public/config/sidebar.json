@@ -242,7 +242,14 @@
           "items": [
             { "text": "第一章", "link": "/docs/electron/C51/第一章.md" },
             { "text": "第二章", "link": "/docs/electron/C51/第二章.md" },
-            { "text": "256LED", "link": "/docs/electron/C51/256LED.md" }
+            { "text": "第三章", "link": "/docs/electron/C51/第三章.md" },
+            { "text": "第四章", "link": "/docs/electron/C51/第四章.md" },
+            { "text": "第五章", "link": "/docs/electron/C51/第五章.md" },
+            { "text": "第六章", "link": "/docs/electron/C51/第六章.md" },
+            { "text": "第八章", "link": "/docs/electron/C51/第八章.md" },
+            { "text": "第十章", "link": "/docs/electron/C51/第十章.md" },
+            { "text": "256LED", "link": "/docs/electron/C51/256LED.md" },
+            { "text": "考点", "link": "/docs/electron/C51/考点.md" }
           ]
         }
       ]
