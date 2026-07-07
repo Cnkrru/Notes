@@ -1,0 +1,20 @@
+;方式2，标准方波，200us
+
+ORG 0000H
+SJMP MAIN
+ORG 001BH
+SJMP INT
+ORG 0030H
+MAIN:
+    MOV TMOD,#20H
+    MOV TH1,#56
+    MOV TL1,#56
+
+    SETB EA
+    SETB ET1
+    SETB TR1
+
+    SJMP $
+INT:
+    CPL P1.0
+    RETI

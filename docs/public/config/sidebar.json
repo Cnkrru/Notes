@@ -249,7 +249,67 @@
             { "text": "第八章", "link": "/docs/electron/C51/第八章.md" },
             { "text": "第十章", "link": "/docs/electron/C51/第十章.md" },
             { "text": "256LED", "link": "/docs/electron/C51/256LED.md" },
-            { "text": "考点", "link": "/docs/electron/C51/考点.md" }
+            { "text": "考点", "link": "/docs/electron/C51/考点.md" },
+            {
+              "text": "PPT例题",
+              "collapsed": true,
+              "items": [
+                {
+                  "text": "第四章 例题",
+                  "collapsed": true,
+                  "items": [
+                    { "text": "4-1 查表(平方数)", "link": "/docs/electron/C51/PPT-4/4-1.md" },
+                    { "text": "4-2 判断大小", "link": "/docs/electron/C51/PPT-4/4-2.md" },
+                    { "text": "4-3 分段函数", "link": "/docs/electron/C51/PPT-4/4-3.md" },
+                    { "text": "4-4 循环(双指针)", "link": "/docs/electron/C51/PPT-4/4-4.md" },
+                    { "text": "4-5 延时函数", "link": "/docs/electron/C51/PPT-4/4-5.md" },
+                    { "text": "4-6 流水灯", "link": "/docs/electron/C51/PPT-4/4-6.md" },
+                    { "text": "4-7 多数求最大值", "link": "/docs/electron/C51/PPT-4/4-7.md" },
+                    { "text": "4-8 多字节加法", "link": "/docs/electron/C51/PPT-4/4-8.md" }
+                  ]
+                },
+                {
+                  "text": "第六章 例题",
+                  "collapsed": true,
+                  "items": [
+                    { "text": "6-1 方式1方波10ms", "link": "/docs/electron/C51/PPT-6/6-1.md" },
+                    { "text": "6-2 方式2方波200us", "link": "/docs/electron/C51/PPT-6/6-2.md" },
+                    { "text": "6-3 方式2计数反转", "link": "/docs/electron/C51/PPT-6/6-3.md" },
+                    { "text": "6-4 方式1流水灯", "link": "/docs/electron/C51/PPT-6/6-4.md" },
+                    { "text": "6-5 方式1 1s方波", "link": "/docs/electron/C51/PPT-6/6-5.md" },
+                    { "text": "6-6 方式2 3:1方波", "link": "/docs/electron/C51/PPT-6/6-6.md" },
+                    { "text": "6-7 启动信号方波", "link": "/docs/electron/C51/PPT-6/6-7.md" }
+                  ]
+                },
+                {
+                  "text": "第七章 例题",
+                  "collapsed": true,
+                  "items": [
+                    { "text": "7-1 甲机发送(中断)", "link": "/docs/electron/C51/PPT-7/7-1.md" },
+                    { "text": "7-2 甲机发送(查询)", "link": "/docs/electron/C51/PPT-7/7-2.md" },
+                    { "text": "7-3 乙机接收", "link": "/docs/electron/C51/PPT-7/7-3.md" }
+                  ]
+                },
+                {
+                  "text": "第八章 例题",
+                  "collapsed": true,
+                  "items": [
+                    { "text": "8-1 写6264", "link": "/docs/electron/C51/PPT-8/8-1.md" },
+                    { "text": "8-2 读6264", "link": "/docs/electron/C51/PPT-8/8-2.md" }
+                  ]
+                },
+                {
+                  "text": "第十章 例题",
+                  "collapsed": true,
+                  "items": [
+                    { "text": "10-1 锯齿波", "link": "/docs/electron/C51/PPT-10/10-1.md" },
+                    { "text": "10-2 三角波", "link": "/docs/electron/C51/PPT-10/10-2.md" },
+                    { "text": "10-3 方波", "link": "/docs/electron/C51/PPT-10/10-3.md" },
+                    { "text": "10-4 AD采样(中断)", "link": "/docs/electron/C51/PPT-10/10-4.md" }
+                  ]
+                }
+              ]
+            }
           ]
         }
       ]

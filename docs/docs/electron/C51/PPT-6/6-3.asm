@@ -1,0 +1,24 @@
+;方式2，每100个数反转一次
+;计数和多少us反转一次都一样
+
+ORG 0000H
+SJMP MAIN
+ORG 001BH
+SJMP INT
+ORG 0030H
+
+MAIN:
+    MOV TMOD,#06H
+    MOV TH1,#156
+    MOV TL1,#156
+
+    SETB EA
+    SETB ET1
+    SETB TR1
+
+    SJMP $
+
+INT:
+    CPL P1.0
+    RETI
+    END

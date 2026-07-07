@@ -1,0 +1,29 @@
+;方式2，高:低=3：1，400us
+;思路1，赋不同初始值反转
+
+ORG 0000H
+SJMP MAIN 
+ORG 001BH
+SJMP INT
+ORG 0030H
+
+MAIN:
+    MOV TMOD,#
+    MOV TL1,#106
+
+    SETB EA
+    SETB ET1
+    SETB TR1
+
+    SJMP $
+
+INT:
+    JB P1.0,LOW_TIME
+    MOV TL1,#106
+    SJMP NEXT
+LOW_TIME:
+    MOV TL1,#206
+NEXT:
+    CPL  P1.0
+    RETI
+    END
