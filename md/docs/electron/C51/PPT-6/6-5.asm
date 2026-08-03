@@ -1,0 +1,30 @@
+;方式1，1s，2s方波，100ms*10
+;先跑10次100ms
+;根据R7判断是否反转
+ORG 0000H
+SJMP MAIN
+ORG 001BH
+SJMP INT
+ORG 0030H
+MAIN:
+    MOV TMOD,#01H 
+    MOV TH1,#3CH
+    MOV TL1,#0B0H
+
+    MOV R7,#10
+
+    SETB EA
+    SETB ET1
+    SETB TR1
+
+    SJMP $
+INT:
+    DJNZ R7,LOOP
+    CPL P1.0
+    MOV R7,#10
+
+LOOP:
+    MOV TH1,#3CH
+    MOV TL1,#0B0H
+    RETI
+    END
