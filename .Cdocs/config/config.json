@@ -22,6 +22,17 @@
     },
     "route": {
       "md": "route/docs.json"
+    },
+    "home": {
+      "hero": {
+        "title": "Cnkrru'notes",
+        "subtitle": "后端 / 前端 / 框架 / 电气 / 硬件 / 数据格式等技术笔记知识库",
+        "cta": {
+          "text": "开始阅读",
+          "file": "docs/index"
+        }
+      },
+      "cards": false
     }
   },
   "head": {
