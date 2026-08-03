@@ -1,0 +1,1027 @@
+{
+  "sidebar": [
+    {
+      "title": "文档索引",
+      "file": "docs/index"
+    },
+    {
+      "title": "后端",
+      "items": [
+        {
+          "title": "Python",
+          "items": [
+            {
+              "title": "基础知识",
+              "file": "docs/backend/python/py-1-基础知识"
+            },
+            {
+              "title": "数据存储",
+              "file": "docs/backend/python/py-2-数据存储"
+            },
+            {
+              "title": "数据操作",
+              "file": "docs/backend/python/py-3-数据操作"
+            },
+            {
+              "title": "面向对象",
+              "file": "docs/backend/python/py-4-面向对象"
+            },
+            {
+              "title": "文件操作",
+              "file": "docs/backend/python/py-5-文件操作"
+            },
+            {
+              "title": "OS",
+              "file": "docs/backend/python/py-bag-1-OS"
+            },
+            {
+              "title": "Sys",
+              "file": "docs/backend/python/py-bag-2-Sys"
+            },
+            {
+              "title": "Hashlib",
+              "file": "docs/backend/python/py-bag-3-Hashlib"
+            },
+            {
+              "title": "Math",
+              "file": "docs/backend/python/py-bag-4-Math"
+            },
+            {
+              "title": "Time-Datetime",
+              "file": "docs/backend/python/py-bag-5-Time-Datetime"
+            },
+            {
+              "title": "Logging",
+              "file": "docs/backend/python/py-bag-6-Logging"
+            },
+            {
+              "title": "Pillow",
+              "file": "docs/backend/python/py-bag-7-Pillow"
+            },
+            {
+              "title": "Re",
+              "file": "docs/backend/python/py-bag-8-Re"
+            },
+            {
+              "title": "Tqdm",
+              "file": "docs/backend/python/py-bag-9-Tqdm"
+            },
+            {
+              "title": "colorama",
+              "file": "docs/backend/python/py-bag-10-colorama"
+            },
+            {
+              "title": "office-csv",
+              "file": "docs/backend/python/py-bag-11-office-csv"
+            },
+            {
+              "title": "office-docx",
+              "file": "docs/backend/python/py-bag-12-office-docx"
+            },
+            {
+              "title": "office-excel",
+              "file": "docs/backend/python/py-bag-13-office-excel"
+            },
+            {
+              "title": "office-json",
+              "file": "docs/backend/python/py-bag-14-office-json"
+            },
+            {
+              "title": "office-pdf",
+              "file": "docs/backend/python/py-bag-15-office-pdf"
+            },
+            {
+              "title": "auto-keyboard",
+              "file": "docs/backend/python/py-bag-16-auto-keyboard"
+            },
+            {
+              "title": "auto-mouse",
+              "file": "docs/backend/python/py-bag-17-auto-mouse"
+            },
+            {
+              "title": "auto-shutil",
+              "file": "docs/backend/python/py-bag-18-auto-shutil"
+            },
+            {
+              "title": "auto-pyautogui",
+              "file": "docs/backend/python/py-bag-19-auto-pyautogui"
+            },
+            {
+              "title": "spider-requests",
+              "file": "docs/backend/python/py-bag-20-spider-requests"
+            },
+            {
+              "title": "spider-beautifulsoup4",
+              "file": "docs/backend/python/py-bag-21-spider-beautifulsoup4"
+            },
+            {
+              "title": "spider-selenium",
+              "file": "docs/backend/python/py-bag-22-spider-selenium"
+            }
+          ]
+        },
+        {
+          "title": "C语言",
+          "items": [
+            {
+              "title": "数据存储",
+              "file": "docs/backend/C/c-1-数据存储"
+            },
+            {
+              "title": "IO与流程控制",
+              "file": "docs/backend/C/c-2-IO与流程控制"
+            },
+            {
+              "title": "函数",
+              "file": "docs/backend/C/c-3-函数"
+            },
+            {
+              "title": "指针",
+              "file": "docs/backend/C/c-4-指针"
+            },
+            {
+              "title": "位运算",
+              "file": "docs/backend/C/c-5-位运算"
+            },
+            {
+              "title": "文件操作",
+              "file": "docs/backend/C/c-6-文件操作"
+            },
+            {
+              "title": "字符串操作",
+              "file": "docs/backend/C/c-7-字符串操作"
+            },
+            {
+              "title": "内存模型",
+              "file": "docs/backend/C/c-8-内存模型"
+            }
+          ]
+        },
+        {
+          "title": "JavaScript",
+          "items": [
+            {
+              "title": "数据存储",
+              "file": "docs/backend/javascript/js-1-数据存储"
+            },
+            {
+              "title": "数据处理",
+              "file": "docs/backend/javascript/js-2-数据处理"
+            },
+            {
+              "title": "作用域链",
+              "file": "docs/backend/javascript/js-3-作用域链"
+            },
+            {
+              "title": "闭包",
+              "file": "docs/backend/javascript/js-4-闭包"
+            },
+            {
+              "title": "变量or函数提升",
+              "file": "docs/backend/javascript/js-5-变量or函数提升"
+            },
+            {
+              "title": "参数and展开运算符",
+              "file": "docs/backend/javascript/js-6-参数and展开运算符"
+            }
+          ]
+        },
+        {
+          "title": "Shell",
+          "items": [
+            {
+              "title": "基础操作与变量",
+              "file": "docs/backend/shell/shell-1-基础操作与变量"
+            },
+            {
+              "title": "运算符与流程控制",
+              "file": "docs/backend/shell/shell-2-运算符与流程控制"
+            },
+            {
+              "title": "命令与函数",
+              "file": "docs/backend/shell/shell-3-命令与函数"
+            },
+            {
+              "title": "文本处理工具",
+              "file": "docs/backend/shell/shell-4-文本处理工具"
+            }
+          ]
+        },
+        {
+          "title": "正则表达式",
+          "items": [
+            {
+              "title": "基础",
+              "file": "docs/backend/regex/regex-1-基础"
+            },
+            {
+              "title": "元字符",
+              "file": "docs/backend/regex/regex-2-元字符"
+            },
+            {
+              "title": "方法",
+              "file": "docs/backend/regex/regex-3-方法"
+            },
+            {
+              "title": "分组",
+              "file": "docs/backend/regex/regex-4-分组"
+            }
+          ]
+        },
+        {
+          "title": "Rust",
+          "items": [
+            {
+              "title": "数据存储",
+              "file": "docs/backend/rust/rust-1-数据存储"
+            },
+            {
+              "title": "数据操作",
+              "file": "docs/backend/rust/rust-2-数据操作"
+            },
+            {
+              "title": "迭代器",
+              "file": "docs/backend/rust/rust-3-迭代器"
+            },
+            {
+              "title": "闭包",
+              "file": "docs/backend/rust/rust-4-闭包"
+            }
+          ]
+        },
+        {
+          "title": "算法",
+          "items": [
+            {
+              "title": "时间复杂度分析",
+              "file": "docs/backend/algorithm/algorithm-1-时间复杂度分析"
+            },
+            {
+              "title": "数据结构",
+              "file": "docs/backend/algorithm/algorithm-2-数据结构"
+            }
+          ]
+        },
+        {
+          "title": "力扣",
+          "items": [
+            {
+              "title": "两数之和",
+              "file": "docs/backend/leetcode/leetcode-1-两数之和"
+            },
+            {
+              "title": "两数相加",
+              "file": "docs/backend/leetcode/leetcode-2-两数相加"
+            }
+          ]
+        },
+        {
+          "title": "AJAX",
+          "items": [
+            {
+              "title": "HTTP基础",
+              "file": "docs/backend/ajax/ajax-1-HTTP基础"
+            },
+            {
+              "title": "axios使用",
+              "file": "docs/backend/ajax/ajax-2-axios使用"
+            },
+            {
+              "title": "XMLHttpRequest",
+              "file": "docs/backend/ajax/ajax-3-XMLHttpRequest"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "框架",
+      "items": [
+        {
+          "title": "Vue",
+          "items": [
+            {
+              "title": "创建工程",
+              "file": "docs/框架/vue/vue-1-创建工程"
+            },
+            {
+              "title": "组件导入导出",
+              "file": "docs/框架/vue/vue-2-组件导入导出"
+            },
+            {
+              "title": "组合式与选项式 API",
+              "file": "docs/框架/vue/vue-3-组合式与选项式API"
+            },
+            {
+              "title": "响应式数据",
+              "file": "docs/框架/vue/vue-4-响应式数据"
+            },
+            {
+              "title": "解构响应式数据",
+              "file": "docs/框架/vue/vue-5-解构响应式数据"
+            },
+            {
+              "title": "computed计算属性",
+              "file": "docs/框架/vue/vue-6-computer计算属性"
+            },
+            {
+              "title": "watch监听属性",
+              "file": "docs/框架/vue/vue-7-watch监听属性"
+            },
+            {
+              "title": "watchEffect",
+              "file": "docs/框架/vue/vue-8-watchEffect"
+            },
+            {
+              "title": "标签的ref属性",
+              "file": "docs/框架/vue/vue-9-标签的ref属性"
+            },
+            {
+              "title": "TS",
+              "file": "docs/框架/vue/vue-10-TS"
+            },
+            {
+              "title": "props",
+              "file": "docs/框架/vue/vue-11-props"
+            },
+            {
+              "title": "生命周期",
+              "file": "docs/框架/vue/vue-12-生命周期"
+            },
+            {
+              "title": "hooks钩子",
+              "file": "docs/框架/vue/vue-13-hooks钩子"
+            },
+            {
+              "title": "路由",
+              "file": "docs/框架/vue/vue-14-路由"
+            }
+          ]
+        },
+        {
+          "title": "FastAPI",
+          "items": [
+            {
+              "title": "FastAPI",
+              "file": "docs/框架/fastAPI/fastapi-1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "前端",
+      "items": [
+        {
+          "title": "HTML",
+          "items": [
+            {
+              "title": "文本-多媒体",
+              "file": "docs/frontend/html/html-1-文本-多媒体"
+            },
+            {
+              "title": "列表-表格-表单",
+              "file": "docs/frontend/html/html-2-列表-表格-表单"
+            },
+            {
+              "title": "路径",
+              "file": "docs/frontend/html/html-3-路径"
+            }
+          ]
+        },
+        {
+          "title": "CSS",
+          "items": [
+            {
+              "title": "选择器",
+              "file": "docs/frontend/css/css-基础-1-选择器"
+            },
+            {
+              "title": "字体样式",
+              "file": "docs/frontend/css/css-基础-2-字体样式"
+            },
+            {
+              "title": "盒子模型",
+              "file": "docs/frontend/css/css-基础-3-盒子模型"
+            },
+            {
+              "title": "背景图设置",
+              "file": "docs/frontend/css/css-基础-4-背景图设置"
+            },
+            {
+              "title": "Flex",
+              "file": "docs/frontend/css/css-基础-5-Flex"
+            },
+            {
+              "title": "盒子显示属性",
+              "file": "docs/frontend/css/css-基础-6-盒子显示属性"
+            },
+            {
+              "title": "定位",
+              "file": "docs/frontend/css/css-基础-7-定位"
+            },
+            {
+              "title": "水平-竖直居中方式",
+              "file": "docs/frontend/css/css-基础-8-水平-竖直居中方式"
+            },
+            {
+              "title": "CSS精灵",
+              "file": "docs/frontend/css/css-基础-9-CSS精灵"
+            },
+            {
+              "title": "字体图标-fontAwesome",
+              "file": "docs/frontend/css/css-基础-10-字体图标-fontAwesome"
+            },
+            {
+              "title": "过渡效果",
+              "file": "docs/frontend/css/css-基础-11-过渡效果"
+            },
+            {
+              "title": "透明效果",
+              "file": "docs/frontend/css/css-基础-12-透明效果"
+            },
+            {
+              "title": "鼠标光标属性",
+              "file": "docs/frontend/css/css-基础-13-鼠标光标属性"
+            },
+            {
+              "title": "Favicon实现",
+              "file": "docs/frontend/css/css-基础-14-Favicon实现"
+            },
+            {
+              "title": "SEO",
+              "file": "docs/frontend/css/css-基础-15-SEO"
+            },
+            {
+              "title": "transform-2D",
+              "file": "docs/frontend/css/css-基础-16-transform-2D"
+            },
+            {
+              "title": "transform-3D",
+              "file": "docs/frontend/css/css-基础-17-transform-3D"
+            },
+            {
+              "title": "渐变",
+              "file": "docs/frontend/css/css-基础-18-渐变"
+            },
+            {
+              "title": "动画",
+              "file": "docs/frontend/css/css-基础-19-动画"
+            },
+            {
+              "title": "相对单位-rem与vm、vh",
+              "file": "docs/frontend/css/css-基础-20-相对单位-rem与vm、vh"
+            },
+            {
+              "title": "less",
+              "file": "docs/frontend/css/css-基础-21-less"
+            },
+            {
+              "title": "多列",
+              "file": "docs/frontend/css/css-基础-22-多列"
+            },
+            {
+              "title": "CSS三大特性",
+              "file": "docs/frontend/css/css-基础-23-CSS三大特性"
+            },
+            {
+              "title": "响应式设计",
+              "file": "docs/frontend/css/css-基础-24-响应式设计"
+            },
+            {
+              "title": "FontAwesome",
+              "file": "docs/frontend/css/css-基础-25-FontAwesome"
+            },
+            {
+              "title": "双开门",
+              "file": "docs/frontend/css/css-特效-1-双开门"
+            },
+            {
+              "title": "视频播放特效",
+              "file": "docs/frontend/css/css-特效-2-视频播放特效"
+            },
+            {
+              "title": "线性渐变",
+              "file": "docs/frontend/css/css-特效-3-线性渐变"
+            },
+            {
+              "title": "3D导航",
+              "file": "docs/frontend/css/css-特效-4-3D导航"
+            }
+          ]
+        },
+        {
+          "title": "JavaScript (DOM)",
+          "items": [
+            {
+              "title": "BOM",
+              "file": "docs/frontend/javascript/js-dom-1-BOM"
+            },
+            {
+              "title": "GC机制",
+              "file": "docs/frontend/javascript/js-dom-2-GC机制"
+            },
+            {
+              "title": "js异步",
+              "file": "docs/frontend/javascript/js-dom-3-js异步"
+            },
+            {
+              "title": "DOM基础",
+              "file": "docs/frontend/javascript/js-dom-4-DOM基础"
+            },
+            {
+              "title": "获取CSS选择器",
+              "file": "docs/frontend/javascript/js-dom-5-获取CSS选择器"
+            },
+            {
+              "title": "修改标签文本",
+              "file": "docs/frontend/javascript/js-dom-6-修改标签文本"
+            },
+            {
+              "title": "修改选择器属性",
+              "file": "docs/frontend/javascript/js-dom-7-修改选择器属性"
+            },
+            {
+              "title": "修改表单属性",
+              "file": "docs/frontend/javascript/js-dom-8-修改表单属性"
+            },
+            {
+              "title": "自定义属性",
+              "file": "docs/frontend/javascript/js-dom-9-自定义属性"
+            },
+            {
+              "title": "定时器-loop or once",
+              "file": "docs/frontend/javascript/js-dom-10-定时器-loop or once"
+            },
+            {
+              "title": "事件（键鼠监听）",
+              "file": "docs/frontend/javascript/js-dom-11-事件（键鼠监听）"
+            },
+            {
+              "title": "事件（事件绑定）",
+              "file": "docs/frontend/javascript/js-dom-12-事件（事件绑定）"
+            },
+            {
+              "title": "事件（加载-滚动-尺寸）",
+              "file": "docs/frontend/javascript/js-dom-13-事件（加载-滚动-尺寸）"
+            },
+            {
+              "title": "DOM增删查",
+              "file": "docs/frontend/javascript/js-dom-14-DOM增删查"
+            },
+            {
+              "title": "location对象",
+              "file": "docs/frontend/javascript/js-dom-15-location对象"
+            },
+            {
+              "title": "nvaigator对象",
+              "file": "docs/frontend/javascript/js-dom-16-nvaigator对象"
+            },
+            {
+              "title": "history对象",
+              "file": "docs/frontend/javascript/js-dom-17-history对象"
+            },
+            {
+              "title": "本地存储",
+              "file": "docs/frontend/javascript/js-dom-18-本地存储"
+            },
+            {
+              "title": "this对象",
+              "file": "docs/frontend/javascript/js-dom-19-this对象"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "电气",
+      "items": [
+        {
+          "title": "C51",
+          "items": [
+            {
+              "title": "第一章",
+              "file": "docs/electron/C51/第一章"
+            },
+            {
+              "title": "第二章",
+              "file": "docs/electron/C51/第二章"
+            },
+            {
+              "title": "第三章",
+              "file": "docs/electron/C51/第三章"
+            },
+            {
+              "title": "第四章",
+              "file": "docs/electron/C51/第四章"
+            },
+            {
+              "title": "第五章",
+              "file": "docs/electron/C51/第五章"
+            },
+            {
+              "title": "第六章",
+              "file": "docs/electron/C51/第六章"
+            },
+            {
+              "title": "第八章",
+              "file": "docs/electron/C51/第八章"
+            },
+            {
+              "title": "第十章",
+              "file": "docs/electron/C51/第十章"
+            },
+            {
+              "title": "256LED",
+              "file": "docs/electron/C51/256LED"
+            },
+            {
+              "title": "考点",
+              "file": "docs/electron/C51/考点"
+            },
+            {
+              "title": "PPT例题",
+              "items": [
+                {
+                  "title": "第四章 例题",
+                  "items": [
+                    {
+                      "title": "4-1 查表(平方数)",
+                      "file": "docs/electron/C51/PPT-4/4-1"
+                    },
+                    {
+                      "title": "4-2 判断大小",
+                      "file": "docs/electron/C51/PPT-4/4-2"
+                    },
+                    {
+                      "title": "4-3 分段函数",
+                      "file": "docs/electron/C51/PPT-4/4-3"
+                    },
+                    {
+                      "title": "4-4 循环(双指针)",
+                      "file": "docs/electron/C51/PPT-4/4-4"
+                    },
+                    {
+                      "title": "4-5 延时函数",
+                      "file": "docs/electron/C51/PPT-4/4-5"
+                    },
+                    {
+                      "title": "4-6 流水灯",
+                      "file": "docs/electron/C51/PPT-4/4-6"
+                    },
+                    {
+                      "title": "4-7 多数求最大值",
+                      "file": "docs/electron/C51/PPT-4/4-7"
+                    },
+                    {
+                      "title": "4-8 多字节加法",
+                      "file": "docs/electron/C51/PPT-4/4-8"
+                    }
+                  ]
+                },
+                {
+                  "title": "第六章 例题",
+                  "items": [
+                    {
+                      "title": "6-1 方式1方波10ms",
+                      "file": "docs/electron/C51/PPT-6/6-1"
+                    },
+                    {
+                      "title": "6-2 方式2方波200us",
+                      "file": "docs/electron/C51/PPT-6/6-2"
+                    },
+                    {
+                      "title": "6-3 方式2计数反转",
+                      "file": "docs/electron/C51/PPT-6/6-3"
+                    },
+                    {
+                      "title": "6-4 方式1流水灯",
+                      "file": "docs/electron/C51/PPT-6/6-4"
+                    },
+                    {
+                      "title": "6-5 方式1 1s方波",
+                      "file": "docs/electron/C51/PPT-6/6-5"
+                    },
+                    {
+                      "title": "6-6 方式2 3:1方波",
+                      "file": "docs/electron/C51/PPT-6/6-6"
+                    },
+                    {
+                      "title": "6-7 启动信号方波",
+                      "file": "docs/electron/C51/PPT-6/6-7"
+                    }
+                  ]
+                },
+                {
+                  "title": "第七章 例题",
+                  "items": [
+                    {
+                      "title": "7-1 甲机发送(中断)",
+                      "file": "docs/electron/C51/PPT-7/7-1"
+                    },
+                    {
+                      "title": "7-2 甲机发送(查询)",
+                      "file": "docs/electron/C51/PPT-7/7-2"
+                    },
+                    {
+                      "title": "7-3 乙机接收",
+                      "file": "docs/electron/C51/PPT-7/7-3"
+                    }
+                  ]
+                },
+                {
+                  "title": "第八章 例题",
+                  "items": [
+                    {
+                      "title": "8-1 写6264",
+                      "file": "docs/electron/C51/PPT-8/8-1"
+                    },
+                    {
+                      "title": "8-2 读6264",
+                      "file": "docs/electron/C51/PPT-8/8-2"
+                    }
+                  ]
+                },
+                {
+                  "title": "第十章 例题",
+                  "items": [
+                    {
+                      "title": "10-1 锯齿波",
+                      "file": "docs/electron/C51/PPT-10/10-1"
+                    },
+                    {
+                      "title": "10-2 三角波",
+                      "file": "docs/electron/C51/PPT-10/10-2"
+                    },
+                    {
+                      "title": "10-3 方波",
+                      "file": "docs/electron/C51/PPT-10/10-3"
+                    },
+                    {
+                      "title": "10-4 AD采样(中断)",
+                      "file": "docs/electron/C51/PPT-10/10-4"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "硬件",
+      "items": [
+        {
+          "title": "OpenMV",
+          "items": [
+            {
+              "title": "sensor",
+              "file": "docs/hardware/openmv/openmv-1-sensor"
+            },
+            {
+              "title": "img",
+              "file": "docs/hardware/openmv/openmv-2-img"
+            }
+          ]
+        },
+        {
+          "title": "STM32",
+          "items": [
+            {
+              "title": "工程复用",
+              "file": "docs/hardware/stm32/stm32-1-工程复用"
+            },
+            {
+              "title": "STM32F103C8T6外设资源",
+              "file": "docs/hardware/stm32/stm32-2-STM32F103C8T6外设资源"
+            },
+            {
+              "title": "GPIO",
+              "file": "docs/hardware/stm32/stm32-3-GPIO"
+            },
+            {
+              "title": "OLED-旋转编码器-舵机-电机",
+              "file": "docs/hardware/stm32/stm32-4-OLED 旋转编码器 舵机 电机"
+            },
+            {
+              "title": "外部中断与EXTI",
+              "file": "docs/hardware/stm32/stm32-5-外部中断与EXTI"
+            },
+            {
+              "title": "TIM",
+              "file": "docs/hardware/stm32/stm32-6-TIM"
+            },
+            {
+              "title": "OC-PWM",
+              "file": "docs/hardware/stm32/stm32-7-OC PWM"
+            },
+            {
+              "title": "IC-PWM",
+              "file": "docs/hardware/stm32/stm32-8-IC PWM"
+            },
+            {
+              "title": "TIM编码器",
+              "file": "docs/hardware/stm32/stm32-9-TIM编码器"
+            },
+            {
+              "title": "ADC数模转换",
+              "file": "docs/hardware/stm32/stm32-10-ADC数模转换"
+            },
+            {
+              "title": "DMA",
+              "file": "docs/hardware/stm32/stm32-11-DMA"
+            },
+            {
+              "title": "串口与USART",
+              "file": "docs/hardware/stm32/stm32-12-串口与USART"
+            },
+            {
+              "title": "I2C",
+              "file": "docs/hardware/stm32/stm32-13-I2C"
+            },
+            {
+              "title": "MPU6050",
+              "file": "docs/hardware/stm32/stm32-14-MPU6050"
+            },
+            {
+              "title": "SPI",
+              "file": "docs/hardware/stm32/stm32-15-SPI"
+            },
+            {
+              "title": "W25Q64",
+              "file": "docs/hardware/stm32/stm32-16-W25Q64"
+            },
+            {
+              "title": "时间戳",
+              "file": "docs/hardware/stm32/stm32-17-时间戳"
+            },
+            {
+              "title": "BKP",
+              "file": "docs/hardware/stm32/stm32-18-BKP"
+            },
+            {
+              "title": "RTC",
+              "file": "docs/hardware/stm32/stm32-19-RTC"
+            },
+            {
+              "title": "PWR",
+              "file": "docs/hardware/stm32/stm32-20-PWR"
+            },
+            {
+              "title": "BKP与RTC与PWR",
+              "file": "docs/hardware/stm32/stm32-21-BKP与RTC与PWR"
+            },
+            {
+              "title": "看门狗",
+              "file": "docs/hardware/stm32/stm32-22-看门狗"
+            },
+            {
+              "title": "Flash",
+              "file": "docs/hardware/stm32/stm32-23-Flash"
+            },
+            {
+              "title": "ST命名规则",
+              "file": "docs/hardware/stm32/stm32-24-ST命名规则"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "数据",
+      "items": [
+        {
+          "title": "ASCII码表",
+          "file": "docs/data/ds-1-ASCII码表"
+        },
+        {
+          "title": "CSV",
+          "file": "docs/data/ds-2-CSV"
+        },
+        {
+          "title": "JSON",
+          "file": "docs/data/ds-3-JSON"
+        },
+        {
+          "title": "LOG",
+          "file": "docs/data/ds-4-LOG"
+        },
+        {
+          "title": "Markdown",
+          "file": "docs/data/ds-5-Markdown"
+        },
+        {
+          "title": "SQL",
+          "file": "docs/data/ds-6-SQL"
+        },
+        {
+          "title": "Toml",
+          "file": "docs/data/ds-7-Toml"
+        },
+        {
+          "title": "XML",
+          "file": "docs/data/ds-8-XML"
+        },
+        {
+          "title": "config",
+          "file": "docs/data/ds-9-config"
+        },
+        {
+          "title": "ini",
+          "file": "docs/data/ds-10-ini"
+        },
+        {
+          "title": "yaml",
+          "file": "docs/data/ds-11-yaml"
+        },
+        {
+          "title": "常见文件类型",
+          "file": "docs/data/ds-12-常见文件类型"
+        },
+        {
+          "title": "数据库类型",
+          "file": "docs/data/ds-13-数据库类型"
+        }
+      ]
+    },
+    {
+      "title": "其他",
+      "items": [
+        {
+          "title": "博客开发笔记",
+          "file": "docs/other/other-1-博客开发笔记"
+        },
+        {
+          "title": "电脑硬件知识",
+          "file": "docs/other/other-2-电脑硬件知识"
+        },
+        {
+          "title": "PS完全教程",
+          "file": "docs/other/other-3-PS完全教程"
+        }
+      ]
+    },
+    {
+      "title": "代码",
+      "items": [
+        {
+          "title": "樱花特效",
+          "file": "docs/code/code-1-樱花特效"
+        },
+        {
+          "title": "雪花特效",
+          "file": "docs/code/code-2-雪花特效"
+        }
+      ]
+    },
+    {
+      "title": "Skills",
+      "items": [
+        {
+          "title": "概览",
+          "file": "docs/skills/index"
+        },
+        {
+          "title": "vitepress-builder",
+          "items": [
+            {
+              "title": "概览",
+              "file": "docs/skills/vitepress-builder/index"
+            },
+            {
+              "title": "SKILL",
+              "file": "docs/skills/vitepress-builder/SKILL"
+            }
+          ]
+        },
+        {
+          "title": "command-kit",
+          "items": [
+            {
+              "title": "概览",
+              "file": "docs/skills/command-kit/index"
+            },
+            {
+              "title": "SKILL",
+              "file": "docs/skills/command-kit/SKILL"
+            }
+          ]
+        },
+        {
+          "title": "css-formatter",
+          "items": [
+            {
+              "title": "概览",
+              "file": "docs/skills/css-formatter/index"
+            },
+            {
+              "title": "SKILL",
+              "file": "docs/skills/css-formatter/SKILL"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
