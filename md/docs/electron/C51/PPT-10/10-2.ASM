@@ -1,0 +1,15 @@
+
+ORG 0000H
+MAIN:
+    MOV DPTR,#0000H
+    MOV A.#00H 
+UP:
+    MOVX @DPTR,A 
+    INC A
+    JNZ UP
+DOWN:
+    DEC A 
+    MOVX @DPPTR.A
+    JNZ DOWN
+    SJMP UP
+    END

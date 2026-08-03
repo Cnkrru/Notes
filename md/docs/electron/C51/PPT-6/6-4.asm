@@ -1,0 +1,29 @@
+;方式1，流水灯,环移方式
+ORG 0000H
+SJMP MAIN
+ORG 001BH
+SJMP INT
+ORG 0030H
+
+MAIN:
+    MOV TMOD,#10H
+    MOV TH1,#0D8H
+    MOV TL1,#0F0H
+
+    MOV A,#0FEH
+    MOV P1,A 
+
+    SETB EA
+    SETB ET1
+    SETB TR1
+
+    SJMP $
+INT:
+    RL A 
+    MOV P1,A 
+    MOV TH1,#0D8H
+    MOV TL1,#0F0H
+    RETI 
+    END
+
+
