@@ -1,0 +1,30 @@
+;乙机接收
+
+ORG 0000H
+SJMP MAIN
+ORG 0023H
+SJMP INT    
+ORG 0030H
+
+MAIN:
+    MOV TMOD,#20H
+    MOV TH1,#0F4H
+    MOV TL1,#0F4H
+
+    MOV SCON,#00H 
+    MOV PCON,#50H
+
+    SETB EA
+    SETB ES
+    SETB TR1
+
+    SJMP $
+
+INT:
+    CLR RI
+    MOV 20H,SUBF
+    CLR ES
+    CLR EA
+    RETI 
+    END
+
