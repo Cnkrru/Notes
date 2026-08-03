@@ -1,0 +1,44 @@
+# Cdocs 自动部署：源码 push 后自动构建并发布到 GitHub Pages
+# 由 Cdocs deploy --setup 的 github-pages 插件生成（引擎插件化，改引擎不涉及本文件）
+# 依赖：仓库 Settings → Pages → Build and deployment → Source 选 "GitHub Actions"
+# 说明：本仓库使用仓库内 Linux 版生成器 Cdocs-linux 直接构建（无 C++ 源码，免编译）。
+#        Cdocs-linux 由 Cdocs 主仓库的 Build Linux Binary 工作流维护，升级时手动同步。
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 生成静态站点（Cdocs-linux 构建，无需编译源码）
+        run: chmod +x Cdocs-linux && ./Cdocs-linux build
+
+      - name: 上传产物
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
