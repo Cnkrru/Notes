@@ -1,0 +1,151 @@
+/* ============================================================
+   Topbar — 顶栏（品牌 + 搜索 + 主题切换 + 阅读进度条）
+   ============================================================ */
+
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--topbar-height);
+    background: var(--topbar-bg);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    backdrop-filter: saturate(180%) blur(16px);
+    border-bottom: 1px solid var(--border-light);
+    transition: background var(--duration-normal) var(--ease-out),
+                border-color var(--duration-normal) var(--ease-out);
+}
+
+.reading-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: var(--progress-height);
+    background: var(--accent);
+    border-radius: 0 1px 0 0;
+    width: 0%;
+    transition: width 0.1s linear;
+    z-index: 101;
+}
+
+.topbar .container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.brand {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-serif);
+    flex-shrink: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+.brand:hover { opacity: 0.8; color: var(--text); }
+
+.nav-links {
+    display: flex;
+    gap: var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-links a:hover {
+    color: var(--accent);
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-muted);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+}
+.theme-toggle:hover {
+    background: var(--bg-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--glow);
+}
+
+.theme-toggle svg,
+.menu-toggle svg {
+    display: block;
+    width: 16px;
+    height: 16px;
+}
+
+html:not([data-theme="dark"]) .icon-sun { display: none; }
+html[data-theme="dark"] .icon-moon { display: none; }
+
+.menu-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: background var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+}
+.menu-toggle:hover {
+    background: var(--bg-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+@media (max-width: 768px) {
+    .menu-toggle { display: inline-flex; }
+    .nav-links {
+        position: absolute;
+        top: var(--topbar-height);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: var(--bg-card);
+        border-bottom: 1px solid var(--border);
+        padding: var(--space-2) var(--space-6);
+        display: none;
+        box-shadow: var(--shadow-md);
+    }
+    .nav-links li { padding: var(--space-2) 0; }
+    .nav-links.open { display: flex; }
+}
