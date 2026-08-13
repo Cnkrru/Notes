@@ -1,0 +1,19 @@
+;采样，中断
+
+ORG 0000H
+SJMP MAIN
+ORG 0013H
+SJMP INT
+ORG 0030H
+MAIN:
+    MOV DPTR,#0000H
+    MOV A,#00H 
+
+    SETB EA
+    SETB EX1 
+    SETB IX
+
+    MOVX @DPTR,A
+INT:
+    MOVX A,@DPTR
+    MOV 30H,A 

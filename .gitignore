@@ -1,0 +1,13 @@
+# 构建产物
+dist/
+.build/
+
+# 生成器二进制
+Cdocs.exe
+
+# 旧 VitePress 目录（迁移备份，待清理）——仅仓库根，避免误伤 md/docs/
+/docs/
+
+# 系统文件
+Thumbs.db
+.DS_Store

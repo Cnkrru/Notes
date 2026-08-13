@@ -1,0 +1,14 @@
+;写6264
+ORG 0000H
+MAIN:
+    MOV DPTR 0000H
+    MOV R0,#20H
+    MOV R7,#16
+LOOP:
+    MOVX A,@DPTR
+    MOV @R0,A 
+    INC R0
+    INC DPTR
+    DJNZ R7,LOOP
+    SJMP $
+    END

@@ -1,0 +1,7 @@
+{
+  "site_author": "Cdocs 团队",
+  "products": [
+    { "name": "Cdocs 生成器", "price": "免费" },
+    { "name": "Cdocs 主题包", "price": "开源" }
+  ]
+}
