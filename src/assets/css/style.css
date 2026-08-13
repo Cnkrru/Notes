@@ -1,0 +1,49 @@
+@import url("./var.css");
+@import url("./base.css");
+@import url("./doc.css");
+@import url("./codeblock.css");
+
+/* ============================================================
+   共用按钮（HomePage 与 NotFound 共用）
+   ============================================================ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: var(--radius);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background var(--duration-fast) var(--ease-out),
+                color var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-normal) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out);
+    cursor: pointer;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 2px 8px var(--accent-soft);
+}
+.btn-primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+    box-shadow: 0 4px 16px var(--accent-soft);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: var(--bg-card);
+}
+.btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--glow);
+    transform: translateY(-1px);
+}
