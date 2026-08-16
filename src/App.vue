@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useThemeStore } from './stores'
+import { useThemeStore, useLayoutStore } from './stores'
 import './assets/css/style.css'
 import TopBar from './components/TopBar.vue'
 import FooterSection from './components/FooterSection.vue'
 import BackToTop from './components/BackToTop.vue'
+import ToastHost from './components/content/ToastHost.vue'
 
 const themeStore = useThemeStore()
+const layoutStore = useLayoutStore()
 
 onMounted(() => {
   themeStore.initTheme()
+  layoutStore.initLayout()
 })
 </script>
 
@@ -25,6 +28,7 @@ onMounted(() => {
     </main>
     <FooterSection />
     <BackToTop />
+    <ToastHost />
   </div>
 </template>
 

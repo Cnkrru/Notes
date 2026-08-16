@@ -110,9 +110,6 @@ onUnmounted(() => {
               <a class="search-item" @click.prevent="goToDoc(result.doc)" href="#">
                 <div class="search-item-title" v-html="highlightText(result.doc.title, searchQuery)"></div>
                 <div class="search-item-desc" v-if="getMatchSnippet(result.matches, searchQuery)" v-html="highlightText(getMatchSnippet(result.matches, searchQuery), searchQuery)"></div>
-                <div class="search-item-tags" v-if="result.doc.tags && result.doc.tags.length > 0">
-                  <span class="search-item-tag" v-for="tag in result.doc.tags" :key="tag">{{ tag }}</span>
-                </div>
               </a>
             </li>
           </ul>

@@ -2,18 +2,14 @@ import type { DocMeta, DocTreeNode, TocItem } from '@/types'
 
 /**
  * 扫描 docs 目录下的所有 markdown 文件，构建文档树
+ * 使用相对路径 glob（避免 Windows 上绝对路径盘符大小写导致的解析错误）
  */
-const docModules = import.meta.glob<{ default: string }>('/docs/**/*.md', { eager: true, query: '?raw' })
+const docModules = import.meta.glob<{ default: string }>('../../docs/**/*.md', { eager: true, query: '?raw' })
 
 export interface DocItem {
   id: string
   title: string
-  description?: string
-  tags?: string[]
-  date?: string
-  category?: string
   path: string
-  rawContent: string
   markdownContent: string
 }
 
@@ -21,21 +17,19 @@ let cachedDocs: DocItem[] | null = null
 let cachedTree: DocTreeNode[] | null = null
 
 /**
- * 解析文件路径中的 category 信息
+ * 将 glob 返回的路径统一为 /docs/xxx 形式（兼容相对/绝对前缀）
  */
-function getCategoryFromPath(filePath: string): string {
-  const parts = filePath.replace(/\\/g, '/').replace('/docs/', '').split('/')
-  parts.pop() // 去掉文件名
-  return parts.join(' > ')
+function normalizeDocPath(filePath: string): string {
+  const normalized = filePath.replace(/\\/g, '/')
+  const idx = normalized.indexOf('/docs/')
+  return idx >= 0 ? normalized.slice(idx) : normalized
 }
 
 /**
  * 从路径中提取 ID
  */
 function getIdFromPath(filePath: string): string {
-  const normalized = filePath.replace(/\\/g, '/')
-  const name = normalized.replace('/docs/', '').replace(/\.md$/, '')
-  return name
+  return normalizeDocPath(filePath).replace('/docs/', '').replace(/\.md$/, '')
 }
 
 /**
@@ -49,44 +43,13 @@ export function getAllDocs(): DocItem[] {
   for (const [filePath, module] of Object.entries(docModules)) {
     const raw = module.default
     const id = getIdFromPath(filePath)
-
-    // 解析 frontmatter（兼容 CRLF 和 LF）
-    const frontmatterMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\s*/)
-    let frontmatter: Record<string, any> = {}
-    let markdownContent = raw
-
-    if (frontmatterMatch) {
-      const fmText = frontmatterMatch[1]
-      markdownContent = raw.slice(frontmatterMatch[0].length)
-      for (const line of fmText.split('\n')) {
-        const trimmed = line.trim()
-        if (!trimmed || trimmed.startsWith('#')) continue
-        const m = trimmed.match(/^\s*([^:]+):\s*(.+)$/)
-        if (m) {
-          frontmatter[m[1].trim()] = m[2].trim().replace(/["']/g, '')
-        }
-      }
-    }
+    const title = id.split('/').pop() || id
 
     docs.push({
       id,
-      title: frontmatter.title || id.split('/').pop() || id,
-      description: frontmatter.description || frontmatter.desc || '',
-      tags: (() => {
-        const raw = frontmatter.tags || frontmatter.tag
-        if (!raw) return []
-        if (typeof raw === 'string') {
-          // 支持 [CSS, 选择器] 和 CSS, 选择器 两种格式
-          const cleaned = raw.replace(/^\[|\]$/g, '')
-          return cleaned.split(',').map((t: string) => t.trim().replace(/["']/g, '')).filter(Boolean)
-        }
-        return raw
-      })(),
-      date: frontmatter.date || frontmatter.update || '',
-      category: getCategoryFromPath(filePath),
-      path: filePath.replace(/\\/g, '/'),
-      rawContent: raw,
-      markdownContent
+      title,
+      path: normalizeDocPath(filePath),
+      markdownContent: raw
     })
   }
 
@@ -100,6 +63,76 @@ export function getAllDocs(): DocItem[] {
 export function getDocById(id: string): DocItem | undefined {
   const docs = getAllDocs()
   return docs.find(doc => doc.id === id)
+}
+
+/**
+ * 中文数字 → 阿拉伯数字（支持 一~九、十、百、千、万及组合，如 十二、二十三、二百零五）
+ * 纯中文数字序列才转换，否则返回 null 视为文本
+ */
+function chineseToNumber(s: string): number | null {
+  if (!/^[〇零一二三四五六七八九十百千万]+$/.test(s)) return null
+  const digit: Record<string, number> = {
+    零: 0, 一: 1, 二: 2, 三: 3, 四: 4, 五: 5, 六: 6, 七: 7, 八: 8, 九: 9
+  }
+  let total = 0
+  let num = 0
+  for (const ch of s) {
+    if (digit[ch] !== undefined) {
+      num = digit[ch]
+    } else if (ch === '十') {
+      total += (num === 0 ? 1 : num) * 10; num = 0
+    } else if (ch === '百') {
+      total += (num === 0 ? 1 : num) * 100; num = 0
+    } else if (ch === '千') {
+      total += (num === 0 ? 1 : num) * 1000; num = 0
+    } else if (ch === '万') {
+      total += (num === 0 ? 1 : num) * 10000; num = 0
+    }
+  }
+  total += num
+  return total
+}
+
+/** 把字符串拆成 token 序列，数字块（阿拉伯/中文）附数值，其余为文本块 */
+function tokenize(s: string): { text: string; num: number | null }[] {
+  const tokens: { text: string; num: number | null }[] = []
+  const re = /\d+|[〇零一二三四五六七八九十百千万]+/g
+  let last = 0
+  let m: RegExpExecArray | null
+  while ((m = re.exec(s)) !== null) {
+    if (m.index > last) tokens.push({ text: s.slice(last, m.index), num: null })
+    const raw = m[0]
+    const num = /^\d+$/.test(raw) ? parseInt(raw, 10) : chineseToNumber(raw)
+    tokens.push({ text: raw, num })
+    last = m.index + raw.length
+  }
+  if (last < s.length) tokens.push({ text: s.slice(last), num: null })
+  return tokens
+}
+
+/**
+ * 自然排序比较：数字块按数值比较，文本块按字典序比较
+ * 解决「第十章」排在「第二章」之后、而非「第五章」之后的问题
+ */
+function naturalCompare(a: string, b: string): number {
+  const ta = tokenize(a)
+  const tb = tokenize(b)
+  const n = Math.min(ta.length, tb.length)
+  for (let i = 0; i < n; i++) {
+    const x = ta[i]
+    const y = tb[i]
+    if (x.num !== null && y.num !== null) {
+      if (x.num !== y.num) return x.num - y.num
+    } else if (x.num !== y.num) {
+      // 数字块排在文本块之前
+      return x.num !== null ? -1 : 1
+    } else {
+      // 都是文本块
+      const c = x.text.localeCompare(y.text, 'zh-CN')
+      if (c !== 0) return c
+    }
+  }
+  return ta.length - tb.length
 }
 
 /**
@@ -127,9 +160,6 @@ export function buildDocTree(): DocTreeNode[] {
           meta: {
             id: doc.id,
             title: doc.title,
-            description: doc.description,
-            tags: doc.tags,
-            date: doc.date,
             path: doc.path
           }
         })
@@ -151,11 +181,11 @@ export function buildDocTree(): DocTreeNode[] {
     }
   }
 
-  // 排序：文件夹在前，文档在后，按名称排序
+  // 排序：文件夹在前，文档在后，按名称自然排序（数字按数值大小，而非逐位比较）
   function sortTree(nodes: DocTreeNode[]) {
     nodes.sort((a, b) => {
       if (a.type !== b.type) return a.type === 'folder' ? -1 : 1
-      return a.name.localeCompare(b.name, 'zh-CN')
+      return naturalCompare(a.name, b.name)
     })
     for (const node of nodes) {
       if (node.children) sortTree(node.children)
@@ -220,19 +250,6 @@ export function searchDocs(query: string): { doc: DocItem; matches: string[] }[]
     if (doc.title.toLowerCase().includes(q)) {
       matches.push(doc.title)
       score += 100
-    }
-
-    // 标签匹配（权重中等）
-    if (doc.tags?.some(t => t.toLowerCase().includes(q))) {
-      const matchedTags = doc.tags.filter(t => t.toLowerCase().includes(q))
-      matches.push(...matchedTags)
-      score += 50 * matchedTags.length
-    }
-
-    // 描述匹配
-    if (doc.description?.toLowerCase().includes(q)) {
-      matches.push(doc.description)
-      score += 20
     }
 
     // 内容匹配（权重最低）

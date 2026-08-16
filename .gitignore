@@ -16,3 +16,6 @@ Thumbs.db
 # 编辑器
 .vscode/
 .idea/
+
+# 本地脚本
+script/

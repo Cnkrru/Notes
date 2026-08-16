@@ -1,31 +1,26 @@
 <script setup lang="ts">
-import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
-import { marked } from 'marked'
 import { getDocById, flattenTree } from '@/utils/docs'
-import { renderMarkdown, processAdmonitions } from '@/utils/markdown'
+import MarkdownRender from '@/components/content/MarkdownRender.vue'
 import type { TocItem } from '@/types'
 import SideBar from '@/components/SideBar.vue'
 import TocColumn from '@/components/TocColumn.vue'
+import { useLayoutStore } from '@/stores'
 
 const route = useRoute()
+const layoutStore = useLayoutStore()
 
 const doc = ref<any>(null)
-const htmlContent = ref('')
 const toc = ref<TocItem[]>([])
 const loading = ref(true)
 const error = ref('')
 
-// 配置 marked
-marked.setOptions({
-  breaks: true,
-  gfm: true
-})
-
 // 面包屑导航
 const breadcrumb = computed(() => {
-  if (!doc.value?.category) return []
-  const parts = doc.value.category.split(' > ')
+  if (!doc.value?.id) return []
+  const parts = doc.value.id.split('/')
+  parts.pop() // 去掉文件名，只留目录层级
   return parts
 })
 
@@ -54,16 +49,6 @@ async function loadDoc() {
     const found = getDocById(path)
     if (found) {
       doc.value = found
-      // 1) 预处理 admonition 提示块
-      const mdWithAdmonitions = await processAdmonitions(found.markdownContent)
-      // 2) marked 渲染
-      const rawHtml = await marked.parse(mdWithAdmonitions)
-      // 3) 后处理（代码块 + 锚点）
-      const rendered = renderMarkdown(rawHtml)
-      htmlContent.value = rendered
-      // 4) 提取 TOC
-      await nextTick()
-      toc.value = extractTocFromHtml(rendered)
     } else {
       error.value = '文档未找到'
     }
@@ -72,6 +57,11 @@ async function loadDoc() {
   } finally {
     loading.value = false
   }
+}
+
+// MarkdownRender 渲染完成后，根据生成的标题 HTML 提取 TOC
+function onReady(html: string) {
+  toc.value = extractTocFromHtml(html)
 }
 
 /**
@@ -117,7 +107,13 @@ watch(() => route.params.pathMatch, () => {
 </script>
 
 <template>
-  <div class="layout">
+  <div
+    class="layout"
+    :class="{
+      'sidebar-collapsed': layoutStore.sidebarCollapsed,
+      'toc-collapsed': layoutStore.tocCollapsed
+    }"
+  >
     <SideBar />
     <div class="doc-wrap">
       <!-- 加载中 -->
@@ -142,7 +138,9 @@ watch(() => route.params.pathMatch, () => {
         </div>
 
         <!-- 正文（markdown 渲染，包含标题） -->
-        <article class="doc" v-html="htmlContent"></article>
+        <article class="doc">
+          <MarkdownRender :content="doc.markdownContent" @ready="onReady" />
+        </article>
 
         <!-- 底部 -->
         <div class="doc-footer">
@@ -172,16 +170,21 @@ watch(() => route.params.pathMatch, () => {
 
 <style scoped>
 .layout {
+    --sidebar-w: var(--sidebar-width);
+    --toc-w: var(--toc-width);
     display: grid;
-    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-columns: var(--sidebar-w) 1fr;
     gap: var(--space-6);
     max-width: 1160px;
     margin: 0 auto;
     padding: 0 var(--space-6);
+    transition: grid-template-columns var(--duration-normal) var(--ease-out);
 }
+.layout.sidebar-collapsed { --sidebar-w: 48px; }
+.layout.toc-collapsed { --toc-w: 48px; }
 @media (min-width: 1024px) {
     .layout {
-        grid-template-columns: var(--sidebar-width) 1fr var(--toc-width);
+        grid-template-columns: var(--sidebar-w) 1fr var(--toc-w);
         max-width: 1360px;
     }
 }
@@ -195,6 +198,12 @@ watch(() => route.params.pathMatch, () => {
 .doc-content {
     max-width: var(--content-width);
     margin: 0 auto;
+    transition: max-width var(--duration-normal) var(--ease-out);
+}
+/* 侧边栏收起后内容区自适应扩展 */
+.layout.sidebar-collapsed .doc-content,
+.layout.toc-collapsed .doc-content {
+    max-width: 100%;
 }
 
 /* 面包屑导航 */

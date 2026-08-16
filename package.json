@@ -14,10 +14,12 @@
   "dependencies": {
     "marked": "^14.0.0",
     "pinia": "^3.0.4",
+    "prismjs": "^1.30.0",
     "vue": "^3.5.32",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@types/prismjs": "^1.26.6",
     "@vitejs/plugin-vue": "^5.2.3",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"

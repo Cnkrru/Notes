@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import type { TocItem } from '@/types'
+import { useLayoutStore } from '@/stores'
 
 const props = defineProps<{
   toc: TocItem[]
 }>()
+
+const layoutStore = useLayoutStore()
 
 const activeId = ref('')
 
@@ -54,21 +57,31 @@ watch(() => props.toc.length, () => {
 </script>
 
 <template>
-  <aside class="toc-column" v-if="toc.length > 0">
-    <div class="toc-title">本页目录</div>
-    <ul class="toc">
-      <li
-        v-for="item in toc"
-        :key="item.id"
-        :class="`toc-h${item.level}`"
-      >
-        <a
-          :href="`#${item.id}`"
-          :class="{ active: activeId === item.id }"
-          @click.prevent="scrollTo(item.id)"
-        >{{ item.text }}</a>
-      </li>
-    </ul>
+  <aside class="toc-column" :class="{ collapsed: layoutStore.tocCollapsed }" v-if="toc.length > 0">
+    <template v-if="!layoutStore.tocCollapsed">
+      <div class="toc-title">
+        <span class="toc-title-label">本页目录</span>
+        <button class="toc-toggle" type="button" title="收起目录" @click="layoutStore.toggleToc()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <ul class="toc">
+        <li
+          v-for="item in toc"
+          :key="item.id"
+          :class="`toc-h${item.level}`"
+        >
+          <a
+            :href="`#${item.id}`"
+            :class="{ active: activeId === item.id }"
+            @click.prevent="scrollTo(item.id)"
+          >{{ item.text }}</a>
+        </li>
+      </ul>
+    </template>
+    <button v-else class="toc-expand" type="button" title="展开目录" @click="layoutStore.toggleToc()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
   </aside>
 </template>
 
@@ -82,10 +95,18 @@ watch(() => props.toc.length, () => {
     padding: var(--space-6) 0 var(--space-6) var(--space-2);
     font-size: var(--text-sm);
     display: none;
-    position: relative;
 }
 @media (min-width: 1024px) {
     .toc-column { display: block; }
+    /* 收起状态：窄条 + 展开按钮 */
+    .toc-column.collapsed {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: var(--space-6) 0;
+        overflow: visible;
+    }
+    .toc-column.collapsed::before { display: none; }
 }
 
 /* 左侧装饰线 */
@@ -100,6 +121,9 @@ watch(() => props.toc.length, () => {
 }
 
 .toc-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -108,6 +132,49 @@ watch(() => props.toc.length, () => {
     font-weight: 600;
     font-family: var(--font-sans);
     position: relative;
+}
+
+/* ---- 收放按钮 ---- */
+.toc-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out),
+                background var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+}
+.toc-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.toc-expand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color var(--duration-fast) var(--ease-out),
+                background var(--duration-fast) var(--ease-out),
+                border-color var(--duration-fast) var(--ease-out);
+}
+.toc-expand:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--accent-soft);
 }
 
 .toc {
