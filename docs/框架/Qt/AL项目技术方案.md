@@ -1,6 +1,6 @@
-# AL C++ 全内置重写方案
+# AL 项目技术方案（Qt6 C++ 全内置重写）
 
-> 基于 AL (ikuntools) v1.0.0 项目分析，制定 C++ 全量重写实施计划
+> 基于 AL (ikuntools) v1.0.0 项目分析，从 Qt 框架选型、架构设计、核心技术、构建打包到实施路线，制定完整的技术方案。
 >
 > 日期：2026-08-05
 
@@ -25,7 +25,7 @@ AL (ikuntools) 是一个基于 Electron 33 + Vue 3.5 + TypeScript 的桌面多�
 
 - **完全脱离 Electron**，使用 C++ 原生框架重写
 - **取消插件系统**，所有功能内置为编译期链接模块
-- **UI 使用 Qt6** 原生 GUI 框架
+- **UI 使用 Qt6** 原生 GUI 框架（QML 声明式 UI）
 - **性能优化**：消除 IPC / Worker / N-API 边界开销
 
 ### 1.3 重写动机
@@ -41,9 +41,54 @@ AL (ikuntools) 是一个基于 Electron 33 + Vue 3.5 + TypeScript 的桌面多�
 
 ---
 
-## 二、UI 库选型
+## 二、Qt 框架与模块体系
 
-### 2.1 对比结论
+### 2.1 什么是 Qt
+
+Qt 是一个跨平台的 C++ 应用程序开发框架，由 Qt Company 维护。广泛用于桌面应用、嵌入式系统、移动应用和车载系统开发。Qt 6 是最新主版本，在图形渲染架构、QML 引擎、多媒体后端等方面全面升级。
+
+### 2.2 模块化设计
+
+Qt 6 采用模块化设计，功能划分为两类：
+
+- **基础模块（Essentials）**：所有平台可用，保证源码和二进制兼容。包括 Qt Core、Qt GUI、Qt Widgets、Qt Network、Qt QML、Qt Quick、Qt Test 等。
+- **附加模块（Add-Ons）**：针对特定场景，可能在部分平台可用。包括 Qt Multimedia、Qt SQL、Qt Concurrent、Qt WebEngine、Qt Charts 等。
+
+### 2.3 两大开发范式
+
+Qt 提供两种主要 UI 开发范式：
+
+**Qt Widgets（传统 C++ UI）** — 基于 C++ 的经典桌面 UI，使用 QMainWindow、QPushButton 等控件结合布局管理器。适合传统桌面应用，性能稳定。
+
+**Qt Quick / QML（声明式 UI）** — 基于 QML（Qt Modeling Language）的现代声明式 UI。QML 是类似 JSON 的声明式语言，内嵌 JavaScript，适合构建流畅、动画丰富的界面。Qt Quick 提供标准组件库。
+
+> 本项目采用 **QML 作为主要 UI 开发方式**，Qt Widgets 仅作快速原型备用。
+
+### 2.4 AL 项目所需模块
+
+| 模块 | 用途 |
+|------|------|
+| Qt Core / Gui | 基础 |
+| Qt QML / Quick | 声明式 UI |
+| Qt Quick Controls / Layouts | QML 控件与布局 |
+| Qt Multimedia | 音视频播放、录制 |
+| Qt Network | HTTP Server/Client、网络通信 |
+| Qt SQL | 数据库驱动（SQLite） |
+| Qt PDF (6.4+) | PDF 渲染（替代 PDFium） |
+| Qt6HttpServer (独立模块) | 文件互传 HTTP 服务 |
+
+### 2.5 Qt6 版本选择
+
+- **Qt 6.7 LTS** — 长期支持版，稳定可靠
+- 编译器：MSVC 2022 (Windows)
+- 构建系统：CMake 3.21+
+- 许可模式：LGPL v3（基础模块）允许闭源商用；附加模块若用 GPL 需开源或购买商业许可
+
+---
+
+## 三、UI 库选型
+
+### 3.1 对比结论
 
 经过 6 大 C++ GUI 框架对比评估，**Qt6 是唯一适合 AL 的选择**：
 
@@ -56,62 +101,56 @@ AL (ikuntools) 是一个基于 Electron 33 + Vue 3.5 + TypeScript 的桌面多�
 | Sciter | GPL / 商业 | 有限 | 支持 | 支持 | 小众 | 一般 |
 | FLTK | LGPL | 无 | 不支持 | 不支持 | 中 | 不推荐 |
 
-### 2.2 Qt6 关键优势
+### 3.2 Qt6 关键优势
 
-1. **Qt Multimedia 模块** — 内置 FFmpeg 后端，视频/音频播放无需自行集成
-2. **QML 声明式 UI** — 支持 CSS 变量、动画、深色模式，迁移原 Vue 3 主题系统
+1. **Qt Multimedia 模块** — 内置 FFmpeg 后端，音视频播放无需自行集成
+2. **QML 声明式 UI** — 支持 CSS 变量、动画、深色模式，可迁移原 Vue 3 主题系统
 3. **Qt PDF Module** (6.4+) — 原生 PDF 渲染，替代 Chromium PDFium
 4. **Qt Network** — HTTP Server/Client，替代 Node.js http 模块
 5. **Qt SQL** — SQLite 驱动封装（也可直调 C API）
 6. **跨平台** — 未来可扩展 macOS/Linux
 7. **LGPL v3** — 开源项目可免费使用
 
-### 2.3 Qt6 版本选择
-
-- **Qt 6.7 LTS** — 长期支持版，稳定可靠
-- 编译器：MSVC 2022 (Windows)
-- 构建系统：CMake 3.21+
-
 ---
 
-## 三、架构设计
+## 四、架构设计
 
-### 3.1 整体架构
+### 4.1 整体架构
 
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                    Qt6 UI 层 (QML)                       │
 │                                                          │
-│  导航栏 │ 媒体播放器 │ 文件管理 │ 设置面板 │ 迷你播放器  │
-│  主题引擎(QSS/CSS变量) │ 国际化(zh-CN/en-US) │ 快捷键    │
+│  导航栏 │ 媒体播放器 │ 文件管理 │ 设置面板 │ 迷你播放器    │
+│  主题引擎(QSS/CSS变量) │ 国际化(zh-CN/en-US) │ 快捷键      │
 ├─────────────────────────────────────────────────────────┤
 │                  功能模块层 (C++)                         │
 │                                                          │
-│  媒体保险库  │ 笔记中心  │ 系统工具箱  │ 密码管理器      │
-│  剪贴板管理  │ 文件互传  │ PDF工具     │ 视频解析        │
-│  (所有功能编译期链接，信号槽直连，无 IPC)                │
+│  媒体保险库  │ 笔记中心  │ 系统工具箱  │ 密码管理器        │
+│  剪贴板管理  │ 文件互传  │ PDF工具     │ 视频解析          │
+│  (所有功能编译期链接，信号槽直连，无 IPC)                  │
 ├─────────────────────────────────────────────────────────┤
 │                  核心引擎层 (C++)                         │
 │                                                          │
-│  SQLite WAL │ AES-256-GCM │ 文件扫描 │ 线程池           │
-│  HTTP Server │ 媒体流服务 │ 缩略图生成 │ 文件监听        │
-│  (所有引擎 C++ 原生实现，无 N-API 边界)                  │
+│  SQLite WAL │ AES-256-GCM │ 文件扫描 │ 线程池             │
+│  HTTP Server │ 媒体流服务 │ 缩略图生成 │ 文件监听          │
+│  (所有引擎 C++ 原生实现，无 N-API 边界)                   │
 ├─────────────────────────────────────────────────────────┤
 │                  系统依赖层                              │
 │                                                          │
-│  Windows API │ Qt 6.7 LTS │ SQLite 3 │ OpenSSL 3       │
-│  FFmpeg 7 (libavcodec/libavformat) │ md4c │ Poppler    │
+│  Windows API │ Qt 6.7 LTS │ SQLite 3 │ OpenSSL 3         │
+│  FFmpeg 7 (libavcodec/libavformat) │ md4c │ Poppler      │
 └─────────────────────────────────────────────────────────┘
 ```
 
-### 3.2 与原架构对比
+### 4.2 与原架构对比
 
 | 原架构 (Electron) | 新架构 (Qt6 C++) | 变化 |
 |-------------------|-----------------|------|
 | 渲染进程 (Vue 3 + Chromium) | Qt6 QML UI 层 | UI 框架替换 |
 | Preload + contextBridge | (消除) | 同进程，信号槽直连 |
 | 主进程 (Node.js) | 核心引擎层 (C++) | 原生实现 |
-| IPC 通信 (90+ 通道) | Qt 信号槽 | 延迟从 ms 级降至 ns 级 |
+| IPC 通信 (90+ 通道) | Qt 信号槽 | 延迟从 ms 级降至 ns |
 | Worker 线程池 | std::thread 线程池 | 共享内存，无需序列化 |
 | 插件系统 (23+ 插件) | 编译期链接模块 | 全内置，无动态加载 |
 | plugin:// 协议 | Qt 资源系统 (qrc) | 编译进二进制 |
@@ -120,7 +159,7 @@ AL (ikuntools) 是一个基于 Electron 33 + Vue 3.5 + TypeScript 的桌面多�
 | ffmpeg 子进程 spawn | libavcodec 库内调用 | 零拷贝管道 |
 | Node HTTP Server | Qt Network HTTP | 多线程并发 |
 
-### 3.3 目录结构设计
+### 4.3 目录结构设计
 
 ```
 AL-CPP/
@@ -158,71 +197,38 @@ AL-CPP/
 │   │       └── en-US.ts
 │   │
 │   ├── core/                      # 核心引擎层
-│   │   ├── Database.hpp           # SQLite C API 封装
-│   │   ├── Database.cpp
-│   │   ├── Crypto.hpp             # AES-256-GCM 加密
-│   │   ├── Crypto.cpp
-│   │   ├── Scanner.hpp            # 文件扫描引擎
-│   │   ├── Scanner.cpp
-│   │   ├── ThreadPool.hpp         # C++ 线程池
-│   │   ├── ThreadPool.cpp
-│   │   ├── Thumbnail.hpp          # 缩略图生成
-│   │   ├── Thumbnail.cpp
-│   │   ├── MediaStreamer.hpp      # 媒体流服务
-│   │   ├── MediaStreamer.cpp
-│   │   ├── FileWatcher.hpp        # 文件监听
-│   │   ├── FileWatcher.cpp
-│   │   ├── Logger.hpp             # 日志系统
-│   │   ├── Logger.cpp
+│   │   ├── Database.hpp/cpp       # SQLite C API 封装
+│   │   ├── Crypto.hpp/cpp         # AES-256-GCM 加密
+│   │   ├── Scanner.hpp/cpp        # 文件扫描引擎
+│   │   ├── ThreadPool.hpp/cpp     # C++ 线程池
+│   │   ├── Thumbnail.hpp/cpp      # 缩略图生成
+│   │   ├── MediaStreamer.hpp/cpp  # 媒体流服务
+│   │   ├── FileWatcher.hpp/cpp    # 文件监听
+│   │   ├── Logger.hpp/cpp         # 日志系统
 │   │   ├── Paths.hpp              # 路径管理
 │   │   └── Registry.hpp           # 键值配置存储
 │   │
 │   ├── modules/                   # 功能模块层
 │   │   ├── media_vault/           # 媒体保险库
-│   │   │   ├── MediaVault.hpp
-│   │   │   ├── MediaVault.cpp
-│   │   │   ├── VideoVault.hpp     # 视频仓库
-│   │   │   ├── AudioVault.hpp     # 音频仓库
-│   │   │   ├── PhotoVault.hpp     # 图片仓库
-│   │   │   └── BookReader.hpp     # 图书阅读器
 │   │   ├── notes_hub/             # 笔记中心
-│   │   │   ├── NotesHub.hpp
-│   │   │   ├── MarkdownEditor.hpp # MD 编辑器
-│   │   │   ├── Journal.hpp        # 日记本
-│   │   │   └── Snippets.hpp       # 代码片段
 │   │   ├── system_kit/            # 系统工具箱
-│   │   │   ├── SystemKit.hpp
-│   │   │   ├── FileConverter.hpp  # 文件转换
-│   │   │   ├── FileDedup.hpp      # 文件去重
-│   │   │   └── ImageResizer.hpp   # 图片缩放
 │   │   ├── password_manager/      # 密码管理器
-│   │   │   ├── PasswordManager.hpp
-│   │   │   └── PasswordManager.cpp
 │   │   ├── clipboard/             # 剪贴板管理
-│   │   │   ├── ClipboardManager.hpp
-│   │   │   └── ClipboardManager.cpp
 │   │   ├── file_transfer/         # 文件互传
-│   │   │   ├── HttpServer.hpp     # HTTP Server
-│   │   │   ├── HttpServer.cpp
-│   │   │   └── DeviceAuth.hpp     # 设备授权
 │   │   ├── pdf_tools/             # PDF 工具
-│   │   │   ├── PdfTools.hpp
-│   │   │   └── PdfTools.cpp
 │   │   └── video_parser/          # 视频解析
-│   │       ├── VideoParser.hpp
-│   │       └── VideoParser.cpp
 │   │
-│   └── resources/                 # Qt 资源文件
-│       ├── resources.qrc          # 资源清单
+│   └── resources/                 # Qt 资源文件 (qrc)
+│       ├── resources.qrc
 │       ├── icons/                 # SVG 图标
 │       └── fonts/                 # 字体文件
 │
 ├── libs/                          # 第三方库
 │   ├── sqlite3/                   # SQLite 3 源码
 │   ├── openssl/                   # OpenSSL 3
-│   ├── ffmpeg/                    # FFmpeg 7 头文件+库
+│   ├── ffmpeg/                    # FFmpeg 7
 │   ├── md4c/                      # Markdown 解析器
-│   └── stb/                       # stb_image 图片解码
+│   └── stb/                       # stb_image (header-only)
 │
 ├── tests/                         # 测试
 │   ├── unit/
@@ -237,15 +243,15 @@ AL-CPP/
 
 ---
 
-## 四、功能模块映射
+## 五、功能模块映射
 
-### 4.1 插件 → 内置模块映射表
+### 5.1 插件 → 内置模块映射
 
 | 原插件 (ID) | 类型 | C++ 模块 | 核心依赖 | 优先级 |
 |-------------|------|---------|---------|--------|
 | media-vault | 父插件 | MediaVault | Qt Multimedia, FFmpeg, SQLite | P0 |
 | ├ video-vault | 子插件 | VideoVault | FFmpeg (libavformat/libavcodec) | P0 |
-| ├ audio-vault | 子插件 | AudioVault | Qt Multimedia (音频元数据) | P0 |
+| ├ audio-vault | 子插件 | AudioVault | Qt Multimedia | P0 |
 | ├ photo-vault | 子插件 | PhotoVault | stb_image / Qt Image | P0 |
 | ├ book-reader | 子插件 | BookReader | Qt PDF / Poppler | P1 |
 | └ password-manager | 子插件 | PasswordManager | OpenSSL EVP AES-256-GCM | P1 |
@@ -255,7 +261,7 @@ AL-CPP/
 | └ snippets | 子插件 | Snippets | SQLite | P2 |
 | sys-kit | 父插件 | SystemKit | FFmpeg + stb_image | P1 |
 | ├ converter | 子插件 | FileConverter | FFmpeg (格式转换) | P1 |
-| ├ dedup | 子插件 | FileDedup | std::filesystem (哈希去重) | P2 |
+| ├ dedup | 子插件 | FileDedup | std::filesystem (SHA-256) | P2 |
 | └ image-resizer | 子插件 | ImageResizer | stb_image (批量缩放) | P2 |
 | clipboard | 独立插件 | ClipboardManager | Windows Clipboard API | P2 |
 | debug | 独立插件 | DatabaseViewer | SQLite (表结构查看) | P3 |
@@ -264,64 +270,47 @@ AL-CPP/
 | pdf-tools | 独立插件 | PdfTools | Qt PDF / Poppler | P2 |
 | media-tools | 独立插件 | MediaTools | FFmpeg (剪切/合并/压缩) | P3 |
 
-### 4.2 核心引擎模块映射
+### 5.2 核心引擎模块映射
 
 | 原模块 | 文件 | C++ 替代 | 说明 |
 |--------|------|---------|------|
 | 数据库 | `db/core.ts` | `Database.hpp/cpp` | SQLite C API 直调，WAL 模式 |
 | 加密 | `crypto.ts` | `Crypto.hpp/cpp` | OpenSSL EVP_PBE_scrypt + EVP_aes_256_gcm |
-| 文件扫描 | `scanner.ts` | `Scanner.hpp/cpp` | std::filesystem::recursive_directory_iterator |
-| Worker 线程池 | `worker-pool.ts` | `ThreadPool.hpp/cpp` | std::thread + std::future + 无锁队列 |
+| 文件扫描 | `scanner.ts` | `Scanner.hpp/cpp` | std::filesystem 递归遍历 |
+| Worker 线程池 | `worker-pool.ts` | `ThreadPool.hpp/cpp` | std::thread + 无锁队列 |
 | 缩略图 | `thumbnail.ts` | `Thumbnail.hpp/cpp` | stb_image 解码 + Qt Image 缩放 |
-| 流媒体 | `media-streamer.ts` | `MediaStreamer.hpp/cpp` | FFmpeg libavcodec 直调（无需 HTTP 中间层） |
-| 文件监听 | `watcher.ts` | `FileWatcher.hpp/cpp` | ReadDirectoryChangesW (Windows API) |
+| 流媒体 | `media-streamer.ts` | `MediaStreamer.hpp/cpp` | FFmpeg libavcodec 直调 |
+| 文件监听 | `watcher.ts` | `FileWatcher.hpp/cpp` | ReadDirectoryChangesW (Windows) |
 | 窗口管理 | `window-manager.ts` | Qt QWindow | Qt 原生窗口管理 |
 | 系统托盘 | `tray-manager.ts` | QSystemTrayIcon | Qt 原生托盘 |
 | IPC 注册 | `ipc-registry.ts` | (消除) | 信号槽直连 |
 | 路径管理 | `paths.ts` | `Paths.hpp` | std::filesystem::path |
 | 注册表 | `registry.ts` | `Registry.hpp/cpp` | SQLite registry 表 |
-| 日志 | `logger.ts` | `Logger.hpp/cpp` | spdlog 或自研 |
+| 日志 | `logger.ts` | `Logger.hpp/cpp` | spdlog |
 | 移动端服务 | `mobile-server/` | `HttpServer.hpp/cpp` | Qt Network HTTP Server |
 | 插件加载器 | `plugin-loader.ts` | (消除) | 编译期链接 |
-| 插件安装器 | `plugin-installer.ts` | (消除) | 无需远程安装 |
 
 ---
 
-## 五、关键技术方案
+## 六、核心技术方案
 
-### 5.1 数据库层
+### 6.1 数据库层
 
 **原方案**：better-sqlite3 (Node.js N-API 绑定)
 
-**C++ 方案**：SQLite C API 直调
+**C++ 方案**：SQLite C API 直调，消除 N-API 类型转换开销（~0.1-0.5ms/次），Prepared Statement 缓存命中率更高。
 
 ```cpp
-// Database.hpp 核心设计
 class Database {
 public:
     static Database& instance();
-    
     void init(const std::string& dbPath);
-    void close();
-    
-    // WAL 模式
     void enableWAL();
     void walCheckpoint();
-    
-    // Prepared Statement 缓存
     sqlite3_stmt* prepare(const std::string& sql);
-    void executeBatch(const std::string& sql);
-    
-    // 事务
     void beginTransaction();
     void commit();
     void rollback();
-    
-    // 安全 CRUD（参数化查询）
-    template<typename... Args>
-    std::vector<std::map<std::string, std::string>> query(
-        const std::string& sql, Args&&... args);
-    
 private:
     sqlite3* m_db = nullptr;
     std::unordered_map<std::string, sqlite3_stmt*> m_stmtCache;
@@ -329,57 +318,34 @@ private:
 };
 ```
 
-**性能收益**：
-- 消除 N-API 类型转换开销（~0.1-0.5ms/次）
-- Prepared Statement 缓存命中率更高
-- 批量事务直接 C API 调用，无异步 Promise 包装
+### 6.2 加密层
 
-### 5.2 加密层
+**原方案**：Node crypto + Worker 异步 scrypt
 
-**原方案**：Node crypto (OpenSSL 绑定) + Worker 线程池异步 scrypt
-
-**C++ 方案**：OpenSSL EVP 直调
+**C++ 方案**：OpenSSL EVP 直调。scrypt 密钥派生从 ~200ms (Worker) 降至 ~50ms。
 
 ```cpp
-// Crypto.hpp 核心设计
 class Crypto {
 public:
     static Crypto& instance();
-    
-    // 密钥派生（同步，无 Worker 开销）
     void warmupKeyCache();
-    
-    // AES-256-GCM
     std::string encrypt(const std::string& plaintext);
     std::string decrypt(const std::string& ciphertext);
-    
-    // 兼容旧格式（AES-256-CBC）
-    std::string decryptLegacy(const std::string& ciphertext);
-    
+    std::string decryptLegacy(const std::string& ciphertext); // AES-256-CBC 兼容
 private:
     std::vector<uint8_t> m_cachedKey;
-    
     std::string getMachineFingerprint();
-    std::string getMachineSaltHex();
-    std::vector<uint8_t> deriveKey(
-        const std::string& password,
-        const std::string& salt);
+    std::vector<uint8_t> deriveKey(const std::string& password, const std::string& salt);
 };
 ```
 
-**性能收益**：
-- scrypt 密钥派生从 ~200ms (Worker) 降至 ~50ms (直调)
-- 加解密无 Worker 通信开销
-- 密钥缓存无需跨线程传递
-
-### 5.3 文件扫描引擎
+### 6.3 文件扫描引擎
 
 **原方案**：`fs.promises.readdir` + `lstat` 递归遍历 + Worker 分片
 
-**C++ 方案**：`std::filesystem` + IOCP 异步 I/O
+**C++ 方案**：`std::filesystem` + IOCP 异步 I/O，大目录扫描（>2000 文件）提速 4-8 倍。
 
 ```cpp
-// Scanner.hpp 核心设计
 class Scanner {
 public:
     struct ScanResult {
@@ -387,55 +353,35 @@ public:
         std::vector<std::string> removed;
         size_t total;
     };
-    
     using ProgressCallback = std::function<void(int percent)>;
-    
     ScanResult scanDirectory(
         const std::string& dirPath,
         const std::vector<std::string>& extensions,
         ProgressCallback onProgress = nullptr);
-    
 private:
-    // 符号链接环检测
-    std::unordered_set<std::string> m_seenDirs;
-    
-    // 文件类型过滤
+    std::unordered_set<std::string> m_seenDirs;  // 符号链接环检测
     std::unordered_set<std::string> m_extSet;
-    
-    // 线程池引用
     ThreadPool& m_pool;
 };
 ```
 
-**性能收益**：
-- 大目录扫描（>2000 文件）提速 4-8 倍
-- IOCP 异步 I/O 不阻塞 UI 线程
-- 符号链接检测更高效（std::filesystem 原生支持）
-
-### 5.4 线程池
+### 6.4 线程池
 
 **原方案**：Node Worker Threads + 优先级队列
 
-**C++ 方案**：std::thread + 无锁队列
+**C++ 方案**：std::thread + 无锁队列。任务分发延迟从 ~5-10ms 降至 ~0.01ms。
 
 ```cpp
-// ThreadPool.hpp 核心设计
 class ThreadPool {
 public:
     static ThreadPool& instance();
-    
     using TaskPriority = enum { High, Normal, Low };
-    
     template<typename F, typename... Args>
     auto submit(TaskPriority prio, F&& f, Args&&... args)
         -> std::future<std::invoke_result_t<F, Args...>>;
-    
     void destroy();
-    
 private:
     std::vector<std::thread> m_workers;
-    
-    // 三级优先级无锁队列
     struct Task {
         TaskPriority priority;
         std::function<void()> func;
@@ -446,147 +392,79 @@ private:
 };
 ```
 
-**性能收益**：
-- 任务分发延迟从 ~5-10ms 降至 ~0.01ms
-- 线程间共享内存，无需序列化
-- 无 Worker 创建/销毁开销
+### 6.5 媒体播放
 
-### 5.5 媒体播放
+**原方案**：HTTP 流媒体服务 + ffmpeg 子进程转码 + `<video>` 标签
 
-**原方案**：HTTP 流媒体服务 + ffmpeg 子进程转码 + `<video>` 标签播放
-
-**C++ 方案**：Qt Multimedia 直接播放
-
-```cpp
-// 媒体播放无需 HTTP 中间层
-// QML 直接使用 MediaPlayer + VideoOutput
-```
+**C++ 方案**：Qt Multimedia 直接播放，消除 HTTP Server 中间层。首帧延迟减少 ~200ms，内存降低 ~50%。
 
 ```qml
-// QML 播放器
 MediaPlayer {
     id: player
     source: "file:///" + filePath
-    // 非原生格式自动通过 FFmpeg 后端解码
 }
-
 VideoOutput {
     source: player
     anchors.fill: parent
 }
 ```
 
-**性能收益**：
-- 消除 HTTP Server 中间层
-- 消除 ffmpeg 子进程 spawn 开销
-- 首帧延迟减少 ~200ms
-- 内存占用降低 ~50%（无需管道缓冲）
-
-### 5.6 HTTP Server（文件互传）
+### 6.6 HTTP Server（文件互传）
 
 **原方案**：Node `http.createServer`
 
-**C++ 方案**：Qt Network HTTP Server
+**C++ 方案**：Qt Network HTTP Server，支持多线程并发 + Token 认证 + 设备白名单。
 
 ```cpp
-// HttpServer.hpp 核心设计
 class HttpServer : public QObject {
     Q_OBJECT
 public:
     bool start(quint16 port);
     void stop();
-    
 private slots:
     void onNewConnection();
     void onRequest(QHttpRequest* req, QHttpResponse* resp);
-    
 private:
     QHttpServer* m_server;
     AuthManager m_auth;          // Token 认证
     DeviceAuth m_deviceAuth;     // 设备白名单
-    FilesStore m_filesStore;     // 文件存储
-    ConvertManager m_convert;    // 格式转换
+    FilesStore m_filesStore;
+    ConvertManager m_convert;
 };
 ```
 
-### 5.7 主题系统
+### 6.7 主题系统
 
-**原方案**：CSS 变量 + JSON 配色文件 + Pinia store
+**原方案**：CSS 变量 + JSON 配色 + Pinia store
 
-**C++ 方案**：QML 属性绑定 + JSON 配色文件
+**C++ 方案**：QML 属性绑定 + JSON 配色文件（12 套配色）。
 
 ```cpp
-// ThemeManager.hpp
 class ThemeManager : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY themeChanged)
-    
 public:
     void loadThemes(const QString& themeDir);
     void applyTheme(const QString& themeId);
-    
 private:
-    QMap<QString, QJsonObject> m_themes;  // 12 套配色
+    QMap<QString, QJsonObject> m_themes;
     QString m_currentTheme;
 };
 ```
 
-```qml
-// 全局样式绑定
-Rectangle {
-    color: ThemeManager.primaryColor
-    // 主题切换时自动更新
-}
-```
+### 6.8 其他组件
 
-### 5.8 Markdown 解析
-
-**原方案**：markdown-it (JS)
-
-**C++ 方案**：md4c (C 库)
-
-- MIT 许可，纯 C 实现
-- 支持 CommonMark + GFM (表格/任务列表/删除线)
-- 速度极快，无外部依赖
-- 输出 HTML，QML 可直接渲染
-
-### 5.9 PDF 渲染
-
-**原方案**：Chromium 内置 PDFium
-
-**C++ 方案**：Qt PDF Module (Qt 6.4+)
-
-- 官方模块，集成度高
-- 支持 QML 渲染
-- 支持 PDF 合并/拆分/压缩
-
-### 5.10 缩略图生成
-
-**原方案**：Electron nativeImage (依赖 Chromium)
-
-**C++ 方案**：stb_image + Qt Image
-
-```cpp
-// Thumbnail.hpp
-class Thumbnail {
-public:
-    static QString generate(const QString& filePath);
-    
-private:
-    static constexpr int MAX_SIZE = 256;
-    static constexpr int MAX_FILE_BYTES = 30 * 1024 * 1024;
-    
-    QString getThumbPath(const QString& filePath);
-    QByteArray generateFromImage(const QString& filePath);
-    QByteArray generateFromVideo(const QString& filePath); // FFmpeg 截帧
-};
-```
+| 组件 | 原方案 | C++ 方案 | 说明 |
+|------|--------|---------|------|
+| Markdown 解析 | markdown-it (JS) | md4c (C) | MIT，支持 CommonMark + GFM |
+| PDF 渲染 | Chromium PDFium | Qt PDF Module | 官方模块，支持合并/拆分/压缩 |
+| 缩略图 | Electron nativeImage | stb_image + Qt Image | 解码 + 缩放，视频用 FFmpeg 截帧 |
 
 ---
 
-## 六、数据库设计
+## 七、数据库设计
 
-### 6.1 表结构（与原项目保持一致）
+### 7.1 表结构（与原项目保持一致）
 
 | 表 | 用途 | 关键字段 |
 |----|------|---------|
@@ -600,7 +478,7 @@ private:
 | `vault_books` | 图书索引 | id, path, name, size, vault_path, format |
 | `vault_notes` | 笔记索引 | id, title, content, tags, created_at, updated_at |
 
-### 6.2 迁移策略
+### 7.2 迁移策略
 
 1. 首次启动检测 `{userData}/config/app.db` 是否存在
 2. 若存在（从旧版迁移）：自动执行 schema 迁移
@@ -609,22 +487,254 @@ private:
 
 ---
 
-## 七、安全设计
+## 八、构建系统
 
-### 7.1 加密
+### 8.1 环境要求
+
+| 组件 | 版本要求 | 说明 |
+|------|---------|------|
+| CMake | 3.21+ | Qt 6.2+ 静态构建需要 3.21 |
+| C++ 标准 | C++20 | 使用 `std::format`、`std::jthread` 等特性 |
+| 编译器 | MSVC 2022 / MinGW GCC 13+ | Windows 推荐 MSVC |
+| Qt | 6.7 LTS | 长期支持版 |
+| vcpkg | 最新 | 包管理器，推荐 `x64-mingw-dynamic` triplet |
+
+### 8.2 顶层 CMakeLists.txt
+
+```cmake
+cmake_minimum_required(VERSION 3.21)
+project(AL VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)     # Qt MOC 自动处理
+set(CMAKE_AUTORCC ON)     # Qt 资源文件自动处理
+set(CMAKE_AUTOUIC ON)     # Qt UI 文件自动处理
+
+# ── Qt6 模块 ──────────────────────────────────────
+find_package(Qt6 6.7 REQUIRED COMPONENTS
+    Core Gui Widgets Qml Quick
+    Multimedia Network Sql
+)
+
+# Qt HTTP Server（Qt 6.4+ 独立模块，需通过 vcpkg 安装）
+# vcpkg install qt-httpserver
+find_package(Qt6HttpServer QUIET)
+
+# ── 第三方库 ──────────────────────────────────────
+find_package(SQLite3 REQUIRED)
+find_package(OpenSSL REQUIRED)
+find_package(FFmpeg REQUIRED COMPONENTS avformat avcodec avutil swscale)
+find_package(spdlog REQUIRED)
+find_package(nlohmann_json REQUIRED)
+
+# ── 主程序 ────────────────────────────────────────
+qt_add_executable(AL src/main.cpp)
+
+qt_add_qml_module(AL
+    URI AL
+    VERSION 1.0
+    QML_FILES
+        src/ui/main.qml
+        src/ui/components/NavBar.qml
+        src/ui/components/MediaPlayer.qml
+        src/ui/pages/MediaVaultPage.qml
+        # ... 更多 QML 文件
+    RESOURCES
+        src/resources/resources.qrc
+)
+
+# ── 链接库 ────────────────────────────────────────
+target_link_libraries(AL PRIVATE
+    Qt6::Core Qt6::Gui Qt6::Widgets
+    Qt6::Qml Qt6::Quick
+    Qt6::Multimedia Qt6::Network Qt6::Sql
+    SQLite::SQLite3
+    OpenSSL::Crypto
+    FFmpeg::avformat FFmpeg::avcodec FFmpeg::avutil FFmpeg::swscale
+    spdlog::spdlog
+    nlohmann_json::nlohmann_json
+    md4c
+)
+
+if(Qt6HttpServer_FOUND)
+    target_link_libraries(AL PRIVATE Qt6::HttpServer)
+endif()
+
+# ── 编译选项 ──────────────────────────────────────
+target_compile_definitions(AL PRIVATE
+    $<$<CONFIG:Debug>:AL_DEBUG>
+    $<$<CONFIG:Release>:AL_RELEASE NDEBUG>
+    SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG
+)
+
+# Windows 特定
+if(WIN32)
+    target_sources(AL PRIVATE src/platform/win/al.rc)  # 图标资源
+    set_target_properties(AL PROPERTIES
+        WIN32_EXECUTABLE TRUE  # 无控制台窗口
+    )
+endif()
+
+# ── 安装规则 ──────────────────────────────────────
+install(TARGETS AL
+    BUNDLE DESTINATION .
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+if(WIN32)
+    # 使用 windeployqt 自动部署 Qt DLL
+    install(CODE "
+        execute_process(COMMAND windeployqt
+            --qmldir \"${CMAKE_SOURCE_DIR}/src/ui\"
+            \"${CMAKE_INSTALL_PREFIX}/bin/AL.exe\"
+        )
+    ")
+endif()
+```
+
+### 8.3 vcpkg 依赖清单
+
+```bash
+# 安装 vcpkg（一次性）
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+.\bootstrap-vcpkg.bat
+
+# 安装项目依赖（MinGW 动态链接 triplet）
+vcpkg install qt6:x64-mingw-dynamic
+vcpkg install sqlite3:x64-mingw-dynamic
+vcpkg install openssl:x64-mingw-dynamic
+vcpkg install ffmpeg:x64-mingw-dynamic
+vcpkg install spdlog:x64-mingw-dynamic
+vcpkg install nlohmann-json:x64-mingw-dynamic
+vcpkg install qt-httpserver:x64-mingw-dynamic  # 可选
+```
+
+> 若使用 MSVC，将 triplet 替换为 `x64-windows` 或 `x64-windows-static`。
+
+### 8.4 构建命令
+
+```bash
+# 配置（从 vcpkg toolchain 文件构建）
+cmake -B build -S . \
+    -DCMAKE_TOOLCHAIN_FILE="[vcpkg-root]/scripts/buildsystems/vcpkg.cmake" \
+    -DVCPKG_TARGET_TRIPLET=x64-mingw-dynamic \
+    -DCMAKE_BUILD_TYPE=Release
+
+# 编译
+cmake --build build --config Release --parallel
+
+# 安装到指定目录
+cmake --install build --prefix dist/
+```
+
+### 8.5 源码编译的第三方库
+
+**SQLite**（确保版本可控）：
+```cmake
+add_library(sqlite3 STATIC sqlite3/sqlite3.c sqlite3/sqlite3.h)
+target_include_directories(sqlite3 PUBLIC sqlite3)
+target_compile_definitions(sqlite3 PRIVATE
+    SQLITE_THREADSAFE=1
+    SQLITE_ENABLE_FTS5
+    SQLITE_ENABLE_JSON1
+)
+```
+
+**md4c**（纯 C，两个源文件）：
+```cmake
+add_library(md4c STATIC md4c/md4c.c md4c/md4c-html.c)
+target_include_directories(md4c PUBLIC md4c)
+```
+
+### 8.6 资源打包 (qrc)
+
+```xml
+<!-- src/resources/resources.qrc -->
+<RCC>
+    <qresource prefix="/">
+        <file>icons/play.svg</file>
+        <file>icons/pause.svg</file>
+        <file>fonts/NotoSansSC-Regular.otf</file>
+        <file>theme/dark.json</file>
+        <file>theme/light.json</file>
+    </qresource>
+</RCC>
+```
+
+QML 中引用：`Image { source: "qrc:/icons/play.svg" }`
+
+### 8.7 FFmpeg DLL 分发
+
+FFmpeg 需作为独立 DLL 随安装包分发（LGPL 动态链接要求），`windeployqt` 不会自动部署，需手动处理：
+
+```cmake
+if(WIN32)
+    install(FILES
+        ${FFMPEG_DIR}/bin/avcodec-*.dll
+        ${FFMPEG_DIR}/bin/avformat-*.dll
+        ${FFMPEG_DIR}/bin/avutil-*.dll
+        ${FFMPEG_DIR}/bin/swscale-*.dll
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+endif()
+```
+
+### 8.8 NSIS 打包
+
+```nsis
+; packaging/installer.nsi
+!define PRODUCT_NAME "AL"
+!define PRODUCT_VERSION "1.0.0"
+!define PRODUCT_PUBLISHER "AL Team"
+
+OutFile "AL-Setup-${PRODUCT_VERSION}.exe"
+InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
+
+Section "Install"
+    SetOutPath "$INSTDIR"
+    File /r "dist\*.*"
+    CreateShortCut "$DESKTOP\AL.lnk" "$INSTDIR\AL.exe"
+SectionEnd
+```
+
+### 8.9 动态链接 vs 静态链接
+
+| 维度 | 动态链接（推荐） | 静态链接 |
+|------|----------------|---------|
+| 包体大小 | 较大（需带 DLL） | 较小 |
+| LGPL 合规 | 简单（替换 Qt DLL 即可） | 需提供目标文件 |
+| 更新 Qt | 替换 DLL 即可 | 需重新编译 |
+| 启动时间 | 略慢（加载 DLL） | 快 |
+| 推荐场景 | 开发阶段、开源分发 | 商业闭源分发 |
+
+AL 项目推荐**动态链接**（Qt LGPL 合规更简单），FFmpeg 必须动态链接（LGPL 要求）。
+
+### 8.10 常见问题
+
+- **Qt6 找不到模块**：确保 `CMAKE_PREFIX_PATH` 指向 Qt 安装目录，如 `cmake -B build -DCMAKE_PREFIX_PATH="C:/Qt/6.7.0/mingw_64"`
+- **FFmpeg 链接错误**：CMake 配置可能不完整，用 `pkg_check_modules` 手动指定
+- **windeployqt 找不到 QML 模块**：确保 `qt_add_qml_module` 正确声明所有 QML 文件，或手动指定 `--qmldir`
+
+---
+
+## 九、安全设计
+
+### 9.1 加密
 
 - **算法**：AES-256-GCM（带 authTag 防篡改）
 - **密钥派生**：scrypt（主机指纹 + 用户名 + CPU 型号 + salt）
 - **密钥不持久化**：每次启动从机器指纹重新派生
 - **兼容旧格式**：AES-256-CBC 向后读取（不再写入新数据）
 
-### 7.2 路径安全
+### 9.2 路径安全
 
-- 所有文件路径经 `std::filesystem::canonical()` 规范化
+- 所有路径经 `std::filesystem::canonical()` 规范化
 - 路径穿越防护：检查规范路径是否在允许目录内
 - 文件操作限制在用户数据目录和仓库目录
 
-### 7.3 网络安全
+### 9.3 网络安全
 
 - HTTP Server 随机 Token 认证
 - 设备白名单（站主审批机制）
@@ -632,7 +742,15 @@ private:
 
 ---
 
-## 八、实施路线图
+## 十、实施路线图
+
+| 阶段 | 内容 | 时长 |
+|------|------|------|
+| 阶段 1 | 核心框架搭建（CMake 骨架、SQLite、加密、扫描、线程池、主窗口、日志） | 2-3 周 |
+| 阶段 2 | 媒体保险库 + 播放器（视频/音频/图片仓库、播放器、FFmpeg 集成） | 3-4 周 |
+| 阶段 3 | 笔记 + 工具 + 密码（MD 编辑器、日记、密码管理器、文件转换、剪贴板） | 4-5 周 |
+| 阶段 4 | 网络服务 + 收尾（HTTP Server、PDF 工具、主题、国际化、打包） | 3-4 周 |
+| **总计** | | **12-16 周** |
 
 ### 阶段 1：核心框架搭建（2-3 周）
 
@@ -698,7 +816,7 @@ private:
 
 ---
 
-## 九、第三方依赖清单
+## 十一、第三方依赖清单
 
 | 库 | 版本 | 许可证 | 用途 | 集成方式 |
 |----|------|--------|------|---------|
@@ -711,63 +829,6 @@ private:
 | spdlog | 1.14+ | MIT | 日志 | header-only |
 | nlohmann/json | 3.11+ | MIT | JSON 解析 | header-only |
 | Poppler (可选) | 24.0+ | GPL v2 | PDF 渲染（备选 Qt PDF） | 预编译 |
-
----
-
-## 十、构建与打包
-
-### 10.1 构建系统
-
-```cmake
-# CMakeLists.txt 顶层结构
-cmake_minimum_required(VERSION 3.21)
-project(AL-CPP VERSION 1.0.0 LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Qt6
-find_package(Qt6 6.7 REQUIRED COMPONENTS
-    Core Gui Qml Quick Widgets Multimedia Network Sql
-)
-
-# 第三方库
-add_subdirectory(libs/sqlite3)
-find_package(OpenSSL REQUIRED)
-find_package(FFmpeg REQUIRED)
-add_subdirectory(libs/md4c)
-
-# 主程序
-qt_add_executable(AL src/main.cpp)
-qt_add_qml_module(AL URI AL VERSION 1.0)
-target_link_libraries(AL PRIVATE
-    Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick
-    Qt6::Multimedia Qt6::Network Qt6::Sql
-    SQLite3 OpenSSL::Crypto FFmpeg::avcodec
-    md4c spdlog::spdlog nlohmann_json::nlohmann_json
-)
-```
-
-### 10.2 打包
-
-- **Windows**：NSIS 安装包（与原项目一致）
-- **静态链接**：Qt 静态链接 + 第三方库静态链接，减小包体
-- **资源打包**：QML/JS/图片/主题 JSON 通过 qrc 编译进二进制
-- **FFmpeg**：作为独立 DLL 随安装包分发（LGPL 动态链接要求）
-
----
-
-## 十一、风险与对策
-
-| 风险 | 影响 | 概率 | 对策 |
-|------|------|------|------|
-| Qt6 LGPL 合规 | 法律风险 | 低 | 动态链接 Qt，或购买商业许可 |
-| FFmpeg 专利风险 | 法律风险 | 中 | 仅使用开源编解码器（H.264 需注意） |
-| 开发周期超长 | 进度风险 | 中 | 严格按优先级实施，P3 功能可延后 |
-| QML 学习曲线 | 开发效率 | 中 | 先用 Qt Widgets 快速原型，再迁移 QML |
-| 主题还原度 | UI 一致性 | 中 | QSS + QML 属性绑定，逐步调试 |
-| 数据库迁移 | 数据丢失 | 低 | 自动检测旧数据库 + schema 迁移 |
-| Windows API 兼容 | 运行时错误 | 低 | 最低支持 Windows 10 1903+ |
 
 ---
 
@@ -821,6 +882,20 @@ target_link_libraries(AL PRIVATE
 | 密钥预热 | ~200ms | ~50ms | 4x |
 | 首帧播放延迟 | ~300-500ms | ~100-200ms | 2-3x |
 | CPU 空闲占用 | ~3-5% | ~0.1-0.5% | 10x+ |
+
+---
+
+## 十四、风险与对策
+
+| 风险 | 影响 | 概率 | 对策 |
+|------|------|------|------|
+| Qt6 LGPL 合规 | 法律风险 | 低 | 动态链接 Qt，或购买商业许可 |
+| FFmpeg 专利风险 | 法律风险 | 中 | 仅使用开源编解码器（H.264 需注意） |
+| 开发周期超长 | 进度风险 | 中 | 严格按优先级实施，P3 功能可延后 |
+| QML 学习曲线 | 开发效率 | 中 | 先用 Qt Widgets 快速原型，再迁移 QML |
+| 主题还原度 | UI 一致性 | 中 | QSS + QML 属性绑定，逐步调试 |
+| 数据库迁移 | 数据丢失 | 低 | 自动检测旧数据库 + schema 迁移 |
+| Windows API 兼容 | 运行时错误 | 低 | 最低支持 Windows 10 1903+ |
 
 ---
 
