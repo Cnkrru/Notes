@@ -12,11 +12,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import('../pages/Doc.vue')
   },
   {
-    path: '/download',
-    name: 'Download',
-    component: () => import('../pages/Download.vue')
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('../pages/NotFound.vue')

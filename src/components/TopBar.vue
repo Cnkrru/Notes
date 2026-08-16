@@ -129,7 +129,6 @@ onUnmounted(() => {
         <ul class="nav-links" :class="{ open: menuOpen }">
           <li><router-link to="/">主页</router-link></li>
           <li><router-link to="/doc/index">文档</router-link></li>
-          <li><router-link to="/download">下载</router-link></li>
         </ul>
       </div>
     </div>
