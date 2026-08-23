@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { siteConfig } from '@/config/site'
 </script>
 
 <template>
   <footer class="footer">
     <div class="footer-inner">
-      <span>&copy; 2026 Notes &middot; Vue 3 驱动</span>
+      <span>&copy; {{ siteConfig.copyrightYear }} {{ siteConfig.name }} &middot; Vue 3 驱动</span>
     </div>
   </footer>
 </template>

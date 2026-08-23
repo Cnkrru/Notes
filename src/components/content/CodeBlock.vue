@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount, computed } from 'vue'
-import CodeCopy from './CodeCopy.vue'
+import CodeCopy from '@/components/content/CodeCopy.vue'
 import Prism, { ensureLanguageLoaded, ensurePrismLoaded, normalizeLang } from '@/utils/prism'
 
 const props = defineProps<{ code: string; language?: string }>()

@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import { useHead } from '@vueuse/head'
 import { getDocById, flattenTree } from '@/utils/docs'
 import MarkdownRender from '@/components/content/MarkdownRender.vue'
 import type { TocItem } from '@/types'
-import SideBar from '@/components/SideBar.vue'
+import { siteConfig } from '@/config/site'
+import Sidebar from '@/components/Sidebar.vue'
 import TocColumn from '@/components/TocColumn.vue'
 import { useLayoutStore } from '@/stores'
 
@@ -13,7 +15,7 @@ const layoutStore = useLayoutStore()
 
 const doc = ref<any>(null)
 const toc = ref<TocItem[]>([])
-const loading = ref(true)
+const loading = ref(false)
 const error = ref('')
 
 // 面包屑导航
@@ -39,25 +41,23 @@ const next = computed(() => {
   return idx >= 0 && idx < flatDocs.value.length - 1 ? flatDocs.value[idx + 1] : null
 })
 
-async function loadDoc() {
-  const path = Array.isArray(route.params.pathMatch) ? route.params.pathMatch.join('/') : (route.params.pathMatch || '')
-  loading.value = true
-  error.value = ''
-  doc.value = null
+const path = computed(() =>
+  Array.isArray(route.params.pathMatch) ? route.params.pathMatch.join('/') : (route.params.pathMatch || '')
+)
 
-  try {
-    const found = getDocById(path)
-    if (found) {
-      doc.value = found
-    } else {
-      error.value = '文档未找到'
-    }
-  } catch (e: any) {
-    error.value = e.message || '加载失败'
-  } finally {
-    loading.value = false
-  }
+// 同步解析文档：SSR 与客户端首次渲染都能直接拿到正文
+function loadDoc(pathName: string) {
+  const found = getDocById(pathName)
+  doc.value = found ?? null
+  error.value = pathName && !found ? '文档未找到' : ''
 }
+
+loadDoc(path.value)
+
+// 每页动态标题：SSG 预渲染时写入 <head>，利于 SEO（需在文档解析后设置）
+useHead({
+  title: computed(() => doc.value ? `${doc.value.title} · ${siteConfig.name}` : siteConfig.name)
+})
 
 // MarkdownRender 渲染完成后，根据生成的标题 HTML 提取 TOC
 function onReady(html: string) {
@@ -93,7 +93,6 @@ function updateProgress() {
 }
 
 onMounted(() => {
-  loadDoc()
   window.addEventListener('scroll', updateProgress)
 })
 
@@ -101,8 +100,8 @@ onUnmounted(() => {
   window.removeEventListener('scroll', updateProgress)
 })
 
-watch(() => route.params.pathMatch, () => {
-  loadDoc()
+watch(path, (p) => {
+  loadDoc(p)
 })
 </script>
 
@@ -114,7 +113,7 @@ watch(() => route.params.pathMatch, () => {
       'toc-collapsed': layoutStore.tocCollapsed
     }"
   >
-    <SideBar />
+    <Sidebar />
     <div class="doc-wrap">
       <!-- 加载中 -->
       <div v-if="loading" class="doc" style="text-align: center; padding: 4rem 0; color: var(--text-muted);">

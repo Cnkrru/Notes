@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { marked } from 'marked'
-import { processAdmonitions, addHeadingAnchors } from '@/utils/markdown'
+import { processAdmonitionsSync, addHeadingAnchors } from '@/utils/markdown'
 import { normalizeLang } from '@/utils/prism'
-import MermaidRender from './MermaidRender.vue'
-import KatexRender from './KatexRender.vue'
-import CodeBlock from './CodeBlock.vue'
-import JsonView from './JsonView.vue'
-import YamlView from './YamlView.vue'
-import TomlView from './TomlView.vue'
-import CsvTable from './CsvTable.vue'
-import ToastButton from './ToastButton.vue'
+import MermaidRender from '@/components/content/MermaidRender.vue'
+import KatexRender from '@/components/content/KatexRender.vue'
+import CodeBlock from '@/components/content/CodeBlock.vue'
+import JsonView from '@/components/content/JsonView.vue'
+import YamlView from '@/components/content/YamlView.vue'
+import TomlView from '@/components/content/TomlView.vue'
+import CsvTable from '@/components/content/CsvTable.vue'
+import ToastButton from '@/components/content/ToastButton.vue'
 
 const props = defineProps<{ content: string }>()
 
@@ -24,6 +24,7 @@ interface Block {
 }
 
 const blocks = ref<Block[]>([])
+const isSSR = !!import.meta.env.SSR
 
 marked.setOptions({ breaks: true, gfm: true })
 
@@ -105,21 +106,44 @@ function extractBlocks(content: string): Block[] {
   return out
 }
 
-/* ===== 渲染 markdown 块 ===== */
-async function renderMarkdownBlock(md: string, usedIds: Set<string>): Promise<string> {
-  const asAdmonitions = await processAdmonitions(md)
-  const rawHtml = await marked.parse(asAdmonitions)
+/* ===== 渲染 markdown 块（同步，供客户端与 SSR 共用） ===== */
+function renderMarkdownBlock(md: string, usedIds: Set<string>): string {
+  const asAdmonitions = processAdmonitionsSync(md)
+  const rawHtml = marked.parse(asAdmonitions) as string
   return addHeadingAnchors(rawHtml, usedIds)
 }
 
-async function render() {
+/**
+ * 构建初始静态块：markdown 块渲染成 HTML，特殊块保留原始内容。
+ * SSR 阶段调用，把正文文本直接写入预渲染页面。
+ */
+function buildInitialBlocks(): Block[] {
+  const rawBlocks = extractBlocks(props.content)
+  const rendered: Block[] = []
+  const usedIds = new Set<string>()
+  for (const b of rawBlocks) {
+    if (b.type === 'markdown') {
+      rendered.push({ ...b, content: renderMarkdownBlock(b.content, usedIds) })
+    } else {
+      rendered.push(b)
+    }
+  }
+  return rendered
+}
+
+// SSR 预渲染：正文 HTML 直接进入静态页面；客户端接管后再补渲染特殊块
+if (isSSR) {
+  blocks.value = buildInitialBlocks()
+}
+
+function render() {
   const rawBlocks = extractBlocks(props.content)
   const rendered: Block[] = []
   let headingHtml = ''
   const usedIds = new Set<string>()  // 同一文档内跨块去重标题 ID
   for (const b of rawBlocks) {
     if (b.type === 'markdown') {
-      const html = await renderMarkdownBlock(b.content, usedIds)
+      const html = renderMarkdownBlock(b.content, usedIds)
       headingHtml += html
       rendered.push({ ...b, content: html })
     } else {
@@ -128,9 +152,11 @@ async function render() {
   }
   blocks.value = rendered
 
-  await nextTick()
-  setupImages()
-  setupAnchorIntercept()
+  // DOM 副作用需等 DOM 更新后再挂载
+  nextTick(() => {
+    setupImages()
+    setupAnchorIntercept()
+  })
   emit('ready', headingHtml)
 }
 
@@ -220,15 +246,19 @@ watch(() => props.content, () => render())
 <template>
   <div class="markdown-render">
     <div v-for="(block, i) in blocks" :key="i" class="block-item">
-      <MermaidRender v-if="block.type === 'mermaid'" :code="block.content" />
-      <KatexRender v-else-if="block.type === 'math'" :latex="block.content" />
-      <JsonView v-else-if="block.type === 'code' && block.language === 'json'" :code="block.content" />
-      <YamlView v-else-if="block.type === 'code' && (block.language === 'yaml' || block.language === 'yml')" :code="block.content" />
-      <TomlView v-else-if="block.type === 'code' && block.language === 'toml'" :code="block.content" />
-      <CsvTable v-else-if="block.type === 'code' && block.language === 'csv'" :code="block.content" />
-      <CodeBlock v-else-if="block.type === 'code'" :code="block.content" :language="block.language" />
-      <ToastButton v-else-if="block.type === 'toast'" :type="block.toastType || 'info'" :text="block.content" />
-      <div v-else class="markdown-content" v-html="block.content"></div>
+      <!-- SSR 阶段：markdown 正文直接输出；纯客户端块(mermaid/math/code/toast)先占位，客户端接管后补渲染 -->
+      <div v-if="isSSR && block.type !== 'markdown'" class="blk-placeholder"></div>
+      <template v-else>
+        <MermaidRender v-if="block.type === 'mermaid'" :code="block.content" />
+        <KatexRender v-else-if="block.type === 'math'" :latex="block.content" />
+        <JsonView v-else-if="block.type === 'code' && block.language === 'json'" :code="block.content" />
+        <YamlView v-else-if="block.type === 'code' && (block.language === 'yaml' || block.language === 'yml')" :code="block.content" />
+        <TomlView v-else-if="block.type === 'code' && block.language === 'toml'" :code="block.content" />
+        <CsvTable v-else-if="block.type === 'code' && block.language === 'csv'" :code="block.content" />
+        <CodeBlock v-else-if="block.type === 'code'" :code="block.content" :language="block.language" />
+        <ToastButton v-else-if="block.type === 'toast'" :type="block.toastType || 'info'" :text="block.content" />
+        <div v-else class="markdown-content" v-html="block.content"></div>
+      </template>
     </div>
 
     <Teleport to="body">

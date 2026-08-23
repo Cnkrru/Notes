@@ -1,5 +1,5 @@
 import { ref, watch, onMounted, type Ref } from 'vue'
-import Prism, { ensureLanguageLoaded } from '../../utils/prism'
+import Prism, { ensureLanguageLoaded } from '@/utils/prism'
 
 /**
  * 为结构化预览（JsonView / YamlView / TomlView）的源码视图提供 Prism 语法高亮。

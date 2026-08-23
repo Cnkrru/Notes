@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import JsonTree from './JsonTree.vue'
-import CodeCopy from './CodeCopy.vue'
-import { useSourceHighlight } from './useSourceHighlight'
+import JsonTree from '@/components/content/JsonTree.vue'
+import CodeCopy from '@/components/content/CodeCopy.vue'
+import { useSourceHighlight } from '@/composables/useSourceHighlight'
 
 const props = defineProps<{ code: string }>()
 
@@ -66,7 +66,7 @@ function countNodes(data: any): number {
   </div>
 </template>
 
-<style scoped src="./structured.css"></style>
+<style scoped src="@/assets/css/structured.css"></style>
 <style scoped>
 /* 清除 Prism 默认主题的浅色适配样式（深色代码背景上）
    :deep() 需写在组件内联 scoped style 中才会被 Vue 处理 */

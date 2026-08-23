@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import { siteConfig } from '@/config/site'
 
 export const useThemeStore = defineStore('theme', () => {
   const currentTheme = ref<'light' | 'dark'>('light')
@@ -30,14 +31,14 @@ export const useThemeStore = defineStore('theme', () => {
 
   function savePreference() {
     try {
-      localStorage.setItem('notes-theme', currentTheme.value)
+      localStorage.setItem(siteConfig.themeStorageKey, currentTheme.value)
     } catch (e) {
       // ignore
     }
   }
 
   function initTheme() {
-    const saved = localStorage.getItem('notes-theme')
+    const saved = localStorage.getItem(siteConfig.themeStorageKey)
     if (saved === 'dark' || saved === 'light') {
       currentTheme.value = saved
     } else {

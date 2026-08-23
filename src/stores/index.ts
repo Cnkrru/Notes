@@ -1,5 +1,5 @@
 import { createPinia } from 'pinia'
-export { useThemeStore } from './theme'
-export { useLayoutStore } from './layout'
+export { useThemeStore } from '@/stores/theme'
+export { useLayoutStore } from '@/stores/layout'
 const pinia = createPinia()
 export { pinia }

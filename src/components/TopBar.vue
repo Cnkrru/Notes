@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 import { useThemeStore } from '@/stores'
 import { searchDocs, getAllDocs } from '@/utils/docs'
 import type { DocItem } from '@/utils/docs'
+import { siteConfig, defaultNav } from '@/config/site'
+import type { NavItem } from '@/types'
 
 const themeStore = useThemeStore()
 const router = useRouter()
@@ -59,6 +61,16 @@ function handleKeydown(e: KeyboardEvent) {
 
 const totalDocs = computed(() => getAllDocs().length)
 
+// 导航：优先用配置的 siteConfig.nav，未配置回落到默认项
+const nav = computed<NavItem[]>(() => (siteConfig.nav.length ? siteConfig.nav : defaultNav))
+
+function isInternal(link?: string): boolean {
+  return !!link && link.startsWith('/')
+}
+function onClick() {
+  menuOpen.value = false
+}
+
 // 全局键盘快捷键
 function onGlobalKeydown(e: KeyboardEvent) {
   // Ctrl+K / Cmd+K → 聚焦搜索
@@ -80,7 +92,7 @@ onUnmounted(() => {
 <template>
   <nav class="topbar">
     <div class="container">
-      <router-link to="/" class="brand">Notes</router-link>
+      <router-link to="/" class="brand">{{ siteConfig.name }}</router-link>
       <div class="search-wrap">
         <input
           type="text"
@@ -127,8 +139,33 @@ onUnmounted(() => {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         </button>
         <ul class="nav-links" :class="{ open: menuOpen }">
-          <li><router-link to="/">主页</router-link></li>
-          <li><router-link to="/doc/index">文档</router-link></li>
+          <template v-for="item in nav" :key="item.text">
+            <li v-if="item.items && item.items.length" class="nav-sub">
+              <span class="nav-sub-btn">{{ item.text }}</span>
+              <ul class="nav-sub-list">
+                <li v-for="sub in item.items" :key="sub.text" class="nav-sub-item">
+                  <component
+                    :is="isInternal(sub.link) ? RouterLink : 'a'"
+                    :to="isInternal(sub.link) ? sub.link : undefined"
+                    :href="isInternal(sub.link) ? undefined : sub.link"
+                    :target="isInternal(sub.link) ? undefined : '_blank'"
+                    :rel="isInternal(sub.link) ? undefined : 'noopener'"
+                    @click="onClick"
+                  >{{ sub.text }}</component>
+                </li>
+              </ul>
+            </li>
+            <li v-else class="nav-item">
+              <component
+                :is="isInternal(item.link) ? RouterLink : 'a'"
+                :to="isInternal(item.link) ? item.link : undefined"
+                :href="isInternal(item.link) ? undefined : item.link"
+                :target="isInternal(item.link) ? undefined : '_blank'"
+                :rel="isInternal(item.link) ? undefined : 'noopener'"
+                @click="onClick"
+              >{{ item.text }}</component>
+            </li>
+          </template>
         </ul>
       </div>
     </div>
@@ -209,6 +246,76 @@ onUnmounted(() => {
     transition: color var(--duration-fast) var(--ease-out);
 }
 .nav-links a:hover {
+    color: var(--accent);
+}
+
+.nav-item,
+.nav-sub { position: relative; }
+
+.nav-sub-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    cursor: default;
+    padding: 2px 0;
+    transition: color var(--duration-fast) var(--ease-out);
+}
+.nav-sub-btn::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid currentColor;
+    opacity: 0.6;
+    margin-top: 2px;
+}
+.nav-sub:hover .nav-sub-btn { color: var(--accent); }
+
+.nav-sub-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    min-width: 168px;
+    margin: 0;
+    padding: var(--space-1);
+    list-style: none;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--duration-fast) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out),
+                visibility 0s var(--duration-fast);
+    z-index: 50;
+}
+.nav-sub:hover .nav-sub-list,
+.nav-sub:focus-within .nav-sub-list {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    transition: opacity var(--duration-fast) var(--ease-out),
+                transform var(--duration-fast) var(--ease-out);
+}
+.nav-sub-list a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+.nav-sub-list a:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* 当前页高亮（站内链接）/ 外链打开新标签 */
+.nav-links a.router-link-active {
     color: var(--accent);
 }
 
@@ -464,6 +571,20 @@ html[data-theme="dark"] .icon-moon { display: none; }
     }
     .nav-links li { padding: var(--space-2) 0; }
     .nav-links.open { display: flex; }
+
+    /* 移动端菜单内把下拉展平为缩进列表 */
+    .nav-sub-list {
+        position: static;
+        transform: none;
+        opacity: 1;
+        visibility: visible;
+        box-shadow: none;
+        border: none;
+        background: none;
+        padding: var(--space-1) 0 0 var(--space-4);
+    }
+    .nav-sub-list a:hover { background: none; }
+    .nav-sub-btn { cursor: pointer; }
 
     .search-wrap {
         flex: 1 1 auto;

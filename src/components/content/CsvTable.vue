@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import CodeCopy from './CodeCopy.vue'
+import CodeCopy from '@/components/content/CodeCopy.vue'
 
 const props = defineProps<{ code: string }>()
 
@@ -78,7 +78,7 @@ const hasHeader = computed(() => header.value.length > 0)
   </div>
 </template>
 
-<style scoped src="./structured.css"></style>
+<style scoped src="@/assets/css/structured.css"></style>
 
 <style scoped>
 .csv-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }

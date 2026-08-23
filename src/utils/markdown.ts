@@ -7,6 +7,12 @@ import { marked } from 'marked'
  * 预处理 admonition 提示块（::: tip/warning/danger）
  */
 export async function processAdmonitions(md: string): Promise<string> {
+  // 无 async 扩展时 marked.parse 同步返回字符串，这里仅包装为 Promise 以兼容旧调用
+  return processAdmonitionsSync(md)
+}
+
+/** 同步版：SSR 阶段渲染静态 HTML 时使用（marked 无 async 扩展时可同步调用） */
+export function processAdmonitionsSync(md: string): string {
   if (!md) return md
   if (!/^:::\s*\w+/m.test(md)) return md
 
@@ -23,7 +29,7 @@ export async function processAdmonitions(md: string): Promise<string> {
   let html = result
   for (let i = blocks.length - 1; i >= 0; i--) {
     const block = blocks[i]
-    const innerHtml = await marked.parse(block.raw)
+    const innerHtml = marked.parse(block.raw) as string
     const admonitionHtml = `<div class="admonition admonition-${block.type}">${innerHtml.trim()}</div>`
     html = html.replace(`<!--ADMONITION-${i}-->`, admonitionHtml)
   }

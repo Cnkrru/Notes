@@ -3,7 +3,7 @@ import { ref, onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { buildDocTree } from '@/utils/docs'
 import type { DocTreeNode } from '@/types'
-import SidebarNode from './SidebarNode.vue'
+import SidebarNode from '@/components/SidebarNode.vue'
 import { useLayoutStore } from '@/stores'
 
 const route = useRoute()
