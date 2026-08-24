@@ -59,6 +59,11 @@ async function copyCode() {
   border-color: var(--accent);
   color: var(--accent);
 }
+.copy-button:focus-visible {
+  outline: none;
+  box-shadow: var(--glow);
+  border-color: var(--accent);
+}
 .copy-button.copied {
   background: #42b883;
   border-color: #42b883;

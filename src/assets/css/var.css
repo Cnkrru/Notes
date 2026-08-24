@@ -50,6 +50,7 @@
   --code-bg:       #28251e;
   --code-text:     #f0ece0;
   --code-border:   rgba(74, 60, 40, 0.18);
+  --code-accent:   #d65a4e;
   --inline-code-bg: #f0ece0;
   --inline-code-tx: #b33a2e;
 
@@ -96,6 +97,7 @@ html[data-theme="dark"] {
   --code-bg:       #0f0e0b;
   --code-text:     #f0ece0;
   --code-border:   rgba(240, 236, 224, 0.07);
+  --code-accent:   #e07060;
   --inline-code-bg: #2c2820;
   --inline-code-tx: #e07060;
 

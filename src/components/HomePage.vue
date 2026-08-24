@@ -8,7 +8,7 @@ import { siteConfig } from '@/config/site'
       <h1>{{ siteConfig.name }}</h1>
       <p class="hero-sub">{{ siteConfig.slogan }}</p>
       <div class="hero-actions">
-        <router-link class="btn btn-primary" to="/doc/index">快速开始</router-link>
+        <router-link class="btn btn-primary" to="/docs/index">快速开始</router-link>
       </div>
     </section>
 

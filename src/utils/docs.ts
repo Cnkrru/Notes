@@ -1,10 +1,18 @@
 import type { DocMeta, DocTreeNode, TocItem } from '@/types'
+import { siteConfig } from '@/config/site'
+
+// 已注册的挂载目录（来自 siteConfig.docRoots）
+const docRoots = siteConfig.docRoots.map(r => r.dir)
 
 /**
- * 扫描 docs 目录下的所有 markdown 文件，构建文档树
+ * 扫描所有已注册挂载目录下的 markdown 文件，构建文档树
  * 使用相对路径 glob（避免 Windows 上绝对路径盘符大小写导致的解析错误）
+ * 注意：import.meta.glob 需静态字面量，新增挂载目录时需同步更新下方 {…} 列表
  */
-const docModules = import.meta.glob<{ default: string }>('../../docs/**/*.md', { eager: true, query: '?raw' })
+const docModules = import.meta.glob<{ default: string }>(
+  '../../{docs,logging,blog}/**/*.md',
+  { eager: true, query: '?raw' }
+)
 
 export interface DocItem {
   id: string
@@ -17,19 +25,22 @@ let cachedDocs: DocItem[] | null = null
 let cachedTree: DocTreeNode[] | null = null
 
 /**
- * 将 glob 返回的路径统一为 /docs/xxx 形式（兼容相对/绝对前缀）
+ * 将 glob 返回的路径统一为 /<root>/xxx 形式（兼容相对/绝对前缀）
  */
 function normalizeDocPath(filePath: string): string {
   const normalized = filePath.replace(/\\/g, '/')
-  const idx = normalized.indexOf('/docs/')
-  return idx >= 0 ? normalized.slice(idx) : normalized
+  for (const root of docRoots) {
+    const idx = normalized.indexOf(`/${root}/`)
+    if (idx >= 0) return normalized.slice(idx)
+  }
+  return normalized
 }
 
 /**
- * 从路径中提取 ID
+ * 从路径中提取 ID（含根目录，如 docs/index、logging/2026-08-24）
  */
 function getIdFromPath(filePath: string): string {
-  return normalizeDocPath(filePath).replace('/docs/', '').replace(/\.md$/, '')
+  return normalizeDocPath(filePath).replace(/^\//, '').replace(/\.md$/, '')
 }
 
 /**
@@ -43,6 +54,8 @@ export function getAllDocs(): DocItem[] {
   for (const [filePath, module] of Object.entries(docModules)) {
     const raw = module.default
     const id = getIdFromPath(filePath)
+    const root = id.split('/')[0]
+    if (!docRoots.includes(root)) continue
     const title = id.split('/').pop() || id
 
     docs.push({
@@ -136,12 +149,13 @@ function naturalCompare(a: string, b: string): number {
 }
 
 /**
- * 构建文档树
+ * 构建文档树（仅包含 siteConfig.sidebarDirs 配置的目录）
  */
 export function buildDocTree(): DocTreeNode[] {
   if (cachedTree) return cachedTree
 
-  const docs = getAllDocs()
+  const sidebarDirs = siteConfig.sidebarDirs
+  const docs = getAllDocs().filter(doc => sidebarDirs.includes(doc.id.split('/')[0]))
   const tree: DocTreeNode[] = []
 
   for (const doc of docs) {
@@ -156,7 +170,7 @@ export function buildDocTree(): DocTreeNode[] {
         current.push({
           name: doc.title,
           type: 'doc',
-          path: `/doc/${doc.id}`,
+          path: `/${doc.id}`,
           meta: {
             id: doc.id,
             title: doc.title,

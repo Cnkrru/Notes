@@ -265,4 +265,72 @@ watch(() => [props.code, props.language], () => scheduleHighlight())
   z-index: 5;
 }
 .fold-toggle:hover { opacity: 1; }
+
+/* ===== 深色代码块专用语法高亮配色 =====
+   Prism 默认主题 (prism.min.css) 为浅底设计，token 颜色不适合深色代码块，
+   这里用一套自适应的深色高亮配色覆盖（One-Dark 风格基调，与水墨主题协调）。
+   background/text-shadow 已在上方 :deep 清除，此处只上图色。 */
+.code-pre :deep(.token.comment),
+.code-pre :deep(.token.prolog),
+.code-pre :deep(.token.doctype),
+.code-pre :deep(.token.cdata) { color: #7d8a8f; }
+
+.code-pre :deep(.token.punctuation) { color: #a0aab0; }
+
+.code-pre :deep(.token.property),
+.code-pre :deep(.token.tag),
+.code-pre :deep(.token.constant),
+.code-pre :deep(.token.symbol),
+.code-pre :deep(.token.deleted) { color: #e0736c; }
+
+.code-pre :deep(.token.boolean),
+.code-pre :deep(.token.number),
+.code-pre :deep(.token.hexcode),
+.code-pre :deep(.token.unit) { color: #d8a15e; }
+
+.code-pre :deep(.token.selector),
+.code-pre :deep(.token.attr-name),
+.code-pre :deep(.token.string),
+.code-pre :deep(.token.char),
+.code-pre :deep(.token.builtin),
+.code-pre :deep(.token.inserted) { color: #93c083; }
+
+.code-pre :deep(.token.operator),
+.code-pre :deep(.token.entity),
+.code-pre :deep(.token.url),
+.code-pre :deep(.token.template-variable) { color: #5fc1bd; }
+
+.code-pre :deep(.token.atrule),
+.code-pre :deep(.token.attr-value),
+.code-pre :deep(.token.keyword) { color: #c08be0; }
+
+.code-pre :deep(.token.function),
+.code-pre :deep(.token.class-name),
+.code-pre :deep(.token.function-name) { color: #6db3f0; }
+
+.code-pre :deep(.token.regex),
+.code-pre :deep(.token.important),
+.code-pre :deep(.token.variable) { color: #d8a15e; }
+
+.code-pre :deep(.token.bold) { font-weight: 600; }
+.code-pre :deep(.token.italic) { font-style: italic; }
+
+/* ===== 代码区滚动条（横向溢出时更精致并用主题色） ===== */
+.code-pre {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--code-text) 28%, transparent) transparent;
+}
+.code-pre::-webkit-scrollbar { height: 8px; }
+.code-pre::-webkit-scrollbar-track { background: transparent; }
+.code-pre::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--code-text) 26%, transparent);
+  border-radius: 4px;
+}
+.code-pre::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--code-text) 42%, transparent);
+}
+
+/* ===== 行 hover 高亮略增强，强调行更明显 ===== */
+.line-highlight-row:hover { background: color-mix(in srgb, var(--code-accent) 14%, transparent); }
+.line-highlight-row.active { background: color-mix(in srgb, var(--code-accent) 18%, transparent); }
 </style>

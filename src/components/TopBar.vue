@@ -50,7 +50,7 @@ function clearSearch() {
 
 function goToDoc(doc: DocItem) {
   clearSearch()
-  router.push(`/doc/${doc.id}`)
+  router.push(`/${doc.id}`)
 }
 
 function handleKeydown(e: KeyboardEvent) {

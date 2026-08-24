@@ -18,11 +18,12 @@ const toc = ref<TocItem[]>([])
 const loading = ref(false)
 const error = ref('')
 
-// 面包屑导航
+// 面包屑导航（去掉根目录与文件名，只留目录层级）
 const breadcrumb = computed(() => {
   if (!doc.value?.id) return []
   const parts = doc.value.id.split('/')
-  parts.pop() // 去掉文件名，只留目录层级
+  parts.shift()
+  parts.pop()
   return parts
 })
 
@@ -30,7 +31,7 @@ const breadcrumb = computed(() => {
 const flatDocs = computed(() => flattenTree())
 const currentIndex = computed(() => {
   if (!doc.value) return -1
-  return flatDocs.value.findIndex(d => d.path === `/doc/${doc.value.id}`)
+  return flatDocs.value.findIndex(d => d.path === `/${doc.value.id}`)
 })
 const prev = computed(() => {
   const idx = currentIndex.value
@@ -41,9 +42,12 @@ const next = computed(() => {
   return idx >= 0 && idx < flatDocs.value.length - 1 ? flatDocs.value[idx + 1] : null
 })
 
-const path = computed(() =>
-  Array.isArray(route.params.pathMatch) ? route.params.pathMatch.join('/') : (route.params.pathMatch || '')
-)
+// 当前挂载目录（由路由 meta 注入，如 docs/logging/blog）
+const root = computed(() => String(route.meta.root || ''))
+const path = computed(() => {
+  const pm = Array.isArray(route.params.pathMatch) ? route.params.pathMatch.join('/') : (route.params.pathMatch || '')
+  return pm ? `${root.value}/${pm}` : `${root.value}/index`
+})
 
 // 同步解析文档：SSR 与客户端首次渲染都能直接拿到正文
 function loadDoc(pathName: string) {
