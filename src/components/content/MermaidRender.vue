@@ -1,18 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
 import { useThemeStore } from '@/stores'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
 const themeStore = useThemeStore()
 const isDark = computed(() => themeStore.isDark)
 
-const containerRef = ref<HTMLElement | null>(null)
+const containerRef = ref(null)
 const loading = ref(false)
 const error = ref('')
 const mermaidId = ref('mermaid-' + Date.now() + '-' + Math.floor(Math.random() * 10000))
 let mermaidReady = false
-let mermaidPromise: Promise<void> | null = null
+let mermaidPromise = null
 
 const MERMAID_VERSION = '10.9.1'
 const CDN_LINKS = [
@@ -20,11 +22,11 @@ const CDN_LINKS = [
   `https://unpkg.com/mermaid@${MERMAID_VERSION}/dist/mermaid.min.js`
 ]
 
-function loadMermaid(): Promise<void> {
+function loadMermaid() {
   if (mermaidReady) return Promise.resolve()
   if (mermaidPromise) return mermaidPromise
-  mermaidPromise = new Promise<void>((resolve, reject) => {
-    if ((window as any).mermaid) {
+  mermaidPromise = new Promise((resolve, reject) => {
+    if (window.mermaid) {
       mermaidReady = true
       resolve()
       return
@@ -45,7 +47,7 @@ function loadMermaid(): Promise<void> {
 }
 
 function initializeMermaid() {
-  const m = (window as any).mermaid
+  const m = window.mermaid
   if (!m) return
   m.initialize({
     startOnLoad: false,
@@ -61,14 +63,14 @@ async function render() {
   error.value = ''
   try {
     await loadMermaid()
-    const m = (window as any).mermaid
+    const m = window.mermaid
     if (!m) throw new Error('Mermaid 未加载')
     initializeMermaid()
     mermaidId.value = 'mermaid-' + Date.now() + '-' + Math.floor(Math.random() * 10000)
     containerRef.value.innerHTML = ''
     const { svg } = await m.render(mermaidId.value, props.code)
     containerRef.value.innerHTML = svg
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.message || '图表渲染失败'
   } finally {
     loading.value = false

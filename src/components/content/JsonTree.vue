@@ -1,15 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 
-const props = withDefaults(defineProps<{
-  data: any
-  keyName?: string
-  depth?: number
-}>(), { depth: 0 })
+const props = defineProps({
+  data: { type: null, required: true },
+  keyName: { type: String },
+  depth: { type: Number, default: 0 }
+})
 
 const isExpanded = ref(props.depth < 3)
 
-function isObject(val: any): boolean {
+function isObject(val) {
   return val !== null && typeof val === 'object'
 }
 
@@ -24,7 +24,7 @@ const valueClass = computed(() => {
   return 'value-other'
 })
 
-function formatValue(val: any): string {
+function formatValue(val) {
   if (val === null) return 'null'
   if (val === undefined) return 'undefined'
   if (typeof val === 'string') {
@@ -46,7 +46,7 @@ const previewText = computed(() => {
 
 const entries = computed(() => {
   if (isArray.value) {
-    return props.data.map((v: any, i: number) => ({ key: String(i), value: v }))
+    return props.data.map((v, i) => ({ key: String(i), value: v }))
   }
   return Object.keys(props.data).sort().map((k) => ({ key: k, value: props.data[k] }))
 })

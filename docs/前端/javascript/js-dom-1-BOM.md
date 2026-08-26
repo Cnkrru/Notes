@@ -20,4 +20,4 @@ BOM (浏览器对象模型)
 │   └── screen (屏幕对象)
 ```
 ---
-> 没太注意过，window和document和screen倒是认真学过，一般用到了才去MDN上学
+> 没太注意过，window，document和screen倒是认真学过，一般用到了才去MDN上学

@@ -1,31 +1,29 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, RouterLink } from 'vue-router'
 import { useThemeStore } from '@/stores'
 import { searchDocs, getAllDocs } from '@/utils/docs'
-import type { DocItem } from '@/utils/docs'
 import { siteConfig, defaultNav } from '@/config/site'
-import type { NavItem } from '@/types'
 
 const themeStore = useThemeStore()
 const router = useRouter()
 
 const searchQuery = ref('')
-const searchResults = ref<{ doc: DocItem; matches: string[] }[]>([])
+const searchResults = ref([])
 const showPanel = ref(false)
 const menuOpen = ref(false)
-const searchInput = ref<HTMLInputElement | null>(null)
+const searchInput = ref(null)
 
 const searchVisible = computed(() => searchQuery.value.length > 0)
 
-function highlightText(text: string, query: string): string {
+function highlightText(text, query) {
   if (!query.trim()) return text
   const q = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const regex = new RegExp(`(${q})`, 'gi')
   return text.replace(regex, '<mark>$1</mark>')
 }
 
-function getMatchSnippet(matches: string[], query: string): string {
+function getMatchSnippet(matches, query) {
   // 找到第一个不是标题的匹配行
   const snippet = matches.find(m => m.length > 0) || ''
   if (snippet.length > 80) return snippet.substring(0, 80) + '...'
@@ -48,12 +46,12 @@ function clearSearch() {
   showPanel.value = false
 }
 
-function goToDoc(doc: DocItem) {
+function goToDoc(doc) {
   clearSearch()
   router.push(`/${doc.id}`)
 }
 
-function handleKeydown(e: KeyboardEvent) {
+function handleKeydown(e) {
   if (e.key === 'Escape') {
     clearSearch()
   }
@@ -62,9 +60,9 @@ function handleKeydown(e: KeyboardEvent) {
 const totalDocs = computed(() => getAllDocs().length)
 
 // 导航：优先用配置的 siteConfig.nav，未配置回落到默认项
-const nav = computed<NavItem[]>(() => (siteConfig.nav.length ? siteConfig.nav : defaultNav))
+const nav = computed(() => (siteConfig.nav.length ? siteConfig.nav : defaultNav))
 
-function isInternal(link?: string): boolean {
+function isInternal(link) {
   return !!link && link.startsWith('/')
 }
 function onClick() {
@@ -72,7 +70,7 @@ function onClick() {
 }
 
 // 全局键盘快捷键
-function onGlobalKeydown(e: KeyboardEvent) {
+function onGlobalKeydown(e) {
   // Ctrl+K / Cmd+K → 聚焦搜索
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault()

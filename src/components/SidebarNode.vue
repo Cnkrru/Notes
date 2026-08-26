@@ -1,16 +1,17 @@
-<script setup lang="ts">
+<script setup>
 import { useRoute } from 'vue-router'
-import type { DocTreeNode } from '@/types'
 
-defineProps<{ node: DocTreeNode }>()
+defineProps({
+  node: { type: Object, required: true }
+})
 
 const route = useRoute()
 
-function isActive(node: DocTreeNode): boolean {
+function isActive(node) {
   return node.type === 'doc' && route.path === node.path
 }
 
-function toggleFolder(node: DocTreeNode) {
+function toggleFolder(node) {
   if (node.type === 'folder') node.open = !node.open
 }
 </script>

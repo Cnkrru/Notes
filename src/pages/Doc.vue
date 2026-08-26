@@ -1,10 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHead } from '@vueuse/head'
 import { getDocById, flattenTree } from '@/utils/docs'
 import MarkdownRender from '@/components/content/MarkdownRender.vue'
-import type { TocItem } from '@/types'
 import { siteConfig } from '@/config/site'
 import Sidebar from '@/components/Sidebar.vue'
 import TocColumn from '@/components/TocColumn.vue'
@@ -13,8 +12,8 @@ import { useLayoutStore } from '@/stores'
 const route = useRoute()
 const layoutStore = useLayoutStore()
 
-const doc = ref<any>(null)
-const toc = ref<TocItem[]>([])
+const doc = ref(null)
+const toc = ref([])
 const loading = ref(false)
 const error = ref('')
 
@@ -50,7 +49,7 @@ const path = computed(() => {
 })
 
 // 同步解析文档：SSR 与客户端首次渲染都能直接拿到正文
-function loadDoc(pathName: string) {
+function loadDoc(pathName) {
   const found = getDocById(pathName)
   doc.value = found ?? null
   error.value = pathName && !found ? '文档未找到' : ''
@@ -64,15 +63,15 @@ useHead({
 })
 
 // MarkdownRender 渲染完成后，根据生成的标题 HTML 提取 TOC
-function onReady(html: string) {
+function onReady(html) {
   toc.value = extractTocFromHtml(html)
 }
 
 /**
  * 从渲染后的 HTML 中提取标题 ID
  */
-function extractTocFromHtml(html: string): TocItem[] {
-  const toc: TocItem[] = []
+function extractTocFromHtml(html) {
+  const toc = []
   const headingRegex = /<h([1-4])\s+id="([^"]+)"[^>]*>(?:<a[^>]*>.*?<\/a>)?(.+?)<\/h[1-4]>/g
   let match
   while ((match = headingRegex.exec(html)) !== null) {

@@ -1,17 +1,16 @@
-<script setup lang="ts">
+<script setup>
 import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
-import type { TocItem } from '@/types'
 import { useLayoutStore } from '@/stores'
 
-const props = defineProps<{
-  toc: TocItem[]
-}>()
+const props = defineProps({
+  toc: { type: Array, required: true }
+})
 
 const layoutStore = useLayoutStore()
 
 const activeId = ref('')
 
-function scrollTo(id: string) {
+function scrollTo(id) {
   const el = document.getElementById(id)
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' })

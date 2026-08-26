@@ -5,6 +5,7 @@ node_modules/.cache/
 # 构建产物
 dist/
 .vite/
+.vite-ssg-temp/
 
 # 日志
 *.log

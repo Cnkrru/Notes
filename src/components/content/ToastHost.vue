@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { subscribeToast, initToast, type ToastItem } from '@/utils/toast'
+import { subscribeToast, initToast } from '@/utils/toast'
 
-const toasts = ref<ToastItem[]>([])
-let unsubscribe: (() => void) | null = null
+const toasts = ref([])
+let unsubscribe = null
 
 onMounted(() => {
   initToast()

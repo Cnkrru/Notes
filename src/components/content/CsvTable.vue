@@ -1,18 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed } from 'vue'
 import CodeCopy from '@/components/content/CodeCopy.vue'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
-const viewMode = ref<'preview' | 'source'>('preview')
+const viewMode = ref('preview')
 
-function parseCsv(raw: string): { header: string[]; body: string[][]; rows: number; cols: number } {
+function parseCsv(raw) {
   const lines = raw.trim().split(/\r?\n/).filter(l => l.trim() !== '')
   if (lines.length === 0) return { header: [], body: [], rows: 0, cols: 0 }
 
-  const result: string[][] = []
+  const result = []
   for (const line of lines) {
-    const row: string[] = []
+    const row = []
     let cell = ''
     let inQuotes = false
     for (let i = 0; i < line.length; i++) {

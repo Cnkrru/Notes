@@ -1,22 +1,24 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
 import JsonTree from '@/components/content/JsonTree.vue'
 import CodeCopy from '@/components/content/CodeCopy.vue'
 import { useSourceHighlight } from '@/composables/useSourceHighlight'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
-const viewMode = ref<'preview' | 'source'>('preview')
+const viewMode = ref('preview')
 const { sourceRef } = useSourceHighlight('yaml', computed(() => viewMode.value === 'source'))
 const parseError = ref('')
-const parsed = ref<any>(null)
+const parsed = ref(null)
 const yamlReady = ref(false)
 const cdnError = ref('')
 
 const CDN_JSYAML = 'https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js'
 
-function loadJsYaml(): Promise<void> {
-  if ((window as any).jsyaml) { yamlReady.value = true; return Promise.resolve() }
+function loadJsYaml() {
+  if (window.jsyaml) { yamlReady.value = true; return Promise.resolve() }
   return new Promise((resolve) => {
     const s = document.createElement('script')
     s.src = CDN_JSYAML
@@ -37,12 +39,12 @@ async function parse() {
   if (!trimmed) { parseError.value = '输入为空'; viewMode.value = 'source'; return }
   if (!yamlReady.value) await loadJsYaml()
   try {
-    const jsyaml = (window as any).jsyaml
+    const jsyaml = window.jsyaml
     if (!jsyaml) { viewMode.value = 'source'; return }
     const result = jsyaml.load(trimmed)
     parsed.value = (result === null || result === undefined) ? {} : (typeof result === 'object' ? result : { value: result })
     viewMode.value = 'preview'
-  } catch (e: any) {
+  } catch (e) {
     parseError.value = `解析失败: ${e.message || '语法错误'}`
     viewMode.value = 'source'
   }
@@ -59,7 +61,7 @@ const statsText = computed(() => {
   return `${lines} 行 · ${nodes} 节点`
 })
 
-function countNodes(data: any): number {
+function countNodes(data) {
   if (data === null || data === undefined || typeof data !== 'object') return 1
   let count = 1
   if (Array.isArray(data)) {

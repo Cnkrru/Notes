@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { onMounted } from 'vue'
 import { useThemeStore, useLayoutStore } from '@/stores'
 import '@/assets/css/style.css'

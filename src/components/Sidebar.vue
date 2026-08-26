@@ -1,16 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vue-router'
 import { buildDocTree } from '@/utils/docs'
-import type { DocTreeNode } from '@/types'
 import SidebarNode from '@/components/SidebarNode.vue'
 import { useLayoutStore } from '@/stores'
 
 const route = useRoute()
 const layoutStore = useLayoutStore()
 
-const tree = ref<DocTreeNode[]>([])
-const sidebarEl = ref<HTMLElement | null>(null)
+const tree = ref([])
+const sidebarEl = ref(null)
 
 function buildAndExpand() {
   const raw = buildDocTree()
@@ -23,7 +22,7 @@ function expandCurrent() {
   const currentPath = route.path
   // 从根往下展开当前路径所在文件夹
   // 不关闭已打开的文件夹，保留用户手动操作
-  function walk(nodes: DocTreeNode[]): boolean {
+  function walk(nodes) {
     for (const node of nodes) {
       if (node.type === 'doc') {
         if (node.path === currentPath) return true

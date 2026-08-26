@@ -1,26 +1,29 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, watch, onBeforeUnmount, computed } from 'vue'
 import CodeCopy from '@/components/content/CodeCopy.vue'
 import Prism, { ensureLanguageLoaded, ensurePrismLoaded, normalizeLang } from '@/utils/prism'
 
-const props = defineProps<{ code: string; language?: string }>()
+const props = defineProps({
+  code: { type: String, required: true },
+  language: { type: String }
+})
 
-const codeRef = ref<HTMLElement | null>(null)
+const codeRef = ref(null)
 const loaded = ref(false)
 const collapsed = ref(true)
 const highlightedLine = ref(0)
-let highlightTimer: number | null = null
+let highlightTimer = null
 
 const lang = computed(() => normalizeLang(props.language))
 const lineCount = computed(() => props.code.split('\n').length)
 const isCollapsible = computed(() => lineCount.value > 15)
 const lineNumbers = computed(() => Array.from({ length: lineCount.value }, (_, i) => i + 1))
 
-function highlightLine(n: number) {
+function highlightLine(n) {
   highlightedLine.value = n
 }
 
-const LANG_BADGE_CLASS: Record<string, string> = {
+const LANG_BADGE_CLASS = {
   javascript: 'js', js: 'js', typescript: 'ts', ts: 'ts', python: 'py',
   html: 'html', css: 'css', bash: 'bash', shell: 'bash', sh: 'bash',
   json: 'json', sql: 'sql', vue: 'vue', yaml: 'yaml', toml: 'toml', php: 'php'

@@ -1,13 +1,15 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 
-const props = defineProps<{ latex: string }>()
+const props = defineProps({
+  latex: { type: String, required: true }
+})
 
-const mathRef = ref<HTMLElement | null>(null)
+const mathRef = ref(null)
 const loading = ref(false)
 const error = ref('')
 let katexReady = false
-let katexPromise: Promise<void> | null = null
+let katexPromise = null
 
 const KATEX_VERSION = '0.16.11'
 const CDN_LINKS = {
@@ -21,7 +23,7 @@ const CDN_LINKS = {
   ]
 }
 
-function loadResource(urls: string[], type: 'css' | 'js'): Promise<void> {
+function loadResource(urls, type) {
   return new Promise((resolve, reject) => {
     let i = 0
     const tryLoad = () => {
@@ -42,7 +44,7 @@ function loadResource(urls: string[], type: 'css' | 'js'): Promise<void> {
   })
 }
 
-function loadKaTeX(): Promise<void> {
+function loadKaTeX() {
   if (katexReady) return Promise.resolve()
   if (katexPromise) return katexPromise
   katexPromise = Promise.all([
@@ -58,7 +60,7 @@ async function renderMath() {
   error.value = ''
   try {
     await loadKaTeX()
-    const katex = (window as any).katex
+    const katex = window.katex
     if (!katex) throw new Error('KaTeX 未加载')
     mathRef.value.innerHTML = ''
     katex.render(props.latex, mathRef.value, {
@@ -67,7 +69,7 @@ async function renderMath() {
       strict: 'ignore',
       trust: true
     })
-  } catch (e: any) {
+  } catch (e) {
     error.value = e.message || '公式渲染失败'
   } finally {
     loading.value = false

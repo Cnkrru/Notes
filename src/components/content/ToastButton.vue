@@ -1,9 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { showToast } from '@/utils/toast'
 
-const props = defineProps<{ type: string; text: string }>()
+const props = defineProps({
+  type: { type: String, required: true },
+  text: { type: String, required: true }
+})
 
-const typeMap: Record<string, 'success' | 'error' | 'warning' | 'info'> = {
+const typeMap = {
   success: 'success', error: 'error', warning: 'warning', info: 'info'
 }
 

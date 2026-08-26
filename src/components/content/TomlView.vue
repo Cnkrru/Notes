@@ -1,19 +1,21 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
 import JsonTree from '@/components/content/JsonTree.vue'
 import CodeCopy from '@/components/content/CodeCopy.vue'
 import { useSourceHighlight } from '@/composables/useSourceHighlight'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
-const viewMode = ref<'preview' | 'source'>('preview')
+const viewMode = ref('preview')
 const { sourceRef } = useSourceHighlight('toml', computed(() => viewMode.value === 'source'))
 const parseError = ref('')
-const parsed = ref<any>(null)
+const parsed = ref(null)
 
 /* ===== 手写 TOML 解析器 ===== */
-function parseToml(input: string): Record<string, any> {
-  const result: Record<string, any> = {}
+function parseToml(input) {
+  const result = {}
   let currentTable = result
   const lines = input.split('\n')
 
@@ -34,7 +36,7 @@ function parseToml(input: string): Record<string, any> {
       const parent = keys.slice(0, -1).length ? navigateTo(result, keys.slice(0, -1), true) : result
       const lastKey = keys[keys.length - 1]
       if (!Array.isArray(parent[lastKey])) parent[lastKey] = []
-      const arr = parent[lastKey] as any[]
+      const arr = parent[lastKey]
       arr.push({})
       currentTable = arr[arr.length - 1]
       continue
@@ -48,7 +50,7 @@ function parseToml(input: string): Record<string, any> {
   return result
 }
 
-function navigateTo(root: any, keys: string[], create: boolean): any {
+function navigateTo(root, keys, create) {
   let curr = root
   for (const k of keys) {
     if (!(k in curr)) { if (!create) return undefined; curr[k] = {} }
@@ -57,7 +59,7 @@ function navigateTo(root: any, keys: string[], create: boolean): any {
   return curr
 }
 
-function parseTomlValue(raw: string): any {
+function parseTomlValue(raw) {
   const v = raw.trim()
   if (v.startsWith('[') && v.endsWith(']')) return parseTomlArray(v)
   if ((v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"))) {
@@ -73,10 +75,10 @@ function parseTomlValue(raw: string): any {
   return v
 }
 
-function parseTomlArray(raw: string): any[] {
+function parseTomlArray(raw) {
   const inner = raw.slice(1, -1).trim()
   if (!inner) return []
-  const result: any[] = []
+  const result = []
   let buf = ''
   let depth = 0
   let inStr = false
@@ -109,7 +111,7 @@ function parse() {
   try {
     parsed.value = parseToml(trimmed)
     viewMode.value = 'preview'
-  } catch (e: any) {
+  } catch (e) {
     parseError.value = `解析失败: ${e.message || '语法错误'}`
     viewMode.value = 'source'
   }
@@ -125,7 +127,7 @@ const statsText = computed(() => {
   return `${lines} 行 · ${nodes} 节点`
 })
 
-function countNodes(data: any): number {
+function countNodes(data) {
   if (data === null || data === undefined || typeof data !== 'object') return 1
   let count = 1
   if (Array.isArray(data)) {

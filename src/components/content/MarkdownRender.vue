@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { marked } from 'marked'
 import { processAdmonitionsSync, addHeadingAnchors } from '@/utils/markdown'
@@ -12,25 +12,20 @@ import TomlView from '@/components/content/TomlView.vue'
 import CsvTable from '@/components/content/CsvTable.vue'
 import ToastButton from '@/components/content/ToastButton.vue'
 
-const props = defineProps<{ content: string }>()
+const props = defineProps({
+  content: { type: String, required: true }
+})
 
-const emit = defineEmits<{ 'ready': [html: string] }>()
+const emit = defineEmits(['ready'])
 
-interface Block {
-  type: 'markdown' | 'mermaid' | 'math' | 'code' | 'toast'
-  content: string
-  language?: string
-  toastType?: string
-}
-
-const blocks = ref<Block[]>([])
+const blocks = ref([])
 const isSSR = !!import.meta.env.SSR
 
 marked.setOptions({ breaks: true, gfm: true })
 
 /* ===== 计算代码围栏范围，避免 $$ 数学误匹配代码块内 ===== */
-function codeFenceRanges(content: string): Array<[number, number]> {
-  const ranges: Array<[number, number]> = []
+function codeFenceRanges(content) {
+  const ranges = []
   const regex = /```/g
   let m
   while ((m = regex.exec(content)) !== null) {
@@ -43,24 +38,24 @@ function codeFenceRanges(content: string): Array<[number, number]> {
   return ranges
 }
 
-function isInsideRanges(index: number, ranges: Array<[number, number]>): boolean {
+function isInsideRanges(index, ranges) {
   return ranges.some(([s, e]) => index >= s && index <= e)
 }
 
 /* ===== 提取特殊块并保持顺序 ===== */
-function extractBlocks(content: string): Block[] {
+function extractBlocks(content) {
   const fences = codeFenceRanges(content)
-  const out: Block[] = []
+  const out = []
   let lastIndex = 0
 
-  const patterns: Array<{ type: Block['type']; regex: RegExp }> = [
+  const patterns = [
     { type: 'mermaid', regex: /```mermaid[\s\S]*?```/gim },
     { type: 'math', regex: /\$\$([\s\S]*?)\$\$/gim },
     { type: 'code', regex: /```([\s\S]*?)```/gim },
     { type: 'toast', regex: /<msg:(info|success|warning|error)>([\s\S]*?)<\/msg:(info|success|warning|error)>/gim }
   ]
 
-  const all: Array<{ type: Block['type']; match: RegExpExecArray; index: number }> = []
+  const all = []
   patterns.forEach(({ type, regex }) => {
     let m
     while ((m = regex.exec(content)) !== null) {
@@ -107,9 +102,9 @@ function extractBlocks(content: string): Block[] {
 }
 
 /* ===== 渲染 markdown 块（同步，供客户端与 SSR 共用） ===== */
-function renderMarkdownBlock(md: string, usedIds: Set<string>): string {
+function renderMarkdownBlock(md, usedIds) {
   const asAdmonitions = processAdmonitionsSync(md)
-  const rawHtml = marked.parse(asAdmonitions) as string
+  const rawHtml = marked.parse(asAdmonitions)
   return addHeadingAnchors(rawHtml, usedIds)
 }
 
@@ -117,10 +112,10 @@ function renderMarkdownBlock(md: string, usedIds: Set<string>): string {
  * 构建初始静态块：markdown 块渲染成 HTML，特殊块保留原始内容。
  * SSR 阶段调用，把正文文本直接写入预渲染页面。
  */
-function buildInitialBlocks(): Block[] {
+function buildInitialBlocks() {
   const rawBlocks = extractBlocks(props.content)
-  const rendered: Block[] = []
-  const usedIds = new Set<string>()
+  const rendered = []
+  const usedIds = new Set()
   for (const b of rawBlocks) {
     if (b.type === 'markdown') {
       rendered.push({ ...b, content: renderMarkdownBlock(b.content, usedIds) })
@@ -138,9 +133,9 @@ if (isSSR) {
 
 function render() {
   const rawBlocks = extractBlocks(props.content)
-  const rendered: Block[] = []
+  const rendered = []
   let headingHtml = ''
-  const usedIds = new Set<string>()  // 同一文档内跨块去重标题 ID
+  const usedIds = new Set()  // 同一文档内跨块去重标题 ID
   for (const b of rawBlocks) {
     if (b.type === 'markdown') {
       const html = renderMarkdownBlock(b.content, usedIds)
@@ -162,13 +157,13 @@ function render() {
 
 /* ===== 图片灯箱 ===== */
 const showLightbox = ref(false)
-const lightboxImages = ref<{ src: string; title: string }[]>([])
+const lightboxImages = ref([])
 const currentImageIndex = ref(0)
-const imageHandlers = new WeakMap<Element, () => void>()
+const imageHandlers = new WeakMap()
 
 function setupImages() {
   const imgs = document.querySelectorAll('.markdown-render .markdown-content img')
-  const data: { src: string; title: string }[] = []
+  const data = []
   imgs.forEach((img, i) => {
     const src = img.getAttribute('src') || ''
     const alt = img.getAttribute('alt') || ''
@@ -183,7 +178,7 @@ function setupImages() {
   lightboxImages.value = data
 }
 
-function openLightbox(i: number) {
+function openLightbox(i) {
   currentImageIndex.value = i
   showLightbox.value = true
   document.body.style.overflow = 'hidden'
@@ -197,7 +192,7 @@ function closeLightbox() {
 function prevImage() { if (currentImageIndex.value > 0) currentImageIndex.value-- }
 function nextImage() { if (currentImageIndex.value < lightboxImages.value.length - 1) currentImageIndex.value++ }
 
-function onKeydown(e: KeyboardEvent) {
+function onKeydown(e) {
   if (!showLightbox.value) return
   if (e.key === 'Escape') closeLightbox()
   if (e.key === 'ArrowLeft') prevImage()
@@ -205,7 +200,7 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 /* ===== 锚点平滑滚动 ===== */
-let interceptContainers: Element[] = []
+let interceptContainers = []
 function setupAnchorIntercept() {
   const containers = document.querySelectorAll('.markdown-render .markdown-content')
   containers.forEach((c) => {
@@ -216,8 +211,8 @@ function setupAnchorIntercept() {
   })
 }
 
-function handleAnchorClick(e: Event) {
-  const target = e.target as HTMLElement
+function handleAnchorClick(e) {
+  const target = e.target
   const anchor = target.closest('a[href^="#"]')
   if (!anchor) return
   const href = anchor.getAttribute('href')

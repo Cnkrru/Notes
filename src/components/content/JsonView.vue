@@ -1,15 +1,17 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch } from 'vue'
 import JsonTree from '@/components/content/JsonTree.vue'
 import CodeCopy from '@/components/content/CodeCopy.vue'
 import { useSourceHighlight } from '@/composables/useSourceHighlight'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
-const viewMode = ref<'preview' | 'source'>('preview')
+const viewMode = ref('preview')
 const { sourceRef } = useSourceHighlight('json', computed(() => viewMode.value === 'source'))
 const parseError = ref('')
-const parsed = ref<any>(null)
+const parsed = ref(null)
 
 function parse() {
   parseError.value = ''
@@ -19,7 +21,7 @@ function parse() {
   try {
     parsed.value = JSON.parse(trimmed)
     viewMode.value = 'preview'
-  } catch (e: any) {
+  } catch (e) {
     parseError.value = `解析失败: ${e.message || '语法错误'}`
     viewMode.value = 'source'
   }
@@ -35,7 +37,7 @@ const statsText = computed(() => {
   return `${lines} 行 · ${nodes} 节点`
 })
 
-function countNodes(data: any): number {
+function countNodes(data) {
   if (data === null || data === undefined || typeof data !== 'object') return 1
   let count = 1
   if (Array.isArray(data)) {

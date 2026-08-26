@@ -1,8 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { showToast } from '@/utils/toast'
 
-const props = defineProps<{ code: string }>()
+const props = defineProps({
+  code: { type: String, required: true }
+})
 
 const isCopied = ref(false)
 
