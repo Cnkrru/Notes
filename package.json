@@ -12,7 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "cvdocs": "file:../cvdocs/cvdocs-1.1.3.tgz",
+    "cvdocs": "^1.1.3",
     "vue": "^3.4.0"
   },
   "devDependencies": {
