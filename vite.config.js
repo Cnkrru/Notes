@@ -1,55 +1,18 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { fileURLToPath, URL } from 'node:url'
-import { existsSync, readdirSync } from 'node:fs'
-import { resolve, join } from 'node:path'
-import { siteConfig } from './src/config/site.js'
+import { createSite } from 'cvdocs'
 
-const __dirname = fileURLToPath(new URL('.', import.meta.url))
-
-/** 递归收集某根目录下所有 .md，生成 SSG 预渲染路由清单 */
-function collectDocRoutes(root, prefix, out) {
-  for (const ent of readdirSync(root, { withFileTypes: true })) {
-    if (ent.isDirectory()) {
-      // 递归时把子目录名累加进前缀，保留完整层级（否则多级目录会被压平丢失）
-      collectDocRoutes(join(root, ent.name), `${prefix}/${ent.name}`, out)
-    } else if (ent.isFile() && ent.name.endsWith('.md')) {
-      // 前缀已含完整层级，这里只取文件名（去 .md 扩展），避免重复拼接目录
-      out.push(`${prefix}/${ent.name.replace(/\.md$/, '')}`)
-    }
-  }
-}
-
-/** 按 siteConfig.docRoots 注册的目录收集预渲染路由 */
-function includedRoutes() {
-  const routes = ['/']
-  for (const root of siteConfig.docRoots) {
-    // 每个挂载目录的 index 页始终预渲染（博客列表等由页面自动生成，无需 index.md）
-    routes.push(`/${root.dir}/index`)
-    const dir = resolve(__dirname, root.dir)
-    if (existsSync(dir)) collectDocRoutes(dir, `/${root.dir}`, routes)
-  }
-  return routes
-}
-
-export default defineConfig({
-  base: '/',
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  },
-  build: {
-    cssCodeSplit: true,
-    minify: 'esbuild',
-    sourcemap: false,
-    chunkSizeWarningLimit: 1000
-  },
-  plugins: [vue()],
-  // vite-ssg：构建期把每个路由预渲染成独立 HTML，首屏直接有内容、利于 SEO
-  ssgOptions: {
-    formatting: 'minify',
-    script: 'async',
-    includedRoutes
-  }
+// cvdocs 唯一入口：渲染核心（路由/页面/状态/主题/文档树）全部在 cvdocs 包内，
+// 本站点只保留 docs 与这份配置。改配置即改站，无需触碰包内代码。
+// theme 选填：缺省用内置主题；传路径（相对项目根）即切换整套 runtime（App/路由/页面/样式）。
+export default createSite({
+  name: 'Notes',
+  description: '个人技术笔记',
+  slogan: '个人技术笔记知识库，记录编程学习与工程实践。',
+  themeStorageKey: 'notes-theme',
+  copyrightYear: 2026,
+  // 文件夹注册与页面类型绑定：dir=挂载目录
+  docRoots: [{ dir: 'docs', mode: 'Doc.vue' }],
+  // 左侧边栏目录：只扫描展示这些目录的文档树（未列入的目录不显示侧边栏）
+  sidebarDirs: ['docs'],
+  // 顶部导航：留空用默认（主页 / 文档）
+  nav: []
 })

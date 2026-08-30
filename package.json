@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "个人技术笔记 — Vue 3 + Vite 静态文档站点",
+  "description": "个人技术笔记 — cvdocs 依赖化形态（渲染核心在 cvdocs 包内，站点只留 docs 与配置）",
   "author": "Cnkrru",
   "license": "MIT",
   "scripts": {
@@ -12,17 +12,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vueuse/head": "^0.9.8",
-    "marked": "^14.0.0",
-    "pinia": "^3.0.4",
-    "prismjs": "^1.30.0",
-    "vue": "^3.5.32",
-    "vue-router": "^4.6.4"
+    "cvdocs": "file:../cvdocs/cvdocs-1.1.3.tgz",
+    "vue": "^3.4.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^6.0.5",
-    "esbuild": "^0.28.1",
-    "vite": "^8.0.4",
-    "vite-ssg": "^28.3.0"
+    "@vitejs/plugin-vue": "^5.0.0",
+    "vite": "^5.4.0",
+    "vite-ssg": "^28.2.0"
   }
 }
